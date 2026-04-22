@@ -4,27 +4,28 @@
 
 Build a clean, modular Python-based life insurance model engine that replicates the core mechanics of traditional actuarial models (e.g. Prophet), focusing on clarity, transparency, and extensibility.
 
-This project is intended to demonstrate:
+This project demonstrates:
 
-* Understanding of actuarial modelling mechanics
-* Ability to translate actuarial logic into structured Python code
-* Clean software design principles
+- Understanding of actuarial modelling mechanics  
+- Ability to translate actuarial logic into structured Python code  
+- Strong software design and development discipline  
 
 ---
 
 ## Project Structure
 
 actuarial_model_engine/
-│
-├── model/
-│   ├── assumptions.py
-│   ├── policy.py
-│   ├── projection.py
-│   ├── valuation.py
-│
-├── data/
-├── notebooks/
-├── README.md
+
+├── model/  
+│   ├── assumptions.py  
+│   ├── policy.py  
+│   ├── projection.py  
+│   ├── valuation.py  
+│  
+├── data/  
+├── notebooks/  
+├── README.md  
+├── PROJECT_CONTEXT.md  
 
 ---
 
@@ -32,80 +33,87 @@ actuarial_model_engine/
 
 The model is built in layered components:
 
+---
+
 ### 1. Assumptions Module ✅ COMPLETE
 
-**File:** model/assumptions.py
+**File:** model/assumptions.py  
 
 **Purpose:**
 
-* Define mortality and financial assumptions
+- Define mortality and financial assumptions  
 
 **Implemented:**
 
-* `qx(age)` → probability of death
-* `px(age)` → probability of survival
-* `discount_factor(t)` → present value discounting
+- qx(age) → probability of death  
+- px(age) → probability of survival  
+- discount_factor(t) → present value discounting  
 
 **Notes:**
 
-* Uses synthetic mortality curve
-* Fully tested and working
+- Uses synthetic mortality curve  
+- Fully tested and working  
 
 ---
 
-### 2. Policy Module 🔄 CURRENT STEP
+### 2. Policy Module ✅ COMPLETE
 
-**File:** model/policy.py
+**File:** model/policy.py  
 
 **Purpose:**
-Define the policy (model point) being projected.
 
-**Planned fields:**
+Defines the policy (model point).
 
-* age (int)
-* term (int)
-* sum_assured (float)
-* premium (float)
-* weight (int, default = 1)
+**Fields:**
+
+- age (int)  
+- term (int)  
+- sum_assured (float)  
+- premium (float)  
+- weight (int, default = 1)  
 
 **Design principle:**
 
-* No projection logic inside this class
-* Pure data container
+- Pure data container  
+- No projection or valuation logic  
 
 ---
 
-### 3. Projection Module
+### 3. Projection Module ✅ COMPLETE
 
-**File:** model/projection.py
+**File:** model/projection.py  
 
 **Purpose:**
 
-* Project expected cashflows over time
+- Project expected cashflows over time  
 
-**Core logic will include:**
+**Core logic:**
 
-* Survival tracking
-* Premium inflows
-* Claim outflows
+- Survival tracking  
+- Premium inflows  
+- Claim outflows  
 
 **Key concept:**
-All cashflows are calculated using **unconditional probabilities**
+
+All cashflows are calculated using unconditional probabilities.
 
 ---
 
-### 4. Valuation Module ⏳ NOT STARTED
+### 4. Valuation Module 🔄 IN PROGRESS
 
-**File:** model/valuation.py
+**File:** model/valuation.py  
 
 **Purpose:**
 
-* Discount projected cashflows
-* Calculate:
+- Discount projected cashflows  
+- Calculate:
+  - PV premiums  
+  - PV claims  
+  - Net value  
 
-  * PV premiums
-  * PV claims
-  * Net value
+**Next extension:**
+
+- Profit emergence analysis  
 
 ---
 
@@ -113,337 +121,333 @@ All cashflows are calculated using **unconditional probabilities**
 
 **Purpose:**
 
-* Handle multiple policies
-* Aggregate results
+- Handle multiple policies  
+- Aggregate results  
 
 ---
 
 ## Data Strategy
 
-* Mortality:
+- Mortality:
+  - Synthetic initially  
+  - Replace later with real tables (e.g. ONS)  
 
-  * Synthetic initially
-  * Replace later with real tables (e.g. ONS)
-
-* Interest rates:
-
-  * Flat rate initially
-  * Later upgrade to yield curve
+- Interest rates:
+  - Flat rate initially  
+  - Later upgrade to yield curve  
 
 ---
 
 ## Assumptions Strategy (Future-Proofing)
 
-The current implementation uses a single `Assumptions` class with synthetic formulas.
+### Stage 1 (current)
 
-This will evolve into a more realistic and modular structure.
-
-### Planned evolution:
-
-#### Stage 1 (current)
-
-* All assumptions defined in a single Python class
-* Synthetic mortality and flat interest rate
-
-#### Stage 2 (next upgrade)
-
-* Split assumptions into logical components:
-
-  * mortality
-  * interest rates
-  * lapses
-  * expenses
-
-* Possible structure:
-
-```
-assumptions/
-    mortality.py
-    interest.py
-    lapse.py
-    expenses.py
-```
-
-#### Stage 3 (data-driven assumptions)
-
-* Move assumptions to external data sources (CSV or similar):
-
-```
-data/
-    mortality_tables/
-        ons_table.csv
-    yield_curves/
-        base_curve.csv
-```
-
-* Assumption classes will:
-
-  * read from these files
-  * provide clean interfaces (e.g. `qx(age)`)
-
-#### Design principle:
-
-> The model engine should not care where assumptions come from
-> (formula, CSV, database, API)
-
-It should only interact via a clean interface.
+- Single Assumptions class  
+- Synthetic mortality + flat interest  
 
 ---
 
-### Important constraint
+### Stage 2
 
-Even as assumptions grow:
+Split into components:
 
-* Avoid creating a single large, unstructured “assumptions file”
-* Keep assumptions modular and logically separated
-* Maintain a consistent interface across all assumption types
+assumptions/  
+    mortality.py  
+    interest.py  
+    lapse.py  
+    expenses.py  
 
 ---
 
+### Stage 3 (data-driven)
 
-## Development Principles
+data/  
+    mortality_tables/  
+    yield_curves/  
 
-* Keep modules independent
-* Separate assumptions from projection logic
-* Keep calculations explicit and readable
-* Build incrementally and test each component
-* Avoid putting logic in notebooks
-* Mirror structure of real actuarial systems
+Assumption classes will:
+
+- read from data sources  
+- expose clean interfaces (e.g. qx(age))  
+
+---
+
+### Design Principle
+
+The model engine must not care where assumptions come from  
+(formula, CSV, database, API).
 
 ---
 
 ## Architecture Rules (Strict)
 
-These rules must be followed at all times unless explicitly stated otherwise.
+These must always be followed.
+
+---
 
 ### 1. No hidden dependencies
 
-* Modules must not instantiate their own dependencies internally.
-* All external inputs (e.g. assumptions) must be passed explicitly.
+Do NOT instantiate dependencies inside functions.
 
-✅ Correct:
+Correct:
 
-```python
 project_cashflows(policy, assumptions)
-```
 
-❌ Incorrect:
+Incorrect:
 
-```python
-assumptions = Assumptions()  # hidden inside function
-```
+assumptions = Assumptions()
 
 ---
 
 ### 2. Separation of responsibilities
 
-Each module has a single responsibility:
-
-* `policy.py` → data only (no logic)
-* `assumptions.py` → model assumptions only
-* `projection.py` → cashflow mechanics only
-* `valuation.py` → discounting and aggregation only
-
-No module should take on another module’s responsibility.
+- policy.py → data only  
+- assumptions.py → assumptions only  
+- projection.py → cashflow mechanics  
+- valuation.py → discounting and aggregation  
 
 ---
 
 ### 3. No shortcuts without explicit acknowledgement
 
-If a simplified or temporary implementation is used:
+If simplifying:
 
-* It must be explicitly stated:
-
-  * why it is a shortcut
-  * what the proper implementation will be
-* A clear plan must exist to refactor it later
+- explain why  
+- define proper future version  
+- plan refactor  
 
 ---
 
-### 4. Keep assumptions external to the engine
+### 4. Keep assumptions external
 
-* Projection and valuation logic must not hardcode:
+Do not hardcode:
 
-  * mortality
-  * interest rates
-  * any behavioural assumptions
-
-All assumptions must come from the `Assumptions` module (or its future extensions).
+- mortality  
+- interest rates  
+- behaviour  
 
 ---
 
-### 5. Design for extensibility from the start
+### 5. Design for extensibility
 
-When adding new features, consider:
+Always consider:
 
-* Will this support multiple scenarios?
-* Can this scale to multiple policies?
-* Does this mirror real actuarial systems?
+- multiple scenarios  
+- scalability  
+- alignment with real actuarial systems  
 
-Avoid designs that would require major refactoring later.
+---
+
+### 6. Enforce architecture over convenience
+
+- Prefer clarity over speed  
+- Reject designs that break structure  
+- Always import modules, not functions  
+
+---
+
+## Development Principles
+
+- Keep modules independent  
+- Keep logic explicit and readable  
+- Build incrementally  
+- Avoid logic in notebooks  
+- Mirror real actuarial systems  
+
+---
+
+## Development Environment & Session Discipline (CRITICAL)
+
+Environment contamination is a major risk when working across multiple projects.
+
+---
+
+### Core Principle
+
+Always assume you are switching from another project.  
+Never trust the current terminal or environment state.
+
+---
+
+## Mandatory Startup Checklist (EVERY SESSION)
+
+### 1. Open correct project folder
+
+D:\actuarial_models\life_model_engine
+
+---
+
+### 2. Open a NEW terminal
+
+Do not reuse an existing terminal.
+
+---
+
+### 3. Check Python BEFORE activation
+
+Get-Command python
+
+---
+
+### 4. Activate venv
+
+.\venv\Scripts\Activate
+
+---
+
+### 5. Verify Python AGAIN (CRITICAL)
+
+Get-Command python
+
+Expected:
+
+D:\actuarial_models\life_model_engine\venv\Scripts\python.exe
+
+If incorrect:
+
+- STOP  
+- Fix environment before continuing  
+
+---
+
+### 6. Sync Git
+
+git pull
+
+---
+
+### 7. Open notebook & select kernel
+
+Ensure kernel = project venv
+
+---
+
+### 8. Run all cells
+
+Run → Run All
+
+---
+
+## Environment Rules
+
+### 1. Never trust (venv) prompt
+
+Always verify using:
+
+Get-Command python
+
+---
+
+### 2. Never mix environments across projects
+
+Each project must have:
+
+- its own venv  
+- its own dependencies  
+
+---
+
+### 3. Avoid Anaconda
+
+Use:
+
+- venv  
+- requirements.txt  
+
+---
+
+### 4. Reset environment if inconsistent
+
+deactivate  
+Remove-Item venv -Recurse -Force  
+python -m venv venv  
+.\venv\Scripts\Activate  
+pip install -r requirements.txt  
+
+---
+
+## Notebook Rules
+
+- Notebook is for orchestration and analysis only  
+- No core logic  
+- Never rely on previous execution state  
+- Always run full notebook  
+
+---
+
+## Git Discipline
+
+- Always pull before starting work  
+- Avoid committing unintended structural changes  
+- Reset if unsure:
+
+git fetch origin  
+git reset --hard origin/main  
+git clean -fd  
+
+---
+
+## Failure Handling Principle
+
+Do not patch blindly.  
+Reset to a clean state and verify.
+
+---
+
+## Notebook Development Workflow
+
+Location:
+
+notebooks/model_testing.ipynb
+
+---
+
+### Purpose
+
+- Run projections and valuations  
+- Inspect intermediate outputs  
+- Debug model behaviour  
+- Perform scenario testing  
+
+---
+
+### Rules
+
+- No core logic in notebook  
+- Notebook only calls module functions  
+
+---
+
+### Import Pattern (MANDATORY)
+
+import model.valuation as valuation
 
 ---
 
 ## How to Continue (for new chats)
 
-When starting a new chat, use prompts like:
+Use prompts like:
 
-* "Refer to my project context. Let’s build policy.py (Step 2)"
-* "Continue to Step 3: projection module"
-* "Help me extend assumptions with lapse rates"
+- "Refer to my PROJECT_CONTEXT.md. Continue valuation module"
+- "Implement profit emergence"
+- "Extend assumptions with lapse rates"
 
 ---
 
 ## Future Extensions
 
-* Lapse modelling
-* Expenses
-* Stochastic scenarios
-* Multiple model points
-* API or UI layer
+- Lapse modelling  
+- Expenses  
+- Stochastic scenarios  
+- Portfolio aggregation  
+- API or UI layer  
 
 ---
 
-## How to Work With This Project (Instructions for ChatGPT)
+## Key Philosophy
 
-When helping with this project, follow these guidelines:
+This project enforces:
 
-### 1. Always align to project structure
-
-* Respect the module-based design:
-
-  * assumptions → policy → projection → valuation
-* Do not introduce shortcuts that break this structure
-
----
-
-### 2. Explain before coding (important while learning)
-
-* Briefly explain:
-
-  * what we are building
-  * why it is structured this way
-* Then provide the code
-
----
-
-### 3. Keep code simple and explicit
-
-* Avoid overly compact or “clever” code
-* Prefer clarity over efficiency
-* Use readable variable names (e.g. `prob_alive`, not `p`)
-
----
-
-### 4. Build incrementally
-
-* Do not jump ahead to future modules
-* Focus only on the current step unless explicitly asked
-* Ensure each component works before moving on
-
----
-
-### 5. Connect to actuarial concepts
-
-* Relate code to:
-
-  * mortality (qx, px)
-  * survival probabilities
-  * expected cashflows
-* Highlight how this mirrors real actuarial models
-
----
-
-### 6. Provide testing steps
-
-* After writing code, include:
-
-  * how to run it
-  * what output to expect
-  * what “correct behaviour” looks like
-
----
-
-### 7. Avoid overengineering
-
-* No unnecessary abstractions
-* No frameworks
-* Keep it close to core actuarial logic
-
----
-
-### 8. Be explicit about assumptions and limitations
-
-* If something is simplified (e.g. synthetic mortality), say so
-* Explain what would change in a real model
-
----
-
-### 9. Prioritise understanding over speed
-
-* Assume the user is learning
-* Break down key concepts clearly
-* Avoid skipping steps
-
----
-
-### 10. Stay consistent with previous modules
-
-* New code should align with:
-
-  * naming conventions
-  * structure
-  * logic already implemented
-
----
-
-### 11. Enforce architecture over convenience
-
-* If a suggested solution violates the architecture, it should be rejected
-* Prefer slightly more verbose but correct designs over quick shortcuts
-* Always prioritise long-term structure over short-term speed
-* Always import modules, never functions, during development
-
----
-
-## How to Start a New Chat
-
-At the beginning of a new chat, the user will say something like:
-
-* "Refer to my PROJECT_CONTEXT.md. Let’s build policy.py."
-* "Refer to my project. Continue Step 3."
-
-Use the context file as the source of truth for:
-
-* current step
-* architecture
-* design principles
-
-
-## Notebook Development Workflow
-
-A Jupyter notebook is used for testing, debugging, and analysing model outputs.
-
-### Location
-
-notebooks/model_testing.ipynb
-
-### Purpose
-
-- Run projections and valuations
-- Inspect intermediate outputs (e.g. cashflows, survival)
-- Debug model behaviour
-- Perform scenario testing
-
-### Rules
-
-- The notebook must NOT contain core model logic
-- All calculations must reside in `.py` modules
-- The notebook only calls functions from the model
-
-### Import Pattern (MANDATORY)
-
-Always import modules (not functions):
-
-```python
-import model.valuation as valuation
+- No hidden dependencies (code and environment)  
+- Clear separation of concerns  
+- Full reproducibility at all times  
