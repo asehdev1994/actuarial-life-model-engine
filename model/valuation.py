@@ -1,6 +1,7 @@
 # model/valuation.py
 
 from model.projection import project_cashflows
+from model.results import ValuationResult
 
 
 def value_policy(policy, assumptions, return_breakdown=False):
@@ -50,12 +51,7 @@ def value_policy(policy, assumptions, return_breakdown=False):
 
     net_value = pv_premiums - pv_claims
 
-    result = {
-        "pv_premiums": pv_premiums,
-        "pv_claims": pv_claims,
-        "net_value": net_value
-    }
-
+    # Build breakdown (if requested)
     if return_breakdown:
         cum_profit = 0.0
         cum_cashflow = 0.0
@@ -65,7 +61,14 @@ def value_policy(policy, assumptions, return_breakdown=False):
 
             row["cum_profit"] = cum_profit
             row["cum_cashflow"] = cum_cashflow
+    else:
+        breakdown = None
 
-        result["breakdown"] = breakdown
 
-    return result
+    # Return structured result
+    return ValuationResult(
+        pv_premiums=pv_premiums,
+        pv_claims=pv_claims,
+        net_value=net_value,
+        breakdown=breakdown
+    )

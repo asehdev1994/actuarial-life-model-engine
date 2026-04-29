@@ -1,12 +1,16 @@
 import pandas as pd
+from model.results import ValuationResult
 
 
-def build_profit_dataframe(result):
+def build_profit_dataframe(result: ValuationResult):
     """
     Convert valuation breakdown into a clean DataFrame.
     """
 
-    return pd.DataFrame(result["breakdown"])
+    if result.breakdown is None:
+        raise ValueError("ValuationResult does not contain breakdown. Set return_breakdown=True.")
+
+    return pd.DataFrame(result.breakdown)
 
 
 def add_profit_signature(df):
