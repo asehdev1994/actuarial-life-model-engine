@@ -1,4 +1,19 @@
+# Python
 __pycache__/
 *.pyc
+
+#Virtual Environment
+venv/
+
+#Jupyter
 .ipynb_checkpoints/
-*.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data outputs
+data/results_snapshots/
+
+# Personal notes
+Next Steps.txt
