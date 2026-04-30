@@ -16,6 +16,9 @@ class ValuationResult:
     Design:
     - Pure data container
     - No actuarial or analytical logic
+
+    Acts as the contract between valuation and analysis layers
+
     """
 
     __slots__ = ["pv_premiums", "pv_claims", "net_value", "breakdown"]
@@ -37,6 +40,7 @@ class ValuationResult:
         self.net_value: float = net_value
         self.breakdown: Optional[List[Dict]] = breakdown
 
+    # Provided for backward compatibility and easy serialisation
     def to_dict(self) -> dict:
         """
         Convert to dictionary (for backward compatibility).

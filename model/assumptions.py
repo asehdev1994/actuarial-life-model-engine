@@ -22,11 +22,14 @@ class Assumptions:
 
     def qx(self, age: int) -> float:
         """
-        Probability of death between age x and x+1.
+        qx is the probability of death within one year.
 
-        We use a synthetic mortality curve:
+        This synthetic curve is used for demonstration purposes only.
         - Low at young ages
         - Increases exponentially with age
+
+        In production models, this would be derived from mortality tables (planned future update).
+
         """
 
         q = 0.0005 * np.exp(0.08 * (age - 30))
@@ -36,13 +39,17 @@ class Assumptions:
 
     def px(self, age: int) -> float:
         """
-        Probability of survival over one year.
+        px is the probability of survival over one year.
+        Defined as 1 - qx, assuming no other decrements.
+
         """
         return 1 - self.qx(age)
 
     def discount_factor(self, t: int) -> float:
         """
-        Discount factor for time t.
+        Standard discrete discounting.
+        Assumes a flat interest rate across all durations (planned future update).
+
         """
 
         return 1 / ((1 + self.interest_rate) ** t)

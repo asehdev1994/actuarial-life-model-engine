@@ -2,10 +2,13 @@
 
 class Policy:
     """
-    Represents a single life insurance policy (model point).
+    Represents a single model point.
 
-    This class is a pure data container and should not contain
-    any projection or actuarial logic.
+    In a real actuarial model, a portfolio would consist of many such policies,
+    each with an associated weight.
+
+    Basic policy attributes required for projection and valuation.
+    
     """
 
     def __init__(

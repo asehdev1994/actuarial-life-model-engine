@@ -8,13 +8,12 @@ def value_policy(policy, assumptions, return_breakdown=False):
     """
     Calculate present value of a single policy.
 
-    Parameters:
-    policy: Policy object
-    assumptions: Assumptions object
-    return_breakdown (bool): whether to return per-period results
+    Steps:
+    1. Project expected cashflows
+    2. Apply discounting
+    3. Aggregate PV premiums and claims
+    4. (Optional) build detailed breakdown for analysis
 
-    Returns:
-    Dictionary containing valuation results
     """
 
     projection = project_cashflows(policy, assumptions)
@@ -26,10 +25,14 @@ def value_policy(policy, assumptions, return_breakdown=False):
 
     for row in projection:
         t = row["t"]
+        
+        # Apply discount factor to convert future cashflows to present value
         discount = assumptions.discount_factor(t)
 
         pv_premium_t = row["expected_premium"] * discount
         pv_claim_t = row["expected_claim"] * discount
+
+        # Net cashflow before discounting
         net_cf_t = row["expected_premium"] - row["expected_claim"]
         pv_net_t = pv_premium_t - pv_claim_t
 
@@ -51,7 +54,9 @@ def value_policy(policy, assumptions, return_breakdown=False):
 
     net_value = pv_premiums - pv_claims
 
-    # Build breakdown (if requested)
+    # Build breakdown
+    # Build cumulative profit and cashflow over time
+    # This is used for profit emergence analysis
     if return_breakdown:
         cum_profit = 0.0
         cum_cashflow = 0.0
@@ -65,7 +70,7 @@ def value_policy(policy, assumptions, return_breakdown=False):
         breakdown = None
 
 
-    # Return structured result
+    # Return structured valuation output
     return ValuationResult(
         pv_premiums=pv_premiums,
         pv_claims=pv_claims,

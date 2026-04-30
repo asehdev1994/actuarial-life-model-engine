@@ -4,7 +4,8 @@ from model.results import ValuationResult
 
 def build_profit_dataframe(result: ValuationResult):
     """
-    Convert valuation breakdown into a clean DataFrame.
+    Converts structured valuation output into tabular form for analysis and visualization.
+
     """
 
     if result.breakdown is None:
@@ -15,7 +16,8 @@ def build_profit_dataframe(result: ValuationResult):
 
 def add_profit_signature(df):
     """
-    Add profit signature metrics.
+    Profit signature shows how total profit is distributed over time.
+
     """
 
     total_profit = df["pv_net"].sum()
@@ -29,7 +31,8 @@ def add_profit_signature(df):
 
 def summary_metrics(df):
     """
-    Return key summary statistics.
+    Provides high-level summary statistics for quick interpretation.
+    
     """
 
     return {
