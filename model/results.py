@@ -240,3 +240,52 @@ class ValuationResult:
             f"breakdown={'Yes' if self.breakdown else 'No'}"
             f")"
         )
+    
+class PortfolioResult:
+    """
+    Structured output of portfolio valuation.
+
+    Aggregates results across multiple policies.
+
+    Pure data container:
+    - no valuation logic
+    - no analytics
+    """
+
+    __slots__ = [
+        "pv_premiums",
+        "pv_claims",
+        "net_value",
+        "policy_count"
+    ]
+
+    def __init__(
+        self,
+        pv_premiums: float,
+        pv_claims: float,
+        net_value: float,
+        policy_count: int
+    ):
+
+        self.pv_premiums = pv_premiums
+        self.pv_claims = pv_claims
+        self.net_value = net_value
+        self.policy_count = policy_count
+
+    def to_dict(self):
+
+        return {
+            "pv_premiums": self.pv_premiums,
+            "pv_claims": self.pv_claims,
+            "net_value": self.net_value,
+            "policy_count": self.policy_count
+        }
+
+    def __repr__(self):
+
+        return (
+            f"PortfolioResult("
+            f"policies={self.policy_count}, "
+            f"net_value={self.net_value:.2f}"
+            f")"
+        )
