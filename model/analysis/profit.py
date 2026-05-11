@@ -11,7 +11,9 @@ def build_profit_dataframe(result: ValuationResult):
     if result.breakdown is None:
         raise ValueError("ValuationResult does not contain breakdown. Set return_breakdown=True.")
 
-    return pd.DataFrame(result.breakdown)
+    return pd.DataFrame(
+    [row.to_dict() for row in result.breakdown]
+)
 
 
 def add_profit_signature(df):

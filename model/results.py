@@ -101,6 +101,83 @@ class ProjectionResult:
             f")"
         )
 
+class ValuationRow:
+    """
+    Represents valuation results for a single projection period.
+
+    Pure data container:
+    - no valuation logic
+    - no analytics
+
+    Used inside ValuationResult.breakdown
+    """
+
+    __slots__ = [
+        "t",
+        "age",
+        "discount_factor",
+        "expected_premium",
+        "expected_claim",
+        "net_cashflow",
+        "pv_premium",
+        "pv_claim",
+        "pv_net",
+        "cum_profit",
+        "cum_cashflow"
+    ]
+
+    def __init__(
+        self,
+        t: int,
+        age: int,
+        discount_factor: float,
+        expected_premium: float,
+        expected_claim: float,
+        net_cashflow: float,
+        pv_premium: float,
+        pv_claim: float,
+        pv_net: float,
+        cum_profit: float = 0.0,
+        cum_cashflow: float = 0.0
+    ):
+
+        self.t = t
+        self.age = age
+        self.discount_factor = discount_factor
+        self.expected_premium = expected_premium
+        self.expected_claim = expected_claim
+        self.net_cashflow = net_cashflow
+        self.pv_premium = pv_premium
+        self.pv_claim = pv_claim
+        self.pv_net = pv_net
+        self.cum_profit = cum_profit
+        self.cum_cashflow = cum_cashflow
+
+    def to_dict(self):
+
+        return {
+            "t": self.t,
+            "age": self.age,
+            "discount_factor": self.discount_factor,
+            "expected_premium": self.expected_premium,
+            "expected_claim": self.expected_claim,
+            "net_cashflow": self.net_cashflow,
+            "pv_premium": self.pv_premium,
+            "pv_claim": self.pv_claim,
+            "pv_net": self.pv_net,
+            "cum_profit": self.cum_profit,
+            "cum_cashflow": self.cum_cashflow
+        }
+
+    def __repr__(self):
+
+        return (
+            f"ValuationRow("
+            f"t={self.t}, "
+            f"pv_net={self.pv_net:.2f}"
+            f")"
+        )
+
 class ValuationResult:
     """
     Structured output of a policy valuation.

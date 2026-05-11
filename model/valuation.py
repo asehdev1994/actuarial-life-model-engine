@@ -1,7 +1,7 @@
 # model/valuation.py
 
 from model.projection import project_cashflows
-from model.results import ValuationResult
+from model.results import ValuationResult, ValuationRow
 
 
 def value_policy(policy, assumptions, return_breakdown=False):
@@ -40,17 +40,19 @@ def value_policy(policy, assumptions, return_breakdown=False):
         pv_claims += pv_claim_t
 
         if return_breakdown:
-            breakdown.append({
-                "t": t,
-                "age": row.age,
-                "discount_factor": discount,
-                "expected_premium": row.expected_premium,
-                "expected_claim": row.expected_claim,
-                "net_cashflow": net_cf_t,
-                "pv_premium": pv_premium_t,
-                "pv_claim": pv_claim_t,
-                "pv_net": pv_net_t
-            })
+            breakdown.append(
+                ValuationRow(
+                    t=t,
+                    age=row.age,
+                    discount_factor=discount,
+                    expected_premium=row.expected_premium,
+                    expected_claim=row.expected_claim,
+                    net_cashflow=net_cf_t,
+                    pv_premium=pv_premium_t,
+                    pv_claim=pv_claim_t,
+                    pv_net=pv_net_t
+                )
+            )
 
     net_value = pv_premiums - pv_claims
 
@@ -61,11 +63,11 @@ def value_policy(policy, assumptions, return_breakdown=False):
         cum_profit = 0.0
         cum_cashflow = 0.0
         for row in breakdown:
-            cum_profit += row["pv_net"]
-            cum_cashflow += row["net_cashflow"]
+            cum_profit += row.pv_net
+            cum_cashflow += row.net_cashflow
 
-            row["cum_profit"] = cum_profit
-            row["cum_cashflow"] = cum_cashflow
+            row.cum_profit = cum_profit
+            row.cum_cashflow = cum_cashflow
     else:
         breakdown = None
 
