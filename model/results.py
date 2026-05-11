@@ -1,5 +1,3 @@
-# model/results.py
-
 from typing import List, Dict, Optional
 
 class ProjectionRow:
@@ -256,7 +254,8 @@ class PortfolioResult:
         "pv_premiums",
         "pv_claims",
         "net_value",
-        "policy_count"
+        "policy_count",
+        "breakdown"
     ]
 
     def __init__(
@@ -264,22 +263,31 @@ class PortfolioResult:
         pv_premiums: float,
         pv_claims: float,
         net_value: float,
-        policy_count: int
+        policy_count: int,
+        breakdown=None
     ):
 
         self.pv_premiums = pv_premiums
         self.pv_claims = pv_claims
         self.net_value = net_value
         self.policy_count = policy_count
+        self.breakdown = breakdown
 
     def to_dict(self):
 
-        return {
+        result = {
             "pv_premiums": self.pv_premiums,
             "pv_claims": self.pv_claims,
             "net_value": self.net_value,
             "policy_count": self.policy_count
         }
+
+        if self.breakdown is not None:
+            result["breakdown"] = [
+                row.to_dict() for row in self.breakdown
+            ]
+
+        return result
 
     def __repr__(self):
 
