@@ -23,17 +23,17 @@ def value_policy(policy, assumptions, return_breakdown=False):
 
     breakdown = []
 
-    for row in projection:
-        t = row["t"]
+    for row in projection.rows:
+        t = row.t
         
         # Apply discount factor to convert future cashflows to present value
         discount = assumptions.discount_factor(t)
 
-        pv_premium_t = row["expected_premium"] * discount
-        pv_claim_t = row["expected_claim"] * discount
+        pv_premium_t = row.expected_premium * discount
+        pv_claim_t = row.expected_claim * discount
 
         # Net cashflow before discounting
-        net_cf_t = row["expected_premium"] - row["expected_claim"]
+        net_cf_t = row.expected_premium - row.expected_claim
         pv_net_t = pv_premium_t - pv_claim_t
 
         pv_premiums += pv_premium_t
@@ -42,10 +42,10 @@ def value_policy(policy, assumptions, return_breakdown=False):
         if return_breakdown:
             breakdown.append({
                 "t": t,
-                "age": row["age"],
+                "age": row.age,
                 "discount_factor": discount,
-                "expected_premium": row["expected_premium"],
-                "expected_claim": row["expected_claim"],
+                "expected_premium": row.expected_premium,
+                "expected_claim": row.expected_claim,
                 "net_cashflow": net_cf_t,
                 "pv_premium": pv_premium_t,
                 "pv_claim": pv_claim_t,

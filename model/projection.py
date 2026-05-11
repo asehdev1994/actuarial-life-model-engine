@@ -1,5 +1,7 @@
 # model/projection.py
 
+from model.results import ProjectionRow, ProjectionResult
+
 def project_cashflows(policy, assumptions):
     """
     Project expected cashflows for a single policy.
@@ -31,16 +33,18 @@ def project_cashflows(policy, assumptions):
         # → probability = prob_alive * qx
         expected_claim = policy.sum_assured * prob_alive * q
 
-        results.append({
-            "t": t,
-            "age": age_t,
-            "prob_alive": prob_alive,
-            "qx": q,
-            "expected_premium": expected_premium,
-            "expected_claim": expected_claim
-        })
+        results.append(
+            ProjectionRow(
+                t=t,
+                age=age_t,
+                prob_alive=prob_alive,
+                qx=q,
+                expected_premium=expected_premium,
+                expected_claim=expected_claim
+            )
+        )
 
         # Update survival probability for next period
         prob_alive *= (1 - q)
 
-    return results
+    return ProjectionResult(rows=results)
