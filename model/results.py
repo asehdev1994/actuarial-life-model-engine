@@ -14,28 +14,34 @@ class ProjectionRow:
     __slots__ = [
         "t",
         "age",
-        "prob_alive",
+        "prob_inforce",
         "qx",
+        "lapse_rate",
         "expected_premium",
-        "expected_claim"
+        "expected_claim",
+        "expected_lapse",
     ]
 
     def __init__(
         self,
         t: int,
         age: int,
-        prob_alive: float,
+        prob_inforce: float,
         qx: float,
+        lapse_rate: float,
         expected_premium: float,
-        expected_claim: float
+        expected_claim: float,
+        expected_lapse: float
     ):
 
         self.t = t
         self.age = age
-        self.prob_alive = prob_alive
+        self.prob_inforce = prob_inforce
         self.qx = qx
+        self.lapse_rate = lapse_rate
         self.expected_premium = expected_premium
         self.expected_claim = expected_claim
+        self.expected_lapse = expected_lapse
 
     def to_dict(self) -> dict:
         """
@@ -45,10 +51,12 @@ class ProjectionRow:
         return {
             "t": self.t,
             "age": self.age,
-            "prob_alive": self.prob_alive,
+            "prob_inforce": self.prob_inforce,
             "qx": self.qx,
+            "lapse_rate": self.lapse_rate,
             "expected_premium": self.expected_premium,
-            "expected_claim": self.expected_claim
+            "expected_claim": self.expected_claim,
+            "expected_lapse": self.expected_lapse
         }
 
     def __repr__(self):
@@ -57,7 +65,7 @@ class ProjectionRow:
             f"ProjectionRow("
             f"t={self.t}, "
             f"age={self.age}, "
-            f"prob_alive={self.prob_alive:.6f}, "
+            f"prob_inforce={self.prob_inforce:.6f}, "
             f"qx={self.qx:.6f}"
             f")"
         )
@@ -114,8 +122,10 @@ class ValuationRow:
         "t",
         "age",
         "discount_factor",
+        "lapse_rate",
         "expected_premium",
         "expected_claim",
+        "expected_lapse",
         "net_cashflow",
         "pv_premium",
         "pv_claim",
@@ -129,8 +139,10 @@ class ValuationRow:
         t: int,
         age: int,
         discount_factor: float,
+        lapse_rate: float,
         expected_premium: float,
         expected_claim: float,
+        expected_lapse: float,
         net_cashflow: float,
         pv_premium: float,
         pv_claim: float,
@@ -144,6 +156,8 @@ class ValuationRow:
         self.discount_factor = discount_factor
         self.expected_premium = expected_premium
         self.expected_claim = expected_claim
+        self.lapse_rate = lapse_rate
+        self.expected_lapse = expected_lapse
         self.net_cashflow = net_cashflow
         self.pv_premium = pv_premium
         self.pv_claim = pv_claim
@@ -157,8 +171,10 @@ class ValuationRow:
             "t": self.t,
             "age": self.age,
             "discount_factor": self.discount_factor,
+            "lapse_rate": self.lapse_rate,
             "expected_premium": self.expected_premium,
             "expected_claim": self.expected_claim,
+            "expected_lapse": self.expected_lapse,
             "net_cashflow": self.net_cashflow,
             "pv_premium": self.pv_premium,
             "pv_claim": self.pv_claim,

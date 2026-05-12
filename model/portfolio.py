@@ -61,8 +61,10 @@ class Portfolio:
                             t=row.t,
                             age=row.age,
                             discount_factor=row.discount_factor,
+                            lapse_rate=row.lapse_rate,
                             expected_premium=0.0,
                             expected_claim=0.0,
+                            expected_lapse=0.0,
                             net_cashflow=0.0,
                             pv_premium=0.0,
                             pv_claim=0.0,
@@ -75,6 +77,7 @@ class Portfolio:
 
                     agg_row.expected_premium += row.expected_premium * weight
                     agg_row.expected_claim += row.expected_claim * weight
+                    agg_row.expected_lapse += row.expected_lapse * weight
                     agg_row.net_cashflow += row.net_cashflow * weight
                     agg_row.pv_premium += row.pv_premium * weight
                     agg_row.pv_claim += row.pv_claim * weight

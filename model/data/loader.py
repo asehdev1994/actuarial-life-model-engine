@@ -14,7 +14,10 @@ def row_to_policy(row):
         term=int(row["term"]),
         sum_assured=float(row["sum_assured"]),
         premium=float(row["premium"]),
-        weight=int(row.get("weight", 1))
+        weight=int(row.get("weight", 1)),
+        gender=row.get("gender", "M"),
+        smoker_status=row.get("smoker_status", "Non-Smoker"),
+        product_type=row.get("product_type", "Term"),
     )
 
 def dataframe_to_policies(df):
