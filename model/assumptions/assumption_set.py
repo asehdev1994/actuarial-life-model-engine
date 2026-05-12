@@ -9,11 +9,13 @@ class AssumptionSet:
     def __init__(
         self,
         mortality,
-        interest
+        interest,
+        lapse=None
     ):
 
         self.mortality = mortality
         self.interest = interest
+        self.lapse = lapse
 
     def qx(self, age: int) -> float:
 
@@ -26,3 +28,17 @@ class AssumptionSet:
     def discount_factor(self, t: int) -> float:
 
         return self.interest.discount_factor(t)
+    
+    def lapse_rate(self, policy, t: int) -> float:
+        """
+        Return lapse rate for a policy at time t.
+
+        If no lapse assumptions are supplied,
+        default to zero lapse.
+        """
+
+        if self.lapse is None:
+
+            return 0.0
+
+        return self.lapse.lapse_rate(policy, t)
