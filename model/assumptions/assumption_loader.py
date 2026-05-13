@@ -109,6 +109,7 @@ def load_lapse_table(path):
 from model.assumptions.mortality import MortalityTable
 
 REQUIRED_MORTALITY_COLUMNS = [
+    "gender",
     "age",
     "qx"
 ]
@@ -143,7 +144,10 @@ def load_mortality_table(path):
 
     validate_numeric_columns(
         df,
-        REQUIRED_MORTALITY_COLUMNS
+        [
+            "age",
+            "qx"
+        ]
     )
 
     validate_rate_column(
@@ -153,7 +157,7 @@ def load_mortality_table(path):
 
     validate_no_duplicate_segments(
         df,
-        ["age"]
+        ["gender", "age"]
     )
 
     validate_non_negative_column(
@@ -165,9 +169,10 @@ def load_mortality_table(path):
 
     for _, row in df.iterrows():
 
+        gender = row["gender"]
         age = int(row["age"])
         qx = float(row["qx"])
 
-        mortality_rates[age] = qx
+        mortality_rates[(gender, age)] = qx
 
     return MortalityTable(mortality_rates)

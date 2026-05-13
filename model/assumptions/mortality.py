@@ -40,16 +40,23 @@ class MortalityTable:
 
     def qx(self, policy, age: int) -> float:
         """
-        Return mortality rate for exact integer age.
+        Resolve mortality using policy context
+        and attained age.
         """
 
-        if age not in self.mortality_rates:
+        key = (
+            policy.gender,
+            age
+        )
+
+        if key not in self.mortality_rates:
 
             raise ValueError(
-                f"No mortality rate found for age {age}"
+                f"No mortality rate found for "
+                f"gender={policy.gender}, age={age}"
             )
 
-        return self.mortality_rates[age]
+        return self.mortality_rates[key]
 
     def px(self, policy, age: int) -> float:
 
