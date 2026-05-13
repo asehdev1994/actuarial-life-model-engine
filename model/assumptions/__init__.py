@@ -9,10 +9,12 @@ from model.assumptions.lapse import (
 
 from model.assumptions.mortality import (
     MortalityTable,
-    FormulaMortality
+    FormulaMortality,
+    MortalityParameters
 )
 
 from model.assumptions.assumption_loader import (
     load_lapse_table,
-    load_mortality_table
+    load_mortality_table,
+    load_mortality_parameters
 )

@@ -5,6 +5,11 @@ from model.assumptions.lapse import (
     LapseTable
 )
 
+from model.assumptions.mortality import (
+    MortalityTable,
+    MortalityParameters
+)
+
 from model.assumptions.assumption_validation import (
     validate_required_columns,
     validate_no_nulls,
@@ -106,8 +111,6 @@ def load_lapse_table(path):
 
     return LapseTable(segments)
 
-from model.assumptions.mortality import MortalityTable
-
 REQUIRED_MORTALITY_COLUMNS = [
     "gender",
     "age",
@@ -176,3 +179,53 @@ def load_mortality_table(path):
         mortality_rates[(gender, age)] = qx
 
     return MortalityTable(mortality_rates)
+
+REQUIRED_MORTALITY_PARAMETER_COLUMNS = [
+    "smoker_status",
+    "mortality_multiplier"
+]
+
+def load_mortality_parameters(path):
+    """
+    Load mortality parameter assumptions.
+    """
+
+    df = pd.read_csv(path)
+
+    validate_required_columns(
+        df,
+        REQUIRED_MORTALITY_PARAMETER_COLUMNS
+    )
+
+    validate_no_nulls(
+        df,
+        REQUIRED_MORTALITY_PARAMETER_COLUMNS
+    )
+
+    validate_numeric_columns(
+        df,
+        ["mortality_multiplier"]
+    )
+
+    validate_non_negative_column(
+        df,
+        "mortality_multiplier"
+    )
+
+    smoker_multipliers = {}
+
+    for _, row in df.iterrows():
+
+        smoker_status = row["smoker_status"]
+
+        multiplier = float(
+            row["mortality_multiplier"]
+        )
+
+        smoker_multipliers[
+            smoker_status
+        ] = multiplier
+
+    return MortalityParameters(
+        smoker_multipliers
+    )
