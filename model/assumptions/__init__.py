@@ -1,5 +1,5 @@
 from model.assumptions.assumption_set import AssumptionSet
-from model.assumptions.mortality import MortalityTable
+
 from model.assumptions.interest import FlatYieldCurve
 
 from model.assumptions.lapse import (
@@ -7,4 +7,12 @@ from model.assumptions.lapse import (
     LapseTable
 )
 
-from model.assumptions.assumption_loader import load_lapse_table
+from model.assumptions.mortality import (
+    MortalityTable,
+    FormulaMortality
+)
+
+from model.assumptions.assumption_loader import (
+    load_lapse_table,
+    load_mortality_table
+)

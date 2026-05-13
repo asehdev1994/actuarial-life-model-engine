@@ -12,7 +12,8 @@ from model.assumptions.assumption_validation import (
     validate_rate_column,
     validate_range_columns,
     validate_no_duplicate_segments,
-    validate_no_overlapping_ranges
+    validate_no_overlapping_ranges,
+    validate_non_negative_column
 )
 
 REQUIRED_LAPSE_COLUMNS = [
@@ -104,3 +105,69 @@ def load_lapse_table(path):
         segments.append(segment)
 
     return LapseTable(segments)
+
+from model.assumptions.mortality import MortalityTable
+
+REQUIRED_MORTALITY_COLUMNS = [
+    "age",
+    "qx"
+]
+
+
+def load_mortality_table(path):
+    """
+    Load mortality table from CSV.
+
+    Responsibilities:
+    - read CSV
+    - validate mortality data
+    - construct MortalityTable
+
+    Does NOT:
+    - perform projection logic
+    - apply mortality improvements
+    - interpolate rates
+    """
+
+    df = pd.read_csv(path)
+
+    validate_required_columns(
+        df,
+        REQUIRED_MORTALITY_COLUMNS
+    )
+
+    validate_no_nulls(
+        df,
+        REQUIRED_MORTALITY_COLUMNS
+    )
+
+    validate_numeric_columns(
+        df,
+        REQUIRED_MORTALITY_COLUMNS
+    )
+
+    validate_rate_column(
+        df,
+        "qx"
+    )
+
+    validate_no_duplicate_segments(
+        df,
+        ["age"]
+    )
+
+    validate_non_negative_column(
+    df,
+    "age"
+)
+
+    mortality_rates = {}
+
+    for _, row in df.iterrows():
+
+        age = int(row["age"])
+        qx = float(row["qx"])
+
+        mortality_rates[age] = qx
+
+    return MortalityTable(mortality_rates)

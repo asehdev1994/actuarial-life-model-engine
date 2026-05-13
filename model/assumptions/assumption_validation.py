@@ -136,3 +136,17 @@ def validate_no_overlapping_ranges(
                     f"Overlapping ranges detected for "
                     f"segment {group_key}."
                 )
+            
+def validate_non_negative_column(df, column):
+    """
+    Validate that a numeric column contains
+    no negative values.
+    """
+
+    invalid = df[df[column] < 0]
+
+    if not invalid.empty:
+
+        raise ValueError(
+            f"Negative values found in '{column}'."
+        )

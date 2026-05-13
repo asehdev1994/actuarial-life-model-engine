@@ -1,29 +1,64 @@
 import numpy as np
 
 
-class MortalityTable:
+class FormulaMortality:
     """
-    Mortality assumption provider.
+    Legacy formula-driven mortality provider.
 
-    Responsible only for:
-    - qx
-    - px
-
-    No discounting or lapse behaviour belongs here.
+    Retained temporarily while transitioning
+    to table-driven mortality.
     """
 
     def qx(self, age: int) -> float:
-        """
-        Probability of death within one year.
-        """
 
         q = 0.0005 * np.exp(0.08 * (age - 30))
 
         return min(q, 1.0)
 
     def px(self, age: int) -> float:
-        """
-        One-year survival probability.
-        """
 
         return 1 - self.qx(age)
+
+
+class MortalityTable:
+    """
+    Table-driven mortality provider.
+
+    Responsible only for:
+    - storing mortality rates
+    - resolving qx(age)
+
+    Does NOT:
+    - read CSV files
+    - perform interpolation
+    - apply scenarios
+    """
+
+    def __init__(self, mortality_rates):
+
+        self.mortality_rates = mortality_rates
+
+    def qx(self, age: int) -> float:
+        """
+        Return mortality rate for exact integer age.
+        """
+
+        if age not in self.mortality_rates:
+
+            raise ValueError(
+                f"No mortality rate found for age {age}"
+            )
+
+        return self.mortality_rates[age]
+
+    def px(self, age: int) -> float:
+
+        return 1 - self.qx(age)
+
+    def __repr__(self):
+
+        return (
+            f"MortalityTable("
+            f"ages={len(self.mortality_rates)}"
+            f")"
+        )
