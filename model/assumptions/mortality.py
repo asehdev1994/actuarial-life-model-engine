@@ -9,15 +9,15 @@ class FormulaMortality:
     to table-driven mortality.
     """
 
-    def qx(self, age: int) -> float:
+    def qx(self, policy, age: int) -> float:
 
         q = 0.0005 * np.exp(0.08 * (age - 30))
 
         return min(q, 1.0)
 
-    def px(self, age: int) -> float:
+    def px(self, policy, age: int) -> float:
 
-        return 1 - self.qx(age)
+        return 1 - self.qx(policy, age)
 
 
 class MortalityTable:
@@ -38,7 +38,7 @@ class MortalityTable:
 
         self.mortality_rates = mortality_rates
 
-    def qx(self, age: int) -> float:
+    def qx(self, policy, age: int) -> float:
         """
         Return mortality rate for exact integer age.
         """
@@ -51,9 +51,9 @@ class MortalityTable:
 
         return self.mortality_rates[age]
 
-    def px(self, age: int) -> float:
+    def px(self, policy, age: int) -> float:
 
-        return 1 - self.qx(age)
+        return 1 - self.qx(policy, age)
 
     def __repr__(self):
 

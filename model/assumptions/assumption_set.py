@@ -17,13 +17,13 @@ class AssumptionSet:
         self.interest = interest
         self.lapse = lapse
 
-    def qx(self, age: int) -> float:
+    def qx(self, policy, age: int) -> float:
 
-        return self.mortality.qx(age)
+        return self.mortality.qx(policy, age)
 
-    def px(self, age: int) -> float:
+    def px(self, policy, age: int) -> float:
 
-        return self.mortality.px(age)
+        return self.mortality.px(policy, age)
 
     def discount_factor(self, t: int) -> float:
 

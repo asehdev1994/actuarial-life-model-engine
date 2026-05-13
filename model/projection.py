@@ -23,7 +23,7 @@ def project_cashflows(policy, assumptions):
         age_t = policy.age + t
 
         # Probability of death at age t
-        q = assumptions.qx(age_t)
+        q = assumptions.qx(policy, age_t)
         lapse_rate = assumptions.lapse_rate(policy, t)
 
         # Premium is received only if the policyholder is alive
