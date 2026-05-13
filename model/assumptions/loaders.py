@@ -5,7 +5,7 @@ from model.assumptions.lapse import (
     LapseTable
 )
 
-from model.assumptions.validation import (
+from model.assumptions.assumption_validation import (
     validate_required_columns,
     validate_no_nulls,
     validate_numeric_columns,
