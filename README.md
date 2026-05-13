@@ -20,6 +20,8 @@ Key objectives:
 * **Cashflow Projection**
 
   * Expected premiums and claims based on survival probabilities
+  * Multi-decrement projection framework
+  * Mortality and lapse decrement support
 
 * **Valuation**
 
@@ -30,12 +32,31 @@ Key objectives:
 
   * Period-by-period profit and cashflow
   * Cumulative profit and cashflow tracking
-  * Profit signature (timing of profit recognition)
+  * Portfolio-level emergence analysis
+  * Decrement emergence analysis
+
+* **Portfolio Modelling**
+
+  * Portfolio ingestion from CSV
+  * Aggregated valuation and emergence analysis
+  * Weighted model point support
+
+* **Modular Assumptions Framework**
+
+  * Structured assumptions subsystem
+  * Modular mortality, interest, and lapse assumptions
+  * CSV-driven lapse assumptions
+  * Segmented duration-based lapse assumptions
 
 * **Structured Outputs**
 
-  * Use of a `ValuationResult` object instead of ad-hoc dictionaries
-  * Clear contract between valuation and analysis layers
+  * Structured result objects across projection and valuation layers
+  * Clear contracts between modelling and analytics layers
+
+* **Validation Layer**
+
+  * Input validation for portfolio ingestion
+  * Separation between ingestion and modelling logic
 
 * **Result Snapshotting**
 
@@ -45,23 +66,38 @@ Key objectives:
 
 ## Project Structure
 
-```
+```text
 actuarial_model_engine/
 
 ├── model/
-│   ├── assumptions.py     # Mortality and financial assumptions
-│   ├── policy.py          # Policy data (model point)
-│   ├── projection.py      # Cashflow projection logic
-│   ├── valuation.py       # Discounting and aggregation
-│   ├── results.py         # ValuationResult object (structured output)
+│   ├── assumptions/
+│   │   ├── __init__.py
+│   │   ├── assumption_set.py
+│   │   ├── mortality.py
+│   │   ├── interest.py
+│   │   ├── lapse.py
+│   │   └── loaders.py
+│   │
+│   ├── policy.py
+│   ├── projection.py
+│   ├── valuation.py
+│   ├── portfolio.py
+│   ├── results.py
+│   ├── validation.py
+│   │
 │   ├── analysis/
-│       ├── profit.py      # Profit emergence and summary metrics
+│   │   └── profit.py
+│   │
+│   └── data/
+│       └── loader.py
 │
 ├── data/
-│   └── results_snapshots/ # Stored model outputs (timestamped)
+│   ├── lapse_rates.csv
+│   └── results_snapshots/
 │
 ├── notebooks/
-│   └── model_testing.ipynb
+│   ├── single_policy_run.ipynb
+│   └── multiple_policy_run.ipynb
 │
 ├── PROJECT_CONTEXT.md
 └── README.md
@@ -75,29 +111,42 @@ The model is built using a layered approach:
 
 * **Assumptions Layer**
 
-  * Provides mortality and discounting functions
-  * Fully externalised from model logic
+  * Modular assumptions subsystem
+  * Projection and valuation consume only clean assumption interfaces
+  * Assumption source remains externalised from engine logic
 
 * **Policy Layer**
 
-  * Pure data container
+  * Pure modelling data container
+  * Supports segmentation-relevant attributes
   * No projection or valuation logic
 
 * **Projection Layer**
 
-  * Generates expected cashflows using survival probabilities
+  * Generates expected cashflows using multi-decrement projection mechanics
+  * Consumes assumptions through abstract interfaces only
 
 * **Valuation Layer**
 
   * Applies discounting
   * Produces structured outputs (`ValuationResult`)
 
+* **Portfolio Layer**
+
+  * Aggregates policy-level valuation results
+  * Supports portfolio emergence analysis
+
 * **Analysis Layer**
 
   * Interprets valuation results
   * Produces profit emergence and summary metrics
 
-* **Notebook**
+* **Loader / Validation Layer**
+
+  * Handles CSV ingestion and validation
+  * Keeps pandas and IO outside core modelling logic
+
+* **Notebook Layer**
 
   * Orchestration and visualisation only
   * No core logic
@@ -109,12 +158,16 @@ The model is built using a layered approach:
 Typical outputs include:
 
 * Present value of premiums, claims, and net value
+* Portfolio-level valuation summaries
 * Profit emergence table (per-period cashflows and profit)
+* Lapse emergence analysis
 * Profit signature (distribution of profit over time)
 * Visualisations:
 
   * Cumulative cashflow vs cumulative profit
   * Profit signature chart
+  * Portfolio emergence charts
+  * Persistency / runoff analysis
 
 ---
 
@@ -140,11 +193,16 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-4. Run the notebook:
+4. Run the notebooks:
 
 ```bash
-jupyter notebook notebooks/model_testing.ipynb
+jupyter notebook
 ```
+
+Then open:
+
+* `notebooks/single_policy_run.ipynb`
+* `notebooks/multiple_policy_run.ipynb`
 
 ---
 
@@ -160,9 +218,17 @@ This project enforces several core principles:
 
   * Each module has a single responsibility
 
+* **Externalised assumptions**
+
+  * Projection logic is agnostic to assumption source or structure
+
+* **Object-oriented modelling**
+
+  * Core modelling logic uses structured domain objects instead of raw dataframes
+
 * **Extensibility**
 
-  * Designed to support future features (portfolio modelling, scenarios, etc.)
+  * Designed to support future features (stress testing, behavioural modelling, scenarios, etc.)
 
 * **Reproducibility**
 
@@ -176,10 +242,11 @@ This project enforces several core principles:
 
 ## Current Limitations
 
-* Uses a synthetic mortality curve (not yet based on real data)
-* Single-policy valuation only (no portfolio layer yet)
-* Deterministic (no stochastic scenarios)
-* Limited assumption set (no lapse, expenses, etc.)
+* Uses synthetic mortality and lapse assumptions
+* Deterministic only (no stochastic scenarios)
+* No expenses or surrender value modelling yet
+* Simplified lapse decrement framework
+* No dynamic policyholder behaviour
 
 ---
 
@@ -187,10 +254,13 @@ This project enforces several core principles:
 
 Planned extensions include:
 
-* Portfolio layer (multiple policies and aggregation)
-* Modular assumptions framework (mortality tables, yield curves)
-* Additional metrics (e.g. BEL, IRR)
+* Mortality table ingestion from external data
+* Yield curve and scenario support
+* Assumption stress framework
+* Solvency II style stress testing
+* Additional behavioural modelling
 * Scenario and stress testing
+* Automated regression testing
 * Performance improvements for larger datasets
 
 ---
@@ -207,9 +277,9 @@ This project is actively being developed, and feedback is very welcome.
 
 In particular, I’d be interested in:
 
-* Whether the structure reflects how models are implemented in practice
-* Any gaps in valuation or profit emergence logic
-* Suggestions for scaling or extending the model
+* Whether the structure reflects how actuarial systems are implemented in practice
+* Any gaps in valuation, decrement, or emergence logic
+* Suggestions for scaling or extending the architecture
 
 ---
 
