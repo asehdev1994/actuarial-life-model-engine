@@ -7,4 +7,4 @@ from model.assumptions.lapse import (
     LapseTable
 )
 
-from model.assumptions.loaders import load_lapse_table
+from model.assumptions.assumption_loader import load_lapse_table
