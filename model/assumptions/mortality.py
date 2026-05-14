@@ -1,25 +1,5 @@
 import numpy as np
 
-
-class FormulaMortality:
-    """
-    Legacy formula-driven mortality provider.
-
-    Retained temporarily while transitioning
-    to table-driven mortality.
-    """
-
-    def qx(self, policy, age: int) -> float:
-
-        q = 0.0005 * np.exp(0.08 * (age - 30))
-
-        return min(q, 1.0)
-
-    def px(self, policy, age: int) -> float:
-
-        return 1 - self.qx(policy, age)
-
-
 class MortalityTable:
     """
     Table-driven mortality provider.

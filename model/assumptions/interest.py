@@ -1,23 +1,3 @@
-class FlatYieldCurve:
-    """
-    Simple flat interest rate provider.
-
-    Retained for backward compatibility
-    and simple deterministic testing.
-    """
-
-    def __init__(self, interest_rate=0.03):
-
-        self.interest_rate = interest_rate
-
-    def discount_factor(self, t: float) -> float:
-        """
-        Standard discrete discounting.
-        """
-
-        return 1 / ((1 + self.interest_rate) ** t)
-
-
 class YieldCurve:
     """
     Table-driven yield curve provider.
