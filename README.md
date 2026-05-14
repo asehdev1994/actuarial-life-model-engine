@@ -1,288 +1,364 @@
-# Actuarial Life Model Engine (Python)
+# Actuarial Life Model Engine
 
-## Overview
+A modular Python-based actuarial life insurance modelling engine designed with institutional-style architecture principles.
 
-This project is a modular Python-based life insurance model engine designed to replicate the core mechanics of traditional actuarial models (e.g. Prophet-style systems).
+The project focuses not only on actuarial mechanics, but also on building a clean, extensible modelling framework with stable interfaces, externalised assumptions, structured outputs, and disciplined separation of concerns.
 
-The focus is not just on producing results, but on building a clear, extensible, and well-structured modelling framework that reflects how real-world actuarial systems are designed.
-
-Key objectives:
-
-* Translate actuarial concepts into clean, structured Python code
-* Enforce strong separation of concerns across model components
-* Ensure transparency and reproducibility of results
-* Build a foundation that can scale to more complex features over time
+The engine is intentionally evolving toward reusable actuarial and quantitative risk infrastructure rather than a notebook-centric prototype model.
 
 ---
 
-## Key Features
+# Core Objectives
 
-* **Cashflow Projection**
-
-  * Expected premiums and claims based on survival probabilities
-  * Multi-decrement projection framework
-  * Mortality and lapse decrement support
-
-* **Valuation**
-
-  * Discounted present value of premiums and claims
-  * Net value calculation
-
-* **Profit Emergence Analysis**
-
-  * Period-by-period profit and cashflow
-  * Cumulative profit and cashflow tracking
-  * Portfolio-level emergence analysis
-  * Decrement emergence analysis
-
-* **Portfolio Modelling**
-
-  * Portfolio ingestion from CSV
-  * Aggregated valuation and emergence analysis
-  * Weighted model point support
-
-* **Modular Assumptions Framework**
-
-  * Structured assumptions subsystem
-  * Modular mortality, interest, and lapse assumptions
-  * CSV-driven lapse assumptions
-  * Segmented duration-based lapse assumptions
-
-* **Structured Outputs**
-
-  * Structured result objects across projection and valuation layers
-  * Clear contracts between modelling and analytics layers
-
-* **Validation Layer**
-
-  * Input validation for portfolio ingestion
-  * Separation between ingestion and modelling logic
-
-* **Result Snapshotting**
-
-  * Timestamped outputs (JSON + CSV) to track model changes over time
+- Build a modular actuarial modelling engine using clean software architecture principles
+- Separate modelling mechanics from ingestion, analytics, and orchestration
+- Externalise assumptions through provider-based interfaces
+- Produce structured, reusable valuation outputs
+- Preserve transparency and reproducibility of calculations
+- Create a foundation for future scenario, stress, and risk infrastructure
 
 ---
 
-## Project Structure
+# Current Architecture
+
+The engine is built using layered structured outputs:
 
 ```text
-actuarial_model_engine/
+Policy
+→ ProjectionRow
+→ ProjectionResult
+→ ValuationRow
+→ ValuationResult
+→ Portfolio
+→ PortfolioResult
+```
+
+Core modelling logic is intentionally isolated from:
+- pandas
+- CSV ingestion
+- validation
+- analytics
+- notebook orchestration
+- assumption source structure
+
+---
+
+# Current Features
+
+## Projection Engine
+
+- Expected cashflow projection using unconditional probabilities
+- Multi-decrement runoff framework
+- Mortality and lapse decrement support
+- Structured projection outputs
+
+Projection logic remains completely assumption-agnostic.
+
+---
+
+## Valuation Engine
+
+- Discounted present value calculations
+- Structured valuation outputs
+- Profit emergence support
+- Portfolio-level aggregation
+
+Valuation consumes only abstract discount factor interfaces.
+
+---
+
+## Assumptions Infrastructure
+
+### Mortality
+
+- CSV-driven mortality ingestion
+- Gender-segmented mortality tables
+- Contextual mortality resolution
+- Smoker mortality overlays
+
+### Interest Rates
+
+- CSV-driven yield curve ingestion
+- Float maturity support
+- Spot-rate discounting
+- Terminal extrapolation beyond observable maturities
+
+### Lapse
+
+- CSV-driven lapse assumptions
+- Product segmentation
+- Smoker segmentation
+- Duration-based lapse ranges
+
+---
+
+# Assumptions Architecture
+
+The engine consumes only stable provider interfaces:
+
+```python
+assumptions.qx(policy, age)
+assumptions.discount_factor(t)
+assumptions.lapse_rate(policy, t)
+```
+
+Projection and valuation layers remain completely unaware of:
+- CSV structure
+- segmentation mechanics
+- market-data formatting
+- assumption source logic
+- provider implementation details
+
+This abstraction boundary is a core design principle of the project.
+
+---
+
+# Data Ingestion Architecture
+
+Assumption ingestion follows the architecture below:
+
+```text
+CSV/Data
+↓
+Loader
+↓
+Validation
+↓
+Provider
+↓
+AssumptionSet
+↓
+Projection / Valuation
+```
+
+Validation occurs only at ingestion boundaries.
+
+The core engine assumes validated structured inputs.
+
+---
+
+# Design Principles
+
+## Stable Interfaces
+
+Projection and valuation depend only on explicit assumption interfaces.
+
+New assumption structures should integrate without requiring engine rewrites.
+
+---
+
+## Separation of Concerns
+
+Distinct responsibilities are maintained across:
+- modelling
+- ingestion
+- validation
+- analytics
+- orchestration
+
+---
+
+## No Pandas In Core Engine
+
+Pandas is restricted to:
+- ingestion
+- validation
+- analytics
+- notebook layers
+
+Core engine logic operates on structured domain objects only.
+
+---
+
+## Structured Result Contracts
+
+Projection and valuation outputs are represented through structured result objects rather than raw dataframes.
+
+This supports:
+- analytics reuse
+- serialisation
+- debugging
+- downstream extensions
+
+---
+
+## Externalised Assumptions
+
+Mortality, lapse, and yield curve assumptions are externally configurable and provider-driven.
+
+Projection and valuation remain assumption-source agnostic.
+
+---
+
+# Example Project Structure
+
+```text
+actuarial-life-model-engine/
 
 ├── model/
+│
 │   ├── assumptions/
-│   │   ├── __init__.py
 │   │   ├── assumption_set.py
 │   │   ├── mortality.py
 │   │   ├── interest.py
 │   │   ├── lapse.py
-│   │   └── loaders.py
+│   │   ├── assumption_loader.py
+│   │   └── assumption_validation.py
+│   │
+│   ├── analysis/
+│   │   └── profit.py
+│   │
+│   ├── data/
+│   │   ├── loader.py
+│   │   └── validation.py
 │   │
 │   ├── policy.py
 │   ├── projection.py
 │   ├── valuation.py
 │   ├── portfolio.py
-│   ├── results.py
-│   ├── validation.py
-│   │
-│   ├── analysis/
-│   │   └── profit.py
-│   │
-│   └── data/
-│       └── loader.py
+│   └── results.py
 │
 ├── data/
-│   ├── lapse_rates.csv
+│   ├── mortality_tables/
+│   ├── mortality_parameters/
+│   ├── yield_curves/
+│   ├── lapse_tables/
+│   ├── portfolios/
 │   └── results_snapshots/
 │
 ├── notebooks/
-│   ├── single_policy_run.ipynb
-│   └── multiple_policy_run.ipynb
 │
-├── PROJECT_CONTEXT.md
-└── README.md
+├── README.md
+└── PROJECT_CONTEXT.md
 ```
 
 ---
 
-## Architecture
+# Example Workflow
 
-The model is built using a layered approach:
-
-* **Assumptions Layer**
-
-  * Modular assumptions subsystem
-  * Projection and valuation consume only clean assumption interfaces
-  * Assumption source remains externalised from engine logic
-
-* **Policy Layer**
-
-  * Pure modelling data container
-  * Supports segmentation-relevant attributes
-  * No projection or valuation logic
-
-* **Projection Layer**
-
-  * Generates expected cashflows using multi-decrement projection mechanics
-  * Consumes assumptions through abstract interfaces only
-
-* **Valuation Layer**
-
-  * Applies discounting
-  * Produces structured outputs (`ValuationResult`)
-
-* **Portfolio Layer**
-
-  * Aggregates policy-level valuation results
-  * Supports portfolio emergence analysis
-
-* **Analysis Layer**
-
-  * Interprets valuation results
-  * Produces profit emergence and summary metrics
-
-* **Loader / Validation Layer**
-
-  * Handles CSV ingestion and validation
-  * Keeps pandas and IO outside core modelling logic
-
-* **Notebook Layer**
-
-  * Orchestration and visualisation only
-  * No core logic
+```python
+policy
+→ projection
+→ valuation
+→ portfolio aggregation
+→ analytics
+```
 
 ---
 
-## Example Outputs
+# Current Scope
 
-Typical outputs include:
-
-* Present value of premiums, claims, and net value
-* Portfolio-level valuation summaries
-* Profit emergence table (per-period cashflows and profit)
-* Lapse emergence analysis
-* Profit signature (distribution of profit over time)
-* Visualisations:
-
-  * Cumulative cashflow vs cumulative profit
-  * Profit signature chart
-  * Portfolio emergence charts
-  * Persistency / runoff analysis
+Implemented:
+- deterministic projection engine
+- multi-decrement cashflow modelling
+- portfolio valuation
+- structured result objects
+- mortality table ingestion
+- yield curve ingestion
+- segmented lapse assumptions
+- validation framework
+- reusable analytics layer
 
 ---
 
-## How to Run
+# Current Intentional Limitations
 
-1. Clone the repository:
+The following are intentionally excluded from the current version:
+
+- stochastic economic scenarios
+- interpolation
+- market calibration
+- behavioural modelling
+- expense modelling
+- surrender value mechanics
+- IFRS17 mechanics
+- monthly projection timing
+
+The current focus is architectural stability and modular extensibility before introducing additional modelling complexity.
+
+---
+
+# Planned Extensions
+
+Potential future directions include:
+- stochastic scenario infrastructure
+- stress testing
+- economic scenario overlays
+- expense modelling
+- ALM extensions
+- vectorised portfolio valuation
+- regression testing
+- parallelised valuation frameworks
+
+---
+
+# Running The Project
+
+## Clone repository
 
 ```bash
 git clone https://github.com/asehdev1994/actuarial-life-model-engine.git
 cd actuarial-life-model-engine
 ```
 
-2. Set up a virtual environment:
+---
+
+## Create virtual environment
 
 ```bash
 python -m venv venv
-.\venv\Scripts\Activate
 ```
 
-3. Install dependencies:
+Activate:
+
+### Windows
+
+```bash
+.\venv\Scripts\activate
+```
+
+---
+
+## Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Run the notebooks:
+---
+
+## Launch notebooks
 
 ```bash
 jupyter notebook
 ```
 
-Then open:
-
-* `notebooks/single_policy_run.ipynb`
-* `notebooks/multiple_policy_run.ipynb`
-
----
-
-## Design Principles
-
-This project enforces several core principles:
-
-* **No hidden dependencies**
-
-  * All inputs are explicitly passed between components
-
-* **Separation of concerns**
-
-  * Each module has a single responsibility
-
-* **Externalised assumptions**
-
-  * Projection logic is agnostic to assumption source or structure
-
-* **Object-oriented modelling**
-
-  * Core modelling logic uses structured domain objects instead of raw dataframes
-
-* **Extensibility**
-
-  * Designed to support future features (stress testing, behavioural modelling, scenarios, etc.)
-
-* **Reproducibility**
-
-  * Results can be persisted and compared over time
-
-* **Clarity over shortcuts**
-
-  * Preference for transparent logic over quick implementations
+Primary notebooks:
+- `single_policy_run.ipynb`
+- `multiple_policy_run.ipynb`
 
 ---
 
-## Current Limitations
+# Development Philosophy
 
-* Uses synthetic mortality and lapse assumptions
-* Deterministic only (no stochastic scenarios)
-* No expenses or surrender value modelling yet
-* Simplified lapse decrement framework
-* No dynamic policyholder behaviour
+The project prioritises:
+- clarity over shortcuts
+- explicitness over hidden behaviour
+- stable interfaces over convenience
+- incremental extensibility over premature complexity
 
----
-
-## Roadmap
-
-Planned extensions include:
-
-* Mortality table ingestion from external data
-* Yield curve and scenario support
-* Assumption stress framework
-* Solvency II style stress testing
-* Additional behavioural modelling
-* Scenario and stress testing
-* Automated regression testing
-* Performance improvements for larger datasets
+The long-term objective is to evolve toward reusable actuarial and quantitative risk infrastructure while preserving modelling transparency and architectural discipline.
 
 ---
 
-## Disclaimer
+# Disclaimer
 
-This is a personal learning project intended to explore actuarial modelling concepts and software design. It is not intended for production or regulatory use.
+This is a personal engineering and actuarial modelling project intended for learning, experimentation, and architecture exploration.
 
----
-
-## Feedback
-
-This project is actively being developed, and feedback is very welcome.
-
-In particular, I’d be interested in:
-
-* Whether the structure reflects how actuarial systems are implemented in practice
-* Any gaps in valuation, decrement, or emergence logic
-* Suggestions for scaling or extending the architecture
+It is not intended for production, regulatory, or financial reporting use.
 
 ---
 
-## Author
+# Author
 
 Ajay Sehdev

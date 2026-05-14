@@ -1,3 +1,21 @@
+"""
+Assumption ingestion layer.
+
+Responsibilities:
+- load external assumption data
+- validate assumption structure
+- normalise external formats
+- construct structured providers
+
+Does NOT:
+- perform actuarial calculations
+- perform projection logic
+- perform valuation logic
+
+Design principle:
+Validation occurs only at ingestion boundaries.
+"""
+
 import pandas as pd
 
 from model.assumptions.lapse import (

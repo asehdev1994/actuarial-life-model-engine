@@ -1,4 +1,23 @@
-# model/projection.py
+"""
+Projection engine.
+
+Core responsibilities:
+- project expected policy cashflows
+- apply multi-decrement runoff
+- track unconditional inforce probabilities
+
+Key design principles:
+- projection remains assumption-agnostic
+- projection consumes only stable interfaces
+- no assumption source knowledge
+- no pandas dependency
+- no valuation logic
+
+Architecture flow:
+Policy
+→ ProjectionRow
+→ ProjectionResult
+"""
 
 from model.results import ProjectionRow, ProjectionResult
 
@@ -48,7 +67,8 @@ def project_cashflows(policy, assumptions):
             )
         )
 
-        # Update survival probability for next period
+        # Multi-decrement runoff:
+        # policies exit through either death or lapse.
         prob_inforce *= (1 - q - lapse_rate)
 
     return ProjectionResult(rows=results)

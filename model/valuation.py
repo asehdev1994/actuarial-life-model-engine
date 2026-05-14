@@ -1,4 +1,23 @@
-# model/valuation.py
+"""
+Valuation engine.
+
+Core responsibilities:
+- consume projected cashflows
+- apply discounting
+- aggregate present value metrics
+- produce structured valuation outputs
+
+Key design principles:
+- valuation remains assumption-agnostic
+- discounting delegated to assumptions layer
+- no projection mechanics implemented here
+- analytics remain external
+
+Architecture flow:
+ProjectionResult
+→ ValuationRow
+→ ValuationResult
+"""
 
 from model.projection import project_cashflows
 from model.results import ValuationResult, ValuationRow

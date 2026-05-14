@@ -1,3 +1,25 @@
+"""
+Yield curve assumption provider infrastructure.
+
+Architecture:
+CSV/Data
+→ loader
+→ validation
+→ YieldCurve provider
+→ AssumptionSet
+→ valuation engine
+
+Responsibilities:
+- store spot rates
+- resolve discount factors
+- encapsulate extrapolation logic
+
+Key design principles:
+- projection/valuation remain curve-agnostic
+- provider isolates market-data conventions
+- assumption source remains externalised
+"""
+
 class YieldCurve:
     """
     Table-driven yield curve provider.
@@ -37,6 +59,8 @@ class YieldCurve:
             return 0.0
 
         # Terminal extrapolation
+        # maturities beyond available market data
+        # use the final observable spot rate.
         if t > self.max_term:
 
             return self.spot_rates[

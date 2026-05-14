@@ -1,3 +1,25 @@
+"""
+Mortality assumption provider infrastructure.
+
+Architecture:
+CSV/Data
+→ loader
+→ validation
+→ MortalityTable
+→ AssumptionSet
+→ projection engine
+
+Responsibilities:
+- resolve contextual mortality assumptions
+- apply smoker adjustments
+- encapsulate segmentation logic
+
+Key design principles:
+- projection remains mortality-agnostic
+- mortality composition isolated in provider
+- external data structure hidden from engine
+"""
+
 import numpy as np
 
 class MortalityTable:
@@ -53,6 +75,9 @@ class MortalityTable:
             )
         )
 
+        # Mortality composition:
+        # contextual adjustments applied internally
+        # while preserving stable engine interfaces.
         final_qx = base_qx * smoker_multiplier
 
         return min(final_qx, 1.0)

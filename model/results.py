@@ -1,3 +1,21 @@
+"""
+Structured modelling result contracts.
+
+Purpose:
+- provide stable interfaces between engine layers
+- separate modelling mechanics from analytics
+- support serialisation and downstream analysis
+
+Key principle:
+Result objects are pure data containers.
+
+Architecture flow:
+Projection
+→ ProjectionResult
+→ ValuationResult
+→ PortfolioResult
+"""
+
 from typing import List, Dict, Optional
 
 class ProjectionRow:

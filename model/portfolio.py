@@ -1,3 +1,22 @@
+"""
+Portfolio aggregation layer.
+
+Core responsibilities:
+- aggregate policy-level valuation results
+- support weighted model points
+- produce portfolio-level structured outputs
+
+Key design principles:
+- portfolio layer contains no actuarial mechanics
+- valuation delegated to valuation engine
+- aggregation logic isolated from analytics
+
+Architecture flow:
+ValuationResult
+→ Portfolio aggregation
+→ PortfolioResult
+"""
+
 from model.valuation import value_policy
 from model.results import PortfolioResult, ValuationRow
 
@@ -24,6 +43,7 @@ class Portfolio:
 
         pv_premiums = 0.0
         pv_claims = 0.0
+        # Aggregate portfolio emergence by projection period.
         breakdown_by_t = {}
 
         # Handle empty portfolio explicitly

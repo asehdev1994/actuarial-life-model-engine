@@ -25,7 +25,7 @@ class AssumptionSet:
 
         return self.mortality.px(policy, age)
 
-    def discount_factor(self, t: int) -> float:
+    def discount_factor(self, t: float) -> float:
 
         return self.interest.discount_factor(t)
     
