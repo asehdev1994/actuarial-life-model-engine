@@ -5,6 +5,10 @@ from model.assumptions.lapse import (
     LapseTable
 )
 
+from model.assumptions.interest import (
+    YieldCurve
+)
+
 from model.assumptions.mortality import (
     MortalityTable,
     MortalityParameters
@@ -27,6 +31,17 @@ REQUIRED_LAPSE_COLUMNS = [
     "duration_start",
     "duration_end",
     "lapse_rate"
+]
+
+REQUIRED_YIELD_CURVE_COLUMNS = [
+    "t",
+    "spot_rate"
+]
+
+REQUIRED_MORTALITY_COLUMNS = [
+    "gender",
+    "age",
+    "qx"
 ]
 
 def load_lapse_table(path):
@@ -110,13 +125,6 @@ def load_lapse_table(path):
         segments.append(segment)
 
     return LapseTable(segments)
-
-REQUIRED_MORTALITY_COLUMNS = [
-    "gender",
-    "age",
-    "qx"
-]
-
 
 def load_mortality_table(path):
     """
@@ -228,4 +236,78 @@ def load_mortality_parameters(path):
 
     return MortalityParameters(
         smoker_multipliers
+    )
+
+def load_yield_curve(path):
+    """
+    Load yield curve assumptions from CSV.
+
+    Responsibilities:
+    - read CSV
+    - validate curve data
+    - convert percentage rates
+    - construct YieldCurve provider
+
+    Does NOT:
+    - perform interpolation
+    - perform scenario modelling
+    - perform valuation logic
+    """
+
+    df = pd.read_csv(path)
+
+    validate_required_columns(
+        df,
+        REQUIRED_YIELD_CURVE_COLUMNS
+    )
+
+    validate_no_nulls(
+        df,
+        REQUIRED_YIELD_CURVE_COLUMNS
+    )
+
+    validate_numeric_columns(
+        df,
+        [
+            "t",
+            "spot_rate"
+        ]
+    )
+
+    validate_non_negative_column(
+        df,
+        "t"
+    )
+
+    validate_no_duplicate_segments(
+        df,
+        ["t"]
+    )
+
+    # Convert percentages into decimals
+    # Example:
+    # 3.96 -> 0.0396
+    df["spot_rate"] = (
+        df["spot_rate"] / 100.0
+    )
+
+    validate_rate_column(
+        df,
+        "spot_rate"
+    )
+
+    spot_rates = {}
+
+    for _, row in df.iterrows():
+
+        term = float(row["t"])
+
+        spot_rate = float(
+            row["spot_rate"]
+        )
+
+        spot_rates[term] = spot_rate
+
+    return YieldCurve(
+        spot_rates
     )
