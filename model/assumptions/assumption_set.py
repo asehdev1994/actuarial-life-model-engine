@@ -10,12 +10,14 @@ class AssumptionSet:
         self,
         mortality,
         interest,
-        lapse=None
+        lapse=None,
+        expenses=None
     ):
 
         self.mortality = mortality
         self.interest = interest
         self.lapse = lapse
+        self.expenses_provider = expenses
 
     def qx(self, policy, age: int) -> float:
 
@@ -42,3 +44,25 @@ class AssumptionSet:
             return 0.0
 
         return self.lapse.lapse_rate(policy, t)
+    
+    def expenses(self, policy, t):
+        """
+        Return expense assumptions
+        for a policy at time t.
+
+        If no expense provider is supplied,
+        default to zero expenses.
+        """
+
+        if self.expenses_provider is None:
+
+            from model.assumptions.expense import (
+                ExpenseResult
+            )
+
+            return ExpenseResult.zero()
+
+        return self.expenses_provider.expenses(
+            policy,
+            t
+        )

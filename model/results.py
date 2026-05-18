@@ -38,6 +38,9 @@ class ProjectionRow:
         "expected_premium",
         "expected_claim",
         "expected_lapse",
+        "expected_acquisition_expense",
+        "expected_maintenance_expense",
+        "expected_total_expense",
     ]
 
     def __init__(
@@ -49,7 +52,10 @@ class ProjectionRow:
         lapse_rate: float,
         expected_premium: float,
         expected_claim: float,
-        expected_lapse: float
+        expected_lapse: float,
+        expected_acquisition_expense: float,
+        expected_maintenance_expense: float,
+        expected_total_expense: float
     ):
 
         self.t = t
@@ -60,6 +66,15 @@ class ProjectionRow:
         self.expected_premium = expected_premium
         self.expected_claim = expected_claim
         self.expected_lapse = expected_lapse
+        self.expected_acquisition_expense = (
+    expected_acquisition_expense
+)
+        self.expected_maintenance_expense = (
+    expected_maintenance_expense
+)
+        self.expected_total_expense = (
+    expected_total_expense
+)
 
     def to_dict(self) -> dict:
         """
@@ -74,7 +89,13 @@ class ProjectionRow:
             "lapse_rate": self.lapse_rate,
             "expected_premium": self.expected_premium,
             "expected_claim": self.expected_claim,
-            "expected_lapse": self.expected_lapse
+            "expected_lapse": self.expected_lapse,
+            "expected_acquisition_expense":
+                self.expected_acquisition_expense,
+            "expected_maintenance_expense":
+                self.expected_maintenance_expense,
+            "expected_total_expense":
+                self.expected_total_expense,
         }
 
     def __repr__(self):

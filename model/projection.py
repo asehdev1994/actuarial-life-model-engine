@@ -44,6 +44,10 @@ def project_cashflows(policy, assumptions):
         # Probability of death at age t
         q = assumptions.qx(policy, age_t)
         lapse_rate = assumptions.lapse_rate(policy, t)
+        expense_result = assumptions.expenses(
+            policy,
+            t
+        )
 
         # Premium is received only if the policyholder is alive
         # → weighted by probability of survival
@@ -53,6 +57,19 @@ def project_cashflows(policy, assumptions):
         # → probability = prob_inforce * qx
         expected_claim = policy.sum_assured * prob_inforce * q
         expected_lapse = prob_inforce * lapse_rate
+        
+        expected_acquisition_expense = (
+            expense_result.acquisition_expense
+            * prob_inforce
+        )
+        expected_maintenance_expense = (
+            expense_result.maintenance_expense
+            * prob_inforce
+        )
+        expected_total_expense = (
+            expense_result.total_expense
+            * prob_inforce
+        )
 
         results.append(
             ProjectionRow(
@@ -63,7 +80,13 @@ def project_cashflows(policy, assumptions):
                 lapse_rate=lapse_rate,
                 expected_premium=expected_premium,
                 expected_claim=expected_claim,
-                expected_lapse=expected_lapse
+                expected_lapse=expected_lapse,
+                expected_acquisition_expense=
+                    expected_acquisition_expense,
+                expected_maintenance_expense=
+                    expected_maintenance_expense,
+                expected_total_expense=
+                    expected_total_expense
             )
         )
 
