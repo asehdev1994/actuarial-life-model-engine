@@ -81,12 +81,9 @@ def project_cashflows(policy, assumptions):
                 expected_premium=expected_premium,
                 expected_claim=expected_claim,
                 expected_lapse=expected_lapse,
-                expected_acquisition_expense=
-                    expected_acquisition_expense,
-                expected_maintenance_expense=
-                    expected_maintenance_expense,
-                expected_total_expense=
-                    expected_total_expense
+                expected_acquisition_expense=expected_acquisition_expense,
+                expected_maintenance_expense=expected_maintenance_expense,
+                expected_total_expense=expected_total_expense
             )
         )
 
