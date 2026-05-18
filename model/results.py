@@ -291,6 +291,30 @@ class ValuationResult:
         self.net_value: float = net_value
         self.breakdown: Optional[List[Dict]] = breakdown
 
+    @property
+    def best_estimate_liability(self) -> float:
+        """
+        Solvency-style Best Estimate Liability (BEL).
+
+        Positive BEL represents a liability.
+        """
+
+        return (
+            self.pv_claims
+            + self.pv_expenses
+            - self.pv_premiums
+        )
+
+    @property
+    def pv_future_profit(self) -> float:
+        """
+        Present Value of Future Profits (PVFP).
+
+        Positive PVFP represents expected future profit.
+        """
+
+        return -self.best_estimate_liability
+    
     # Provided for backward compatibility and easy serialisation
     def to_dict(self) -> dict:
         """
@@ -300,7 +324,9 @@ class ValuationResult:
             "pv_premiums": self.pv_premiums,
             "pv_claims": self.pv_claims,
             "pv_expenses": self.pv_expenses,
-            "net_value": self.net_value
+            "net_value": self.net_value,
+            "best_estimate_liability": self.best_estimate_liability,
+            "pv_future_profit": self.pv_future_profit
         }
 
         if self.breakdown is not None:
@@ -314,7 +340,8 @@ class ValuationResult:
             f"pv_premiums={self.pv_premiums:.2f}, "
             f"pv_claims={self.pv_claims:.2f}, "
             f"pv_expenses={self.pv_expenses:.2f}, "
-            f"net_value={self.net_value:.2f}, "
+            f"BEL={self.best_estimate_liability:.2f}, "
+            f"PVFP={self.pv_future_profit:.2f}, "
             f"breakdown={'Yes' if self.breakdown else 'No'}"
             f")"
         )
@@ -356,12 +383,28 @@ class PortfolioResult:
         self.policy_count = policy_count
         self.breakdown = breakdown
 
+    @property
+    def best_estimate_liability(self) -> float:
+
+        return (
+            self.pv_claims
+            + self.pv_expenses
+            - self.pv_premiums
+        )
+
+    @property
+    def pv_future_profit(self) -> float:
+
+        return -self.best_estimate_liability
+    
     def to_dict(self):
 
         result = {
             "pv_premiums": self.pv_premiums,
             "pv_claims": self.pv_claims,
             "pv_expenses": self.pv_expenses,
+            "best_estimate_liability": self.best_estimate_liability,
+            "pv_future_profit": self.pv_future_profit,
             "net_value": self.net_value,
             "policy_count": self.policy_count
         }
@@ -379,6 +422,7 @@ class PortfolioResult:
             f"PortfolioResult("
             f"policies={self.policy_count}, "
             f"pv_expenses={self.pv_expenses:.2f}, "
-            f"net_value={self.net_value:.2f}"
+            f"BEL={self.best_estimate_liability:.2f}, "
+            f"PVFP={self.pv_future_profit:.2f}"
             f")"
         )
