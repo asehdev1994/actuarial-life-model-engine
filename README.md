@@ -51,6 +51,7 @@ Core modelling logic is intentionally isolated from:
 - Multi-decrement runoff framework
 - Mortality and lapse decrement support
 - Structured projection outputs
+- Explicit expense cashflow decomposition
 
 Projection logic remains completely assumption-agnostic.
 
@@ -60,6 +61,7 @@ Projection logic remains completely assumption-agnostic.
 
 - Discounted present value calculations
 - Structured valuation outputs
+- Explicit expense present value decomposition
 - Profit emergence support
 - Portfolio-level aggregation
 
@@ -90,6 +92,14 @@ Valuation consumes only abstract discount factor interfaces.
 - Smoker segmentation
 - Duration-based lapse ranges
 
+### Expenses
+
+- CSV-driven expense assumptions
+- Structured expense provider abstraction
+- Acquisition and maintenance expense support
+- Fixed and premium-linked expense mechanics
+- Future extensible segmentation architecture
+
 ---
 
 # Assumptions Architecture
@@ -100,6 +110,7 @@ The engine consumes only stable provider interfaces:
 assumptions.qx(policy, age)
 assumptions.discount_factor(t)
 assumptions.lapse_rate(policy, t)
+assumptions.expenses(policy, t)
 ```
 
 Projection and valuation layers remain completely unaware of:
@@ -138,6 +149,16 @@ The core engine assumes validated structured inputs.
 ---
 
 # Design Principles
+
+## Assumption-Agnostic Projection
+
+Projection logic consumes only stable provider interfaces and remains unaware of:
+- segmentation mechanics
+- expense composition logic
+- assumption storage structure
+- provider implementation details
+
+This allows new assumption dimensions and provider extensions to integrate without redesigning projection or valuation mechanics.
 
 ## Stable Interfaces
 
@@ -184,7 +205,7 @@ This supports:
 
 ## Externalised Assumptions
 
-Mortality, lapse, and yield curve assumptions are externally configurable and provider-driven.
+Mortality, lapse, expense, and yield curve assumptions are externally configurable and provider-driven.
 
 Projection and valuation remain assumption-source agnostic.
 
@@ -202,6 +223,7 @@ actuarial-life-model-engine/
 │   │   ├── mortality.py
 │   │   ├── interest.py
 │   │   ├── lapse.py
+│   │   ├── expense.py
 │   │   ├── assumption_loader.py
 │   │   └── assumption_validation.py
 │   │
@@ -223,6 +245,7 @@ actuarial-life-model-engine/
 │   ├── mortality_parameters/
 │   ├── yield_curves/
 │   ├── lapse_tables/
+│   ├── expense_tables/
 │   ├── portfolios/
 │   └── results_snapshots/
 │
@@ -256,6 +279,8 @@ Implemented:
 - mortality table ingestion
 - yield curve ingestion
 - segmented lapse assumptions
+- expense assumption infrastructure
+- fulfilment cashflow valuation
 - validation framework
 - reusable analytics layer
 
@@ -269,7 +294,6 @@ The following are intentionally excluded from the current version:
 - interpolation
 - market calibration
 - behavioural modelling
-- expense modelling
 - surrender value mechanics
 - IFRS17 mechanics
 - monthly projection timing
@@ -284,7 +308,9 @@ Potential future directions include:
 - stochastic scenario infrastructure
 - stress testing
 - economic scenario overlays
-- expense modelling
+- advanced expense segmentation
+- inflation-linked expense assumptions
+- stochastic expense overlays
 - ALM extensions
 - vectorised portfolio valuation
 - regression testing
