@@ -43,6 +43,7 @@ class Portfolio:
 
         pv_premiums = 0.0
         pv_claims = 0.0
+        pv_expenses = 0.0
         # Aggregate portfolio emergence by projection period.
         breakdown_by_t = {}
 
@@ -52,6 +53,7 @@ class Portfolio:
             return PortfolioResult(
                 pv_premiums=0.0,
                 pv_claims=0.0,
+                pv_expenses=0.0,
                 net_value=0.0,
                 policy_count=0
             )
@@ -68,6 +70,7 @@ class Portfolio:
 
             pv_premiums += result.pv_premiums * weight
             pv_claims += result.pv_claims * weight
+            pv_expenses += result.pv_expenses * weight
 
             if return_breakdown and result.breakdown is not None:
 
@@ -88,6 +91,9 @@ class Portfolio:
                             net_cashflow=0.0,
                             pv_premium=0.0,
                             pv_claim=0.0,
+                            pv_acquisition_expense=0.0,
+                            pv_maintenance_expense=0.0,
+                            pv_total_expense=0.0,
                             pv_net=0.0,
                             cum_profit=0.0,
                             cum_cashflow=0.0
@@ -101,9 +107,16 @@ class Portfolio:
                     agg_row.net_cashflow += row.net_cashflow * weight
                     agg_row.pv_premium += row.pv_premium * weight
                     agg_row.pv_claim += row.pv_claim * weight
+                    agg_row.pv_acquisition_expense += row.pv_acquisition_expense * weight
+                    agg_row.pv_maintenance_expense += row.pv_maintenance_expense * weight
+                    agg_row.pv_total_expense += row.pv_total_expense * weight
                     agg_row.pv_net += row.pv_net * weight
 
-        net_value = pv_premiums - pv_claims
+        net_value = (
+            pv_premiums
+            - pv_claims
+            - pv_expenses
+        )
 
         breakdown = None
 
@@ -128,6 +141,7 @@ class Portfolio:
         return PortfolioResult(
             pv_premiums=pv_premiums,
             pv_claims=pv_claims,
+            pv_expenses=pv_expenses,
             net_value=net_value,
             policy_count=len(self.policies),
             breakdown=breakdown

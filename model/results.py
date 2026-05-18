@@ -333,6 +333,7 @@ class PortfolioResult:
     __slots__ = [
         "pv_premiums",
         "pv_claims",
+        "pv_expenses",
         "net_value",
         "policy_count",
         "breakdown"
@@ -342,6 +343,7 @@ class PortfolioResult:
         self,
         pv_premiums: float,
         pv_claims: float,
+        pv_expenses: float,
         net_value: float,
         policy_count: int,
         breakdown=None
@@ -349,6 +351,7 @@ class PortfolioResult:
 
         self.pv_premiums = pv_premiums
         self.pv_claims = pv_claims
+        self.pv_expenses = pv_expenses
         self.net_value = net_value
         self.policy_count = policy_count
         self.breakdown = breakdown
@@ -358,6 +361,7 @@ class PortfolioResult:
         result = {
             "pv_premiums": self.pv_premiums,
             "pv_claims": self.pv_claims,
+            "pv_expenses": self.pv_expenses,
             "net_value": self.net_value,
             "policy_count": self.policy_count
         }
@@ -374,6 +378,7 @@ class PortfolioResult:
         return (
             f"PortfolioResult("
             f"policies={self.policy_count}, "
+            f"pv_expenses={self.pv_expenses:.2f}, "
             f"net_value={self.net_value:.2f}"
             f")"
         )
