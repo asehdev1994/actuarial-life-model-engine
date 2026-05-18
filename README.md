@@ -251,8 +251,7 @@ actuarial-life-model-engine/
 │
 ├── notebooks/
 │
-├── README.md
-└── PROJECT_CONTEXT.md
+└── README.md
 ```
 
 ---
