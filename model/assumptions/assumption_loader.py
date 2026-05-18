@@ -32,6 +32,11 @@ from model.assumptions.mortality import (
     MortalityParameters
 )
 
+from model.assumptions.expense import (
+    ExpenseComponent,
+    ExpenseTable
+)
+
 from model.assumptions.assumption_validation import (
     validate_required_columns,
     validate_no_nulls,
@@ -40,7 +45,8 @@ from model.assumptions.assumption_validation import (
     validate_range_columns,
     validate_no_duplicate_segments,
     validate_no_overlapping_ranges,
-    validate_non_negative_column
+    validate_non_negative_column,
+    validate_allowed_values
 )
 
 REQUIRED_LAPSE_COLUMNS = [
@@ -60,6 +66,16 @@ REQUIRED_MORTALITY_COLUMNS = [
     "gender",
     "age",
     "qx"
+]
+
+REQUIRED_EXPENSE_COLUMNS = [
+    "expense_type",
+    "amount_type",
+    "value"
+]
+
+OPTIONAL_EXPENSE_COLUMNS = [
+    "product_type"
 ]
 
 def load_lapse_table(path):
@@ -329,3 +345,67 @@ def load_yield_curve(path):
     return YieldCurve(
         spot_rates
     )
+
+def load_expense_table(path):
+    """
+    Load expense assumptions from CSV.
+
+    Responsibilities:
+    - read CSV
+    - validate expense assumptions
+    - construct ExpenseComponent objects
+    - construct ExpenseTable
+
+    Does NOT:
+    - perform projection logic
+    - perform valuation logic
+    """
+
+    df = pd.read_csv(path)
+
+    validate_required_columns(
+        df,
+        REQUIRED_EXPENSE_COLUMNS
+    )
+
+    validate_no_nulls(
+        df,
+        REQUIRED_EXPENSE_COLUMNS
+    )
+
+    validate_numeric_columns(
+        df,
+        ["value"]
+    )
+
+    validate_non_negative_column(
+        df,
+        "value"
+    )
+
+    validate_allowed_values(
+        df,
+        "expense_type",
+        ["acquisition", "maintenance"]
+    )
+
+    validate_allowed_values(
+        df,
+        "amount_type",
+        ["fixed", "premium_pct"]
+    )
+
+    components = []
+
+    for _, row in df.iterrows():
+
+        component = ExpenseComponent(
+            expense_type=row["expense_type"],
+            amount_type=row["amount_type"],
+            value=float(row["value"]),
+            product_type=row.get("product_type")
+        )
+
+        components.append(component)
+
+    return ExpenseTable(components)

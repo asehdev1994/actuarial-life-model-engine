@@ -150,3 +150,25 @@ def validate_non_negative_column(df, column):
         raise ValueError(
             f"Negative values found in '{column}'."
         )
+    
+def validate_allowed_values(
+    df,
+    column,
+    allowed_values
+):
+    """
+    Validate that all values in a column
+    belong to an allowed set.
+    """
+
+    invalid = df[
+        ~df[column].isin(allowed_values)
+    ]
+
+    if not invalid.empty:
+
+        raise ValueError(
+            f"Invalid values found in "
+            f"'{column}'. "
+            f"Allowed values: {allowed_values}"
+        )

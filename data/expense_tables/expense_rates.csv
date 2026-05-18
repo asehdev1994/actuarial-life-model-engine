@@ -1,0 +1,3 @@
+expense_type,amount_type,value
+acquisition,fixed,40
+maintenance,premium_pct,0.02
