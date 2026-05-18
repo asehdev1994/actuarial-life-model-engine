@@ -18,5 +18,6 @@ from model.assumptions.assumption_loader import (
     load_lapse_table,
     load_mortality_table,
     load_mortality_parameters,
-    load_yield_curve
+    load_yield_curve,
+    load_expense_table
 )
