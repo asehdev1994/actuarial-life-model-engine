@@ -169,6 +169,9 @@ class ValuationRow:
         "pv_premium",
         "pv_claim",
         "pv_net",
+        "pv_acquisition_expense",
+        "pv_maintenance_expense",
+        "pv_total_expense",
         "cum_profit",
         "cum_cashflow"
     ]
@@ -185,6 +188,9 @@ class ValuationRow:
         net_cashflow: float,
         pv_premium: float,
         pv_claim: float,
+        pv_acquisition_expense: float,
+        pv_maintenance_expense: float,
+        pv_total_expense: float,
         pv_net: float,
         cum_profit: float = 0.0,
         cum_cashflow: float = 0.0
@@ -200,6 +206,15 @@ class ValuationRow:
         self.net_cashflow = net_cashflow
         self.pv_premium = pv_premium
         self.pv_claim = pv_claim
+        self.pv_acquisition_expense = (
+            pv_acquisition_expense
+        )
+        self.pv_maintenance_expense = (
+            pv_maintenance_expense
+        )
+        self.pv_total_expense = (
+            pv_total_expense
+        )
         self.pv_net = pv_net
         self.cum_profit = cum_profit
         self.cum_cashflow = cum_cashflow
@@ -217,6 +232,12 @@ class ValuationRow:
             "net_cashflow": self.net_cashflow,
             "pv_premium": self.pv_premium,
             "pv_claim": self.pv_claim,
+            "pv_acquisition_expense":
+                self.pv_acquisition_expense,
+            "pv_maintenance_expense":
+                self.pv_maintenance_expense,
+            "pv_total_expense":
+                self.pv_total_expense,
             "pv_net": self.pv_net,
             "cum_profit": self.cum_profit,
             "cum_cashflow": self.cum_cashflow
@@ -249,12 +270,13 @@ class ValuationResult:
 
     """
 
-    __slots__ = ["pv_premiums", "pv_claims", "net_value", "breakdown"]
+    __slots__ = ["pv_premiums", "pv_claims", "pv_expenses", "net_value", "breakdown"]
 
     def __init__(
         self,
         pv_premiums: float,
         pv_claims: float,
+        pv_expenses: float,
         net_value: float,
         breakdown: Optional[List[Dict]] = None
     ):
@@ -265,6 +287,7 @@ class ValuationResult:
         # Explicit typing (contract clarity)
         self.pv_premiums: float = pv_premiums
         self.pv_claims: float = pv_claims
+        self.pv_expenses: float = pv_expenses
         self.net_value: float = net_value
         self.breakdown: Optional[List[Dict]] = breakdown
 
@@ -276,6 +299,7 @@ class ValuationResult:
         result = {
             "pv_premiums": self.pv_premiums,
             "pv_claims": self.pv_claims,
+            "pv_expenses": self.pv_expenses,
             "net_value": self.net_value
         }
 
@@ -289,6 +313,7 @@ class ValuationResult:
             f"ValuationResult("
             f"pv_premiums={self.pv_premiums:.2f}, "
             f"pv_claims={self.pv_claims:.2f}, "
+            f"pv_expenses={self.pv_expenses:.2f}, "
             f"net_value={self.net_value:.2f}, "
             f"breakdown={'Yes' if self.breakdown else 'No'}"
             f")"

@@ -39,6 +39,7 @@ def value_policy(policy, assumptions, return_breakdown=False):
 
     pv_premiums = 0.0
     pv_claims = 0.0
+    pv_expenses = 0.0
 
     breakdown = []
 
@@ -51,12 +52,37 @@ def value_policy(policy, assumptions, return_breakdown=False):
         pv_premium_t = row.expected_premium * discount
         pv_claim_t = row.expected_claim * discount
 
+        pv_acquisition_expense_t = (
+            row.expected_acquisition_expense
+            * discount
+        )
+
+        pv_maintenance_expense_t = (
+            row.expected_maintenance_expense
+            * discount
+        )
+
+        pv_total_expense_t = (
+            row.expected_total_expense
+            * discount
+        )
+
         # Net cashflow before discounting
-        net_cf_t = row.expected_premium - row.expected_claim
-        pv_net_t = pv_premium_t - pv_claim_t
+        net_cf_t = (
+            row.expected_premium
+            - row.expected_claim
+            - row.expected_total_expense
+        )
+        
+        pv_net_t = (
+            pv_premium_t
+            - pv_claim_t
+            - pv_total_expense_t
+        )
 
         pv_premiums += pv_premium_t
         pv_claims += pv_claim_t
+        pv_expenses += pv_total_expense_t
 
         if return_breakdown:
             breakdown.append(
@@ -71,11 +97,18 @@ def value_policy(policy, assumptions, return_breakdown=False):
                     net_cashflow=net_cf_t,
                     pv_premium=pv_premium_t,
                     pv_claim=pv_claim_t,
+                    pv_acquisition_expense=pv_acquisition_expense_t,
+                    pv_maintenance_expense=pv_maintenance_expense_t,
+                    pv_total_expense=pv_total_expense_t,
                     pv_net=pv_net_t
                 )
             )
 
-    net_value = pv_premiums - pv_claims
+    net_value = (
+        pv_premiums
+        - pv_claims
+        - pv_expenses
+    )
 
     # Build breakdown
     # Build cumulative profit and cashflow over time
@@ -97,6 +130,7 @@ def value_policy(policy, assumptions, return_breakdown=False):
     return ValuationResult(
         pv_premiums=pv_premiums,
         pv_claims=pv_claims,
+        pv_expenses=pv_expenses,
         net_value=net_value,
         breakdown=breakdown
     )
