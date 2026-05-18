@@ -1,6 +1,6 @@
 # Actuarial Life Model Engine
 
-A modular Python-based actuarial life insurance modelling engine designed with institutional-style architecture principles.
+A modular Python-based actuarial life insurance modelling engine designed using modular software architecture principles.
 
 The project focuses not only on actuarial mechanics, but also on building a clean, extensible modelling framework with stable interfaces, externalised assumptions, structured outputs, and disciplined separation of concerns.
 
@@ -294,6 +294,10 @@ Potential future directions include:
 
 # Running The Project
 
+Tested using Python 3.11.
+
+Dependencies are listed in `requirements.txt`.
+
 ## Clone repository
 
 ```bash
@@ -317,6 +321,12 @@ Activate:
 .\venv\Scripts\activate
 ```
 
+### Mac / Linux
+
+```bash
+source venv/bin/activate
+```
+
 ---
 
 ## Install dependencies
@@ -332,6 +342,15 @@ pip install -r requirements.txt
 ```bash
 jupyter notebook
 ```
+## Quick Start
+
+After launching Jupyter:
+
+1. Open `single_policy_run.ipynb`
+2. Run all cells
+3. Review projection and valuation outputs
+
+The notebook demonstrates a full deterministic life projection workflow from assumptions through valuation and analysis.
 
 Primary notebooks:
 - `single_policy_run.ipynb`
