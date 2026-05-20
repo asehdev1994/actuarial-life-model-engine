@@ -219,37 +219,47 @@ actuarial-life-model-engine/
 ├── model/
 │
 │   ├── assumptions/
+│   │   ├── __init__.py
 │   │   ├── assumption_set.py
 │   │   ├── mortality.py
 │   │   ├── interest.py
 │   │   ├── lapse.py
-│   │   ├── expense.py
 │   │   ├── assumption_loader.py
 │   │   └── assumption_validation.py
 │   │
 │   ├── analysis/
-│   │   └── profit.py
+│   │   └── profit_analysis.py
 │   │
 │   ├── data/
-│   │   ├── loader.py
-│   │   └── validation.py
+│   │   ├── portfolio_loader.py
+│   │   └── portfolio_validation.py
+│   │
+│   ├── results/
+│   │   ├── projection_results.py
+│   │   ├── portfolio_results.py
+│   │   └── valuation_results.py
+│   │
+│   ├── scenarios/
+│   │   ├── scenario_definition.py
+│   │   ├── scenario_runner.py
+│   │   └── stressed_assumptions.py
 │   │
 │   ├── policy.py
 │   ├── projection.py
 │   ├── valuation.py
-│   ├── portfolio.py
-│   └── results.py
+│   └── portfolio.py
 │
 ├── data/
 │   ├── mortality_tables/
 │   ├── mortality_parameters/
 │   ├── yield_curves/
 │   ├── lapse_tables/
-│   ├── expense_tables/
 │   ├── portfolios/
 │   └── results_snapshots/
 │
 ├── notebooks/
+│   ├── single_policy_run.ipynb
+│   └── multiple_policy_run.ipynb
 │
 └── README.md
 ```
