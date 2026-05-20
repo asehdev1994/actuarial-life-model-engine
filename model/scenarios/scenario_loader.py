@@ -18,7 +18,8 @@ from model.scenarios.scenario_definition import (
 
 from model.scenarios.scenario_validation import (
     validate_required_columns,
-    validate_scenario_consistency
+    validate_scenario_consistency,
+    validate_supported_stresses
 )
 
 
@@ -32,6 +33,8 @@ def load_scenarios(path):
     validate_required_columns(df)
 
     validate_scenario_consistency(df)
+
+    validate_supported_stresses(df)
 
     grouped = df.groupby(
         "scenario_id"

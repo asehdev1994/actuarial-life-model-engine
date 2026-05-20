@@ -1,10 +1,10 @@
 # Actuarial Life Model Engine
 
-A modular Python-based actuarial life insurance modelling engine designed using modular software architecture principles.
+A modular Python-based actuarial life insurance modelling and capital engine designed using institutional-style software architecture principles.
 
 The project focuses not only on actuarial mechanics, but also on building a clean, extensible modelling framework with stable interfaces, externalised assumptions, structured outputs, and disciplined separation of concerns.
 
-The engine is intentionally evolving toward reusable actuarial and quantitative risk infrastructure rather than a notebook-centric prototype model.
+The project has evolved beyond a traditional actuarial cashflow model toward a reusable actuarial scenario, valuation, and capital aggregation framework with calibration-driven stress infrastructure and modular risk architecture.
 
 ---
 
@@ -15,7 +15,7 @@ The engine is intentionally evolving toward reusable actuarial and quantitative 
 - Externalise assumptions through provider-based interfaces
 - Produce structured, reusable valuation outputs
 - Preserve transparency and reproducibility of calculations
-- Create a foundation for future scenario, stress, and risk infrastructure
+- Build reusable scenario, stress, and capital aggregation infrastructure
 
 ---
 
@@ -31,6 +31,8 @@ Policy
 → ValuationResult
 → Portfolio
 → PortfolioResult
+→ SCRResult
+→ AggregatedSCRResult
 ```
 
 Core modelling logic is intentionally isolated from:
@@ -66,6 +68,80 @@ Projection logic remains completely assumption-agnostic.
 - Portfolio-level aggregation
 
 Valuation consumes only abstract discount factor interfaces.
+
+---
+
+## Scenario & Capital Framework
+
+The engine now supports calibration-driven stress testing and hierarchical capital aggregation.
+
+Scenario infrastructure is intentionally separated from:
+- projection mechanics
+- valuation mechanics
+- aggregation logic
+
+Current scenario workflow:
+
+```text
+Base assumptions
+↓
+Scenario overlays
+↓
+Scenario-adjusted assumptions
+↓
+Projection
+↓
+Valuation
+↓
+Stressed BEL
+↓
+SCRResult
+↓
+Diversified aggregation
+```
+
+Projection and valuation remain completely scenario-agnostic.
+
+Implemented scenario infrastructure:
+- ScenarioDefinition
+- scenario_loader
+- scenario_validation
+- stress_registry
+- stressed assumption overlays
+
+Implemented stressed providers:
+- mortality stresses
+- lapse stresses
+- interest stresses
+- expense stresses
+
+Current capital framework supports:
+- univariate SCR calculation
+- life diversification
+- market diversification
+- BSCR aggregation
+- dynamic correlation matrix subsetting
+
+Aggregation is metadata-driven and consumes:
+- SCRResult objects
+- correlation matrices
+
+The aggregation layer does NOT:
+- apply stresses
+- run projections
+- run valuations
+
+---
+
+## Capital Aggregation
+
+- Calibration-driven stress scenario execution
+- Structured SCR result contracts
+- Dynamic correlation matrix subsetting
+- Life SCR aggregation
+- Market SCR aggregation
+- Hierarchical BSCR aggregation
+- Metadata-driven diversification workflow
 
 ---
 
@@ -218,6 +294,12 @@ actuarial-life-model-engine/
 
 ├── model/
 │
+│   ├── capital/
+│   │   ├── aggregation.py
+│   │   ├── correlation.py
+│   │   ├── correlation_loader.py
+│   │   └── scr_calculator.py
+│
 │   ├── assumptions/
 │   │   ├── __init__.py
 │   │   ├── assumption_set.py
@@ -237,10 +319,14 @@ actuarial-life-model-engine/
 │   ├── results/
 │   │   ├── projection_results.py
 │   │   ├── portfolio_results.py
+│   │   ├── capital_results.py
 │   │   └── valuation_results.py
 │   │
 │   ├── scenarios/
 │   │   ├── scenario_definition.py
+│   │   ├── scenario_loader.py
+│   │   ├── scenario_validation.py
+│   │   ├── stress_registry.py
 │   │   ├── scenario_runner.py
 │   │   └── stressed_assumptions.py
 │   │
@@ -255,6 +341,8 @@ actuarial-life-model-engine/
 │   ├── yield_curves/
 │   ├── lapse_tables/
 │   ├── portfolios/
+│   ├── correlations/
+│   ├── scenarios/
 │   └── results_snapshots/
 │
 ├── notebooks/
@@ -269,11 +357,21 @@ actuarial-life-model-engine/
 # Example Workflow
 
 ```python
-policy
-→ projection
-→ valuation
-→ portfolio aggregation
-→ analytics
+assumptions
+↓
+scenario calibration
+↓
+projection
+↓
+valuation
+↓
+SCR generation
+↓
+correlation aggregation
+↓
+BSCR
+↓
+analytics
 ```
 
 ---
@@ -292,6 +390,16 @@ Implemented:
 - fulfilment cashflow valuation
 - validation framework
 - reusable analytics layer
+- BEL / PVFP framework
+- scenario overlay infrastructure
+- calibration-driven scenario loading
+- stress validation registry
+- univariate SCR framework
+- correlation matrix ingestion
+- dynamic matrix subsetting
+- life SCR aggregation
+- market SCR aggregation
+- BSCR aggregation
 
 ---
 
@@ -300,12 +408,12 @@ Implemented:
 The following are intentionally excluded from the current version:
 
 - stochastic economic scenarios
-- interpolation
-- market calibration
-- behavioural modelling
-- surrender value mechanics
+- curve-based interest stresses
+- equity/spread/property risk mechanics
+- worst-of lapse stress selection
+- mass lapse mechanics
+- dynamic policyholder behaviour
 - IFRS17 mechanics
-- monthly projection timing
 
 The current focus is architectural stability and modular extensibility before introducing additional modelling complexity.
 
@@ -315,8 +423,6 @@ The current focus is architectural stability and modular extensibility before in
 
 Potential future directions include:
 - stochastic scenario infrastructure
-- stress testing
-- economic scenario overlays
 - advanced expense segmentation
 - inflation-linked expense assumptions
 - stochastic expense overlays
@@ -324,6 +430,12 @@ Potential future directions include:
 - vectorised portfolio valuation
 - regression testing
 - parallelised valuation frameworks
+- richer market risk framework
+- calibration governance
+- workflow orchestration layer
+- reporting infrastructure
+- capital attribution analytics
+- regression testing infrastructure
 
 ---
 
@@ -390,6 +502,9 @@ The notebook demonstrates a full deterministic life projection workflow from ass
 Primary notebooks:
 - `single_policy_run.ipynb`
 - `multiple_policy_run.ipynb`
+- `scenario_and_scr_workflow`
+
+The notebook `scenario_and_scr_workflow` demonstrates modular actuarial projection, valuation, stress testing, and capital aggregation workflows using calibration-driven assumptions and scenario infrastructure.
 
 ---
 

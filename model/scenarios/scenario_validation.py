@@ -1,3 +1,7 @@
+from model.scenarios.stress_registry import (
+    SUPPORTED_STRESSES
+)
+
 REQUIRED_COLUMNS = [
     "scenario_id",
     "risk_type",
@@ -69,3 +73,24 @@ def validate_scenario_consistency(df):
                     f"scenario_id="
                     f"{scenario_id}"
                 )
+            
+def validate_supported_stresses(df):
+    """
+    Validate all stresses are supported.
+    """
+
+    configured_stresses = set(
+        df["stress_name"]
+    )
+
+    unsupported_stresses = (
+        configured_stresses
+        - SUPPORTED_STRESSES
+    )
+
+    if unsupported_stresses:
+
+        raise ValueError(
+            f"Unsupported stresses found: "
+            f"{sorted(unsupported_stresses)}"
+        )            
