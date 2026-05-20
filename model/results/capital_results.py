@@ -42,7 +42,7 @@ class SCRResult:
     @property
     def scr(self):
 
-        return (
+        return abs(
             self.stressed_bel
             - self.base_bel
         )
@@ -52,9 +52,9 @@ class SCRResult:
         return {
             "scenario_id": self.scenario_id,
             "risk_type": self.risk_type,
-            "base_bel": self.base_bel,
-            "stressed_bel": self.stressed_bel,
-            "scr": self.scr
+            "base_bel": float(self.base_bel),
+            "stressed_bel": float(self.stressed_bel),
+            "scr": float(self.scr)
         }
 
     def __repr__(self):

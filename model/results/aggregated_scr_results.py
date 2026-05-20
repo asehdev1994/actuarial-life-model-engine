@@ -68,13 +68,13 @@ class AggregatedSCRResult:
                 self.risk_category,
 
             "gross_scr":
-                self.gross_scr,
+                float(self.gross_scr),
 
             "diversified_scr":
-                self.diversified_scr,
+                float(self.diversified_scr),
 
             "diversification_benefit":
-                self.diversification_benefit,
+                float(self.diversification_benefit),
 
             "component_scrs": {
                 risk: scr.to_dict()

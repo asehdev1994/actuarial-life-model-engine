@@ -34,7 +34,10 @@ def build_scenario_assumptions(
         StressedMortalityTable(
             base_assumptions.mortality,
             mortality_multiplier=
-                scenario.mortality_multiplier
+                scenario.get_stress(
+                    "mortality_multiplier",
+                    1.0
+                )
         )
     )
 
@@ -42,7 +45,10 @@ def build_scenario_assumptions(
         StressedLapseTable(
             base_assumptions.lapse,
             lapse_multiplier=
-                scenario.lapse_multiplier
+                scenario.get_stress(
+                    "lapse_multiplier",
+                    1.0
+                )
         )
     )
 
@@ -50,7 +56,10 @@ def build_scenario_assumptions(
         StressedYieldCurve(
             base_assumptions.interest,
             interest_rate_shift=
-                scenario.interest_rate_shift
+                scenario.get_stress(
+                    "interest_rate_shift",
+                    0.0
+                )
         )
     )
 
@@ -58,7 +67,10 @@ def build_scenario_assumptions(
         StressedExpenseTable(
             base_assumptions.expenses_provider,
             expense_multiplier=
-                scenario.expense_multiplier
+                scenario.get_stress(
+                    "expense_multiplier",
+                    1.0
+                )
         )
     )
 
