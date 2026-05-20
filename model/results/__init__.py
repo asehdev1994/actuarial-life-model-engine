@@ -15,3 +15,7 @@ from model.results.portfolio_results import (
 from model.results.capital_results import (
     SCRResult
 )
+
+from .aggregated_scr_results import (
+    AggregatedSCRResult
+)
