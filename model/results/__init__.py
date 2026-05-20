@@ -11,3 +11,7 @@ from model.results.valuation_results import (
 from model.results.portfolio_results import (
     PortfolioResult
 )
+
+from model.results.capital_results import (
+    SCRResult
+)
