@@ -30,12 +30,14 @@ class SCRResult:
         self,
         scenario_id: str,
         risk_type: str,
+        aggregation_category,
         base_bel: float,
         stressed_bel: float
     ):
 
         self.scenario_id = scenario_id
         self.risk_type = risk_type
+        self.aggregation_category = aggregation_category
         self.base_bel = base_bel
         self.stressed_bel = stressed_bel
 
@@ -52,6 +54,7 @@ class SCRResult:
         return {
             "scenario_id": self.scenario_id,
             "risk_type": self.risk_type,
+            "aggregation_category": self.aggregation_category,
             "base_bel": float(self.base_bel),
             "stressed_bel": float(self.stressed_bel),
             "scr": float(self.scr)
@@ -63,6 +66,7 @@ class SCRResult:
             f"SCRResult("
             f"scenario_id={self.scenario_id}, "
             f"risk_type={self.risk_type}, "
+            f"aggregation_category="f"{self.aggregation_category}, "
             f"scr={self.scr:.2f}"
             f")"
         )

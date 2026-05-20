@@ -28,6 +28,7 @@ def calculate_scr(
     return SCRResult(
         scenario_id=scenario.scenario_id,
         risk_type=scenario.risk_type,
+        aggregation_category=scenario.aggregation_category,
 
         base_bel=(
             base_result.best_estimate_liability

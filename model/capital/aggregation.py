@@ -121,6 +121,7 @@ def aggregate_basic_scr(
     life_component = SCRResult(
         scenario_id="life_aggregated",
         risk_type="life",
+        aggregation_category="bscr",
         base_bel=0.0,
         stressed_bel=life_scr.diversified_scr
     )
@@ -128,6 +129,7 @@ def aggregate_basic_scr(
     market_component = SCRResult(
         scenario_id="market_aggregated",
         risk_type="market",
+        aggregation_category="bscr",
         base_bel=0.0,
         stressed_bel=market_scr.diversified_scr
     )
