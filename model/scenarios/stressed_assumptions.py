@@ -92,6 +92,10 @@ class StressedLapseTable:
         Resolve stressed lapse rate.
         """
 
+        if self.base_lapse is None:
+
+            return 0.0
+        
         base_lapse_rate = (
             self.base_lapse.lapse_rate(
                 policy,
@@ -218,6 +222,10 @@ class StressedExpenseTable:
         Resolve stressed expenses.
         """
 
+        if self.base_expense_table is None:
+
+            return ExpenseResult.zero()
+        
         base_result = (
             self.base_expense_table.expenses(
                 policy,
