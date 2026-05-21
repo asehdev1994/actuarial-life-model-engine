@@ -9,3 +9,7 @@ from .correlation_config import (
 from .workflow_config import (
     CapitalWorkflowConfig
 )
+
+from .scenario_config import (
+    ScenarioConfig
+)

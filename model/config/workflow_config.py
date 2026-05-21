@@ -16,8 +16,8 @@ class CapitalWorkflowConfig:
     def __init__(
         self,
         portfolio_path,
-        scenario_path,
         assumption_config,
+        scenario_config,
         correlation_config,
         return_breakdown=False
     ):
@@ -26,8 +26,8 @@ class CapitalWorkflowConfig:
             portfolio_path
         )
 
-        self.scenario_path = (
-            scenario_path
+        self.scenario_config = (
+            scenario_config
         )
 
         self.assumption_config = (
@@ -48,7 +48,7 @@ class CapitalWorkflowConfig:
             f"CapitalWorkflowConfig("
             f"portfolio_path="
             f"{self.portfolio_path}, "
-            f"scenario_path="
-            f"{self.scenario_path}"
+            f"scenario_config="
+            f"{self.scenario_config}"
             f")"
         )

@@ -61,6 +61,7 @@ from model.capital.correlation_loader import (
 from model.config import (
     AssumptionConfig,
     CorrelationConfig,
+    ScenarioConfig,
     CapitalWorkflowConfig
 )
 
@@ -359,7 +360,7 @@ def run_capital_workflow(
         assumptions=assumptions,
 
         scenario_path=(
-            config.scenario_path
+            config.scenario_config.scenario_path
         ),
 
         life_correlation_matrix=(
