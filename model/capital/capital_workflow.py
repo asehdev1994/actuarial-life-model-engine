@@ -38,6 +38,25 @@ from model.results.workflow_results import (
     CapitalWorkflowResult
 )
 
+from model.assumptions import (
+    AssumptionSet
+)
+
+from model.assumptions.assumption_loader import (
+    load_mortality_table,
+    load_yield_curve,
+    load_lapse_table,
+    load_expense_table
+)
+
+from model.data.portfolio_loader import (
+    load_portfolio_csv
+)
+
+from model.capital.correlation_loader import (
+    load_correlation_matrix
+)
+
 from model.portfolio import Portfolio
 from model.valuation import value_policy
 
@@ -198,4 +217,178 @@ def run_capital_framework(
         life_scr=life_scr,
         market_scr=market_scr,
         bscr=bscr
+    )
+
+def load_workflow_assumptions(
+    mortality_table_path,
+    yield_curve_path,
+    lapse_table_path=None,
+    expense_table_path=None
+):
+    """
+    Load assumptions for workflow execution.
+
+    Responsibilities:
+    - orchestrate provider loading
+    - construct unified AssumptionSet
+
+    Does NOT:
+    - perform validation logic
+    - perform actuarial calculations
+    """
+
+    mortality_table = (
+        load_mortality_table(
+            mortality_table_path
+        )
+    )
+
+    yield_curve = (
+        load_yield_curve(
+            yield_curve_path
+        )
+    )
+
+    lapse_table = None
+
+    if lapse_table_path is not None:
+
+        lapse_table = (
+            load_lapse_table(
+                lapse_table_path
+            )
+        )
+
+    expense_table = None
+
+    if expense_table_path is not None:
+
+        expense_table = (
+            load_expense_table(
+                expense_table_path
+            )
+        )
+
+    return AssumptionSet(
+        mortality=mortality_table,
+        interest=yield_curve,
+        lapse=lapse_table,
+        expenses=expense_table
+    )
+
+def load_workflow_correlations(
+    life_correlation_path,
+    market_correlation_path,
+    bscr_correlation_path
+):
+    """
+    Load workflow correlation matrices.
+    """
+
+    return {
+        "life": load_correlation_matrix(
+            life_correlation_path
+        ),
+
+        "market": load_correlation_matrix(
+            market_correlation_path
+        ),
+
+        "bscr": load_correlation_matrix(
+            bscr_correlation_path
+        )
+    }
+
+def run_capital_workflow_from_files(
+    portfolio_path,
+    mortality_table_path,
+    yield_curve_path,
+    scenario_path,
+    life_correlation_path,
+    market_correlation_path,
+    bscr_correlation_path,
+    lapse_table_path=None,
+    expense_table_path=None,
+    return_breakdown=False
+):
+    """
+    High-level workflow execution entry point.
+
+    Responsibilities:
+    - orchestrate file-based loading
+    - construct workflow dependencies
+    - execute capital workflow
+
+    Intended future usage:
+    - Streamlit backend
+    - local execution workflows
+    - configuration-driven execution
+    """
+
+    assumptions = (
+        load_workflow_assumptions(
+            mortality_table_path=
+                mortality_table_path,
+
+            yield_curve_path=
+                yield_curve_path,
+
+            lapse_table_path=
+                lapse_table_path,
+
+            expense_table_path=
+                expense_table_path
+        )
+    )
+
+    portfolio = (
+        load_workflow_portfolio(
+            portfolio_path
+        )
+    )
+
+    correlations = (
+        load_workflow_correlations(
+            life_correlation_path=
+                life_correlation_path,
+
+            market_correlation_path=
+                market_correlation_path,
+
+            bscr_correlation_path=
+                bscr_correlation_path
+        )
+    )
+
+    return run_capital_framework(
+        model_object=portfolio,
+
+        assumptions=assumptions,
+
+        scenario_path=scenario_path,
+
+        life_correlation_matrix=(
+            correlations["life"]
+        ),
+
+        market_correlation_matrix=(
+            correlations["market"]
+        ),
+
+        bscr_correlation_matrix=(
+            correlations["bscr"]
+        ),
+
+        return_breakdown=return_breakdown
+    )
+
+def load_workflow_portfolio(
+    portfolio_path
+):
+    """
+    Load workflow portfolio.
+    """
+
+    return load_portfolio_csv(
+        portfolio_path
     )
