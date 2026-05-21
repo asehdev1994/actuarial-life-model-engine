@@ -21,7 +21,7 @@ The objective is to ensure that projection and valuation remain independent of:
 # Core Assumption Flow
 
 ```text
-CSV/Data
+Config
 ↓
 Loader
 ↓
@@ -55,6 +55,24 @@ This stable contract is one of the core architectural principles of the project.
 
 ---
 
+# Assumption Configuration
+
+Workflow execution now consumes assumptions through:
+
+```text
+AssumptionConfig
+```
+
+Responsibilities include:
+
+- centralising assumption file paths
+- workflow ingestion ownership
+- scalable assumption extensibility
+
+The configuration layer intentionally remains separate from provider implementation and actuarial mechanics.
+
+---
+
 # Assumption Responsibility Mapping
 
 | Assumption Type | Affects Projection | Affects Valuation | Mechanism |
@@ -75,6 +93,7 @@ Implemented mortality functionality includes:
 - age-based mortality
 - gender segmentation
 - smoker adjustments
+- provider-level mortality parameter composition
 - provider-based lookup
 - externally configurable assumptions
 
@@ -95,6 +114,8 @@ Final mortality:
 ```text
 final_qx = base_qx × smoker_multiplier
 ```
+
+Mortality parameter composition occurs inside the mortality provider layer rather than inside workflow orchestration or projection logic.
 
 Projection remains unaware of:
 

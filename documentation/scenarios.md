@@ -84,6 +84,29 @@ All stresses are implemented through provider overlays.
 
 ---
 
+# Scenario Configuration
+
+Scenario execution is now centrally configured through:
+
+```text
+ScenarioConfig
+```
+
+Scenario calibration remains fully externalised through:
+
+```text
+data/scenarios/
+```
+
+This allows:
+
+- calibration-driven SCR execution
+- extensible stress infrastructure
+- workflow-owned orchestration
+- frontend-compatible execution
+
+---
+
 # BEL Framework
 
 The scenario framework currently supports stressed BEL calculations.
@@ -125,8 +148,6 @@ Scenario calibration should NOT be hardcoded into:
 - valuation
 - assumptions providers
 
-Current hardcoded stresses are temporary while architecture stabilises.
-
 ---
 
 # Future Direction
@@ -136,13 +157,17 @@ The scenario framework is intended to support:
 ```text
 Base BEL
 ↓
+Scenario Execution
+↓
 Stressed BEL
 ↓
-Univariate SCRs
+SCRResult
 ↓
 Correlation Aggregation
 ↓
 Basic SCR
+↓
+CapitalWorkflowResult
 ```
 
 Future expansion may include:

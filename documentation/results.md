@@ -26,11 +26,15 @@ Result objects are pure data containers.
 
 ```text
 Projection
+Projection
 → ProjectionResult
 → Valuation
 → ValuationResult
 → Portfolio
 → PortfolioResult
+→ SCRResult
+→ AggregatedSCRResult
+→ CapitalWorkflowResult
 ```
 
 ---
@@ -139,6 +143,58 @@ Portfolio aggregation intentionally contains no actuarial mechanics.
 
 ---
 
+# Capital Results
+
+## SCRResult
+
+Represents a single stressed capital result.
+
+Current outputs include:
+
+- scenario_id
+- risk_type
+- aggregation_category
+- base_bel
+- stressed_bel
+- scr
+
+SCRResult objects are intentionally self-describing and aggregation-agnostic.
+
+---
+
+## AggregatedSCRResult
+
+Represents diversified capital aggregation results.
+
+Current outputs include:
+
+- risk_category
+- gross_scr
+- diversified_scr
+
+Aggregation consumes SCRResult objects only.
+
+Aggregation remains independent of scenario mechanics.
+
+---
+
+## CapitalWorkflowResult
+
+Represents the complete workflow execution output.
+
+Current outputs include:
+
+- base valuation
+- stressed scenario results
+- SCR results
+- life SCR aggregation
+- market SCR aggregation
+- BSCR aggregation
+
+The workflow result object acts as the stable orchestration output contract.
+
+---
+
 # Analytics Philosophy
 
 Analytics consume structured outputs only.
@@ -156,14 +212,22 @@ Analytics must remain external to core modelling mechanics.
 
 # Future Direction
 
+# Future Direction
+
 The results framework is expected to evolve toward:
 
 ```text
-ScenarioResult
+CapitalWorkflowResult
 ↓
-SCRResult
+Reporting Layer
 ↓
-Capital Aggregation Results
+Analytics Layer
+↓
+Frontend Integration
 ```
 
-while preserving stable contracts.
+while preserving:
+
+- stable contracts
+- explicit result structures
+- workflow-independent analytics

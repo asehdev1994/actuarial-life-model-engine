@@ -13,6 +13,8 @@ The project prioritises:
 - reproducible valuation workflows
 - scenario extensibility
 - institutional-style design discipline
+- configuration-driven execution
+- workflow-owned orchestration
 
 The architecture is intentionally designed to separate:
 
@@ -41,6 +43,39 @@ Policy
 ```
 
 Each layer has explicitly scoped responsibilities and stable interfaces.
+
+---
+
+# Configuration Layer
+
+The engine now includes a dedicated configuration layer which centralises workflow execution inputs while preserving modular provider composition.
+
+Current configuration architecture:
+
+```text
+CapitalWorkflowConfig
+├── AssumptionConfig
+├── ScenarioConfig
+├── CorrelationConfig
+└── execution settings
+```
+
+The configuration layer is responsible for:
+
+- workflow execution ownership
+- assumption ingestion ownership
+- scenario calibration ownership
+- correlation configuration ownership
+- frontend/backend execution contracts
+
+The configuration layer intentionally does NOT:
+
+- perform projection logic
+- perform valuation logic
+- perform stress calculations
+- perform aggregation calculations
+
+This separation allows frontend and orchestration infrastructure to evolve independently of actuarial mechanics.
 
 ---
 
@@ -178,6 +213,36 @@ Core engine logic assumes validated structured inputs.
 
 ---
 
+## 8. Workflow Configuration Must Remain Centralised
+
+Workflow execution inputs should be centralised through structured configuration contracts.
+
+Correct architecture:
+
+```text
+CapitalWorkflowConfig
+↓
+workflow orchestration
+↓
+provider composition
+↓
+projection / valuation / capital
+```
+
+Incorrect architecture:
+
+```text
+notebook
+↓
+manual orchestration wiring
+↓
+multiple workflow arguments
+```
+
+The workflow layer owns orchestration while core modelling remains infrastructure-agnostic.
+
+---
+
 # Layer Responsibilities
 
 ## Policy Layer
@@ -290,7 +355,9 @@ The project intentionally avoids:
 The long-term target architecture is:
 
 ```text
-Base Assumptions
+CapitalWorkflowConfig
+↓
+Workflow Layer
 ↓
 Scenario Engine
 ↓
@@ -301,6 +368,8 @@ Projection
 Valuation
 ↓
 BEL
+↓
+SCR Generation
 ↓
 SCR Aggregation
 ↓
@@ -316,5 +385,13 @@ actuarial modelling engine
 toward:
 
 ```text
-institutional-style actuarial and risk infrastructure
+institutional-style actuarial and risk infrastructure platform
 ```
+
+The current architecture prioritises:
+
+- stable execution contracts
+- modular provider infrastructure
+- configuration-driven orchestration
+- reusable workflow infrastructure
+- extensible capital modelling

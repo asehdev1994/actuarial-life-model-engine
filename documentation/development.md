@@ -17,7 +17,7 @@ Development practices are intentionally designed to support long-term maintainab
 
 # Notebook Discipline
 
-Notebooks are orchestration and analysis only.
+Notebooks are configuration and analysis only.
 
 Allowed notebook responsibilities:
 
@@ -28,6 +28,7 @@ Allowed notebook responsibilities:
 - charts
 - visualisation
 - analysis
+- workflow configuration
 
 Not allowed:
 
@@ -71,6 +72,24 @@ import model.valuation as valuation_module
 ```
 
 Avoid importing individual functions directly into notebook scope where possible.
+
+---
+
+# Workflow Configuration Discipline
+
+Workflow execution should occur through:
+
+```python
+CapitalWorkflowConfig
+```
+
+Avoid:
+
+- manual workflow orchestration
+- duplicated execution wiring
+- direct notebook-owned ingestion
+
+Workflow orchestration belongs inside the workflow layer.
 
 ---
 
