@@ -24,6 +24,10 @@ The project has evolved beyond a traditional actuarial cashflow model toward a r
 The engine is built using layered structured outputs:
 
 ```text
+CapitalWorkflowConfig
+↓
+Workflow Layer
+↓
 Policy
 → ProjectionRow
 → ProjectionResult
@@ -33,6 +37,7 @@ Policy
 → PortfolioResult
 → SCRResult
 → AggregatedSCRResult
+→ CapitalWorkflowResult
 ```
 
 Core modelling logic is intentionally isolated from:
@@ -42,6 +47,61 @@ Core modelling logic is intentionally isolated from:
 - analytics
 - notebook orchestration
 - assumption source structure
+
+---
+
+# Current Architecture Status
+
+The current architecture is considered structurally stable across:
+
+- projection
+- valuation
+- assumptions infrastructure
+- scenario execution
+- SCR generation
+- capital aggregation
+- workflow orchestration
+- configuration-driven execution
+
+Current development focus has shifted from core architecture toward:
+
+- richer stresses
+- reporting infrastructure
+- frontend integration
+- realism enhancements
+- asset-side modelling
+
+---
+
+# Configuration Layer
+
+The engine now includes a dedicated configuration-driven execution layer.
+
+Current workflow configuration architecture:
+
+```text
+CapitalWorkflowConfig
+├── AssumptionConfig
+├── ScenarioConfig
+├── CorrelationConfig
+└── execution settings
+```
+
+The configuration layer centralises:
+
+- workflow execution inputs
+- assumption ingestion ownership
+- scenario calibration ownership
+- correlation configuration ownership
+
+while preserving:
+
+- provider abstraction
+- stable modelling contracts
+- scenario-agnostic projection
+- scenario-agnostic valuation
+
+Workflow orchestration is intentionally separated from actuarial mechanics.
 
 ---
 
@@ -83,6 +143,10 @@ Scenario infrastructure is intentionally separated from:
 Current scenario workflow:
 
 ```text
+CapitalWorkflowConfig
+↓
+Workflow Layer
+↓
 Base assumptions
 ↓
 Scenario overlays
@@ -98,6 +162,8 @@ Stressed BEL
 SCRResult
 ↓
 Diversified aggregation
+↓
+CapitalWorkflowResult
 ```
 
 Projection and valuation remain completely scenario-agnostic.
@@ -205,7 +271,7 @@ This abstraction boundary is a core design principle of the project.
 Assumption ingestion follows the architecture below:
 
 ```text
-CSV/Data
+Config
 ↓
 Loader
 ↓
@@ -241,6 +307,26 @@ This allows new assumption dimensions and provider extensions to integrate witho
 Projection and valuation depend only on explicit assumption interfaces.
 
 New assumption structures should integrate without requiring engine rewrites.
+
+---
+
+## Centralised Workflow Configuration
+
+Workflow execution is centrally orchestrated through structured configuration contracts.
+
+Correct architecture:
+
+```text
+CapitalWorkflowConfig
+↓
+workflow orchestration
+↓
+provider composition
+↓
+projection / valuation / capital
+```
+
+The workflow layer owns orchestration while modelling mechanics remain infrastructure-agnostic.
 
 ---
 
@@ -298,7 +384,17 @@ actuarial-life-model-engine/
 │   │   ├── aggregation.py
 │   │   ├── correlation.py
 │   │   ├── correlation_loader.py
+│   │   ├── capital_workflow.py
+│   │   ├── workflow_results.py
 │   │   └── scr_calculator.py
+│   
+│   ├── config/
+│   │   ├── __init__.py
+│   │   ├── assumption_config.py
+│   │   ├── scenario_config.py
+│   │   ├── correlation_config.py
+│   │   └── workflow_config.py
+│
 │
 │   ├── assumptions/
 │   │   ├── __init__.py
@@ -357,9 +453,13 @@ actuarial-life-model-engine/
 # Example Workflow
 
 ```python
-assumptions
+CapitalWorkflowConfig
 ↓
-scenario calibration
+workflow orchestration
+↓
+assumption loading
+↓
+scenario execution
 ↓
 projection
 ↓
@@ -370,6 +470,8 @@ SCR generation
 correlation aggregation
 ↓
 BSCR
+↓
+CapitalWorkflowResult
 ↓
 analytics
 ```
@@ -400,6 +502,10 @@ Implemented:
 - life SCR aggregation
 - market SCR aggregation
 - BSCR aggregation
+- workflow orchestration layer
+- config-driven execution architecture
+- centralised workflow configuration contracts
+- structured workflow result packaging
 
 ---
 
@@ -432,7 +538,6 @@ Potential future directions include:
 - parallelised valuation frameworks
 - richer market risk framework
 - calibration governance
-- workflow orchestration layer
 - reporting infrastructure
 - capital attribution analytics
 - regression testing infrastructure
@@ -497,7 +602,14 @@ After launching Jupyter:
 2. Run all cells
 3. Review projection and valuation outputs
 
-The notebook demonstrates a full deterministic life projection workflow from assumptions through valuation and analysis.
+The notebooks now act primarily as lightweight configuration and analysis layers on top of the reusable workflow execution framework.
+
+Primary execution is now designed around configuration-driven workflow orchestration through:
+
+- CapitalWorkflowConfig
+- AssumptionConfig
+- ScenarioConfig
+- CorrelationConfig
 
 Primary notebooks:
 - `single_policy_run.ipynb`
