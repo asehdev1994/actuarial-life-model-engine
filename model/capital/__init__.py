@@ -8,3 +8,7 @@ from .aggregation import (
     aggregate_market_scr,
     aggregate_basic_scr
 )
+
+from .capital_workflow import (
+    run_capital_framework
+)

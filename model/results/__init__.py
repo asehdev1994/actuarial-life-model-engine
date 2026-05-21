@@ -19,3 +19,7 @@ from model.results.capital_results import (
 from .aggregated_scr_results import (
     AggregatedSCRResult
 )
+
+from .workflow_results import (
+    CapitalWorkflowResult
+)
