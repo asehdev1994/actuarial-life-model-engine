@@ -44,6 +44,7 @@ from model.assumptions import (
 
 from model.assumptions.assumption_loader import (
     load_mortality_table,
+    load_mortality_parameters,
     load_yield_curve,
     load_lapse_table,
     load_expense_table
@@ -55,6 +56,12 @@ from model.data.portfolio_loader import (
 
 from model.capital.correlation_loader import (
     load_correlation_matrix
+)
+
+from model.config import (
+    AssumptionConfig,
+    CorrelationConfig,
+    CapitalWorkflowConfig
 )
 
 from model.portfolio import Portfolio
@@ -220,10 +227,7 @@ def run_capital_framework(
     )
 
 def load_workflow_assumptions(
-    mortality_table_path,
-    yield_curve_path,
-    lapse_table_path=None,
-    expense_table_path=None
+    config:AssumptionConfig
 ):
     """
     Load assumptions for workflow execution.
@@ -237,35 +241,52 @@ def load_workflow_assumptions(
     - perform actuarial calculations
     """
 
+    mortality_parameters = None
+
+    if (
+        config.mortality_parameter_path
+        is not None
+    ):
+
+        mortality_parameters = (
+            load_mortality_parameters(
+                config.mortality_parameter_path
+            )
+        )
+
     mortality_table = (
         load_mortality_table(
-            mortality_table_path
+            config.mortality_table_path
         )
+    )
+
+    mortality_table.mortality_parameters = (
+        mortality_parameters
     )
 
     yield_curve = (
         load_yield_curve(
-            yield_curve_path
+            config.yield_curve_path
         )
     )
 
     lapse_table = None
 
-    if lapse_table_path is not None:
+    if config.lapse_table_path is not None:
 
         lapse_table = (
             load_lapse_table(
-                lapse_table_path
+                config.lapse_table_path
             )
         )
 
     expense_table = None
 
-    if expense_table_path is not None:
+    if config.expense_table_path is not None:
 
         expense_table = (
             load_expense_table(
-                expense_table_path
+                config.expense_table_path
             )
         )
 
@@ -277,9 +298,7 @@ def load_workflow_assumptions(
     )
 
 def load_workflow_correlations(
-    life_correlation_path,
-    market_correlation_path,
-    bscr_correlation_path
+    config: CorrelationConfig
 ):
     """
     Load workflow correlation matrices.
@@ -287,37 +306,28 @@ def load_workflow_correlations(
 
     return {
         "life": load_correlation_matrix(
-            life_correlation_path
+            config.life_correlation_path
         ),
 
         "market": load_correlation_matrix(
-            market_correlation_path
+            config.market_correlation_path
         ),
 
         "bscr": load_correlation_matrix(
-            bscr_correlation_path
+            config.bscr_correlation_path
         )
     }
 
-def run_capital_workflow_from_files(
-    portfolio_path,
-    mortality_table_path,
-    yield_curve_path,
-    scenario_path,
-    life_correlation_path,
-    market_correlation_path,
-    bscr_correlation_path,
-    lapse_table_path=None,
-    expense_table_path=None,
-    return_breakdown=False
+def run_capital_workflow(
+    config: CapitalWorkflowConfig
 ):
     """
-    High-level workflow execution entry point.
+    High-level capital workflow entry point.
 
     Responsibilities:
-    - orchestrate file-based loading
-    - construct workflow dependencies
-    - execute capital workflow
+    - orchestrate workflow-owned loading
+    - execute capital framework
+    - centralise workflow configuration
 
     Intended future usage:
     - Streamlit backend
@@ -327,36 +337,19 @@ def run_capital_workflow_from_files(
 
     assumptions = (
         load_workflow_assumptions(
-            mortality_table_path=
-                mortality_table_path,
-
-            yield_curve_path=
-                yield_curve_path,
-
-            lapse_table_path=
-                lapse_table_path,
-
-            expense_table_path=
-                expense_table_path
+            config.assumption_config
         )
     )
 
     portfolio = (
         load_workflow_portfolio(
-            portfolio_path
+            config.portfolio_path
         )
     )
 
     correlations = (
         load_workflow_correlations(
-            life_correlation_path=
-                life_correlation_path,
-
-            market_correlation_path=
-                market_correlation_path,
-
-            bscr_correlation_path=
-                bscr_correlation_path
+            config.correlation_config
         )
     )
 
@@ -365,7 +358,9 @@ def run_capital_workflow_from_files(
 
         assumptions=assumptions,
 
-        scenario_path=scenario_path,
+        scenario_path=(
+            config.scenario_path
+        ),
 
         life_correlation_matrix=(
             correlations["life"]
@@ -379,7 +374,9 @@ def run_capital_workflow_from_files(
             correlations["bscr"]
         ),
 
-        return_breakdown=return_breakdown
+        return_breakdown=(
+            config.return_breakdown
+        )
     )
 
 def load_workflow_portfolio(

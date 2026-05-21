@@ -14,7 +14,8 @@ from .capital_workflow import (
 )
 
 from .capital_workflow import (
-    run_capital_workflow_from_files,
+    run_capital_framework,
+    run_capital_workflow,
     load_workflow_assumptions,
     load_workflow_correlations,
     load_workflow_portfolio
