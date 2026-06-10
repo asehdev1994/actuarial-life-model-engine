@@ -29,8 +29,8 @@ ASSUMPTION_REGISTRY = {
         loader=load_lapse_table
     ),
 
-    "expenses": AssumptionDefinition(
-        name="expenses",
+    "expense": AssumptionDefinition(
+        name="expense",
         config_attribute="expense_table_path",
         loader=load_expense_table
     )

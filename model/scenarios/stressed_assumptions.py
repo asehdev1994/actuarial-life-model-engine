@@ -213,7 +213,7 @@ class StressedExpenseTable:
             expense_multiplier
         )
 
-    def expenses(
+    def expense(
         self,
         policy,
         t: int
@@ -227,7 +227,7 @@ class StressedExpenseTable:
             return ExpenseResult.zero()
         
         base_result = (
-            self.base_expense_table.expenses(
+            self.base_expense_table.expense(
                 policy,
                 t
             )

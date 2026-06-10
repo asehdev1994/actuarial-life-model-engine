@@ -25,8 +25,8 @@ class AssumptionSet:
         return self.providers.get("lapse")
     
     @property
-    def expenses_provider(self):
-        return self.providers.get("expenses")
+    def expense(self):
+        return self.providers.get("expense")
 
     def qx(self, policy, age: int) -> float:
 
@@ -54,7 +54,7 @@ class AssumptionSet:
 
         return self.lapse.lapse_rate(policy, t)
     
-    def expenses(self, policy, t):
+    def expense_result(self, policy, t):
         """
         Return expense assumptions
         for a policy at time t.
@@ -63,7 +63,7 @@ class AssumptionSet:
         default to zero expenses.
         """
 
-        if self.expenses_provider is None:
+        if self.expense is None:
 
             from model.assumptions.expense import (
                 ExpenseResult
@@ -71,7 +71,7 @@ class AssumptionSet:
 
             return ExpenseResult.zero()
 
-        return self.expenses_provider.expenses(
+        return self.expense.expense(
             policy,
             t
         )

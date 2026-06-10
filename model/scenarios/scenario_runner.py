@@ -63,9 +63,9 @@ def build_scenario_assumptions(
         )
     )
 
-    stressed_expenses = (
+    stressed_expense = (
         StressedExpenseTable(
-            base_assumptions.expenses_provider,
+            base_assumptions.expense,
             expense_multiplier=
                 scenario.get_stress(
                     "expense_multiplier",
@@ -79,7 +79,7 @@ def build_scenario_assumptions(
             "mortality": stressed_mortality,
             "interest": stressed_interest,
             "lapse": stressed_lapse,
-            "expenses": stressed_expenses
+            "expense": stressed_expense
         }
     )
 

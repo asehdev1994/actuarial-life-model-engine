@@ -109,7 +109,7 @@ class ExpenseTable:
 
         self.components = components
 
-    def expenses(self, policy, t: int) -> ExpenseResult:
+    def expense(self, policy, t: int) -> ExpenseResult:
         """
         Resolve expenses for a policy at time t.
         """

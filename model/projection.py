@@ -47,7 +47,7 @@ def project_cashflows(policy, assumptions):
         # Probability of death at age t
         q = assumptions.qx(policy, age_t)
         lapse_rate = assumptions.lapse_rate(policy, t)
-        expense_result = assumptions.expenses(
+        expense_result = assumptions.expense_result(
             policy,
             t
         )
