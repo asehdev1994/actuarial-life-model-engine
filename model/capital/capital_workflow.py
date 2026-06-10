@@ -68,6 +68,10 @@ from model.config import (
 from model.portfolio import Portfolio
 from model.valuation import value_policy
 
+from model.assumptions.assumption_registry import (
+    ASSUMPTION_REGISTRY
+)
+
 
 def run_capital_framework(
     model_object,
@@ -242,6 +246,8 @@ def load_workflow_assumptions(
     - perform actuarial calculations
     """
 
+    loaded_assumptions = {}
+
     mortality_parameters = None
 
     if (
@@ -255,47 +261,49 @@ def load_workflow_assumptions(
             )
         )
 
-    mortality_table = (
-        load_mortality_table(
-            config.mortality_table_path
-        )
-    )
+    for definition in ASSUMPTION_REGISTRY.values():
 
-    mortality_table.mortality_parameters = (
-        mortality_parameters
-    )
-
-    yield_curve = (
-        load_yield_curve(
-            config.yield_curve_path
-        )
-    )
-
-    lapse_table = None
-
-    if config.lapse_table_path is not None:
-
-        lapse_table = (
-            load_lapse_table(
-                config.lapse_table_path
-            )
+        path = getattr(
+            config,
+            definition.config_attribute
         )
 
-    expense_table = None
+        if path is None:
+            continue
 
-    if config.expense_table_path is not None:
+        provider = definition.loader(
+            path
+        )
 
-        expense_table = (
-            load_expense_table(
-                config.expense_table_path
-            )
+        loaded_assumptions[
+            definition.name
+        ] = provider
+
+    if (
+        mortality_parameters is not None
+    ):
+        loaded_assumptions[
+            "mortality"
+        ].mortality_parameters = (
+            mortality_parameters
         )
 
     return AssumptionSet(
-        mortality=mortality_table,
-        interest=yield_curve,
-        lapse=lapse_table,
-        expenses=expense_table
+        mortality=loaded_assumptions[
+            "mortality"
+        ],
+
+        interest=loaded_assumptions[
+            "interest"
+        ],
+
+        lapse=loaded_assumptions.get(
+            "lapse"
+        ),
+
+        expenses=loaded_assumptions.get(
+            "expenses"
+        )
     )
 
 def load_workflow_correlations(
