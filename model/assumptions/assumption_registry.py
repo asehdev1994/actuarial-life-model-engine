@@ -11,7 +11,9 @@ from model.assumptions.assumption_loader import (
 
 from model.assumptions.null_providers import(
     NullLapseProvider,
-    NullExpenseProvider
+    NullExpenseProvider,
+    NullInterestProvider,
+    NullMortalityProvider
 )
 
 ASSUMPTION_REGISTRY = {
@@ -19,13 +21,15 @@ ASSUMPTION_REGISTRY = {
     "mortality": AssumptionDefinition(
         name="mortality",
         config_attribute="mortality_table_path",
-        loader=load_mortality_table
+        loader=load_mortality_table,
+        null_provider_factory=NullMortalityProvider
     ),
 
     "interest": AssumptionDefinition(
         name="interest",
         config_attribute="yield_curve_path",
-        loader=load_yield_curve
+        loader=load_yield_curve,
+        null_provider_factory=NullInterestProvider
     ),
 
     "lapse": AssumptionDefinition(

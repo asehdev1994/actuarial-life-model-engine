@@ -46,7 +46,4 @@ class AssumptionSet:
     
     def expense_result(self, policy, t):
         
-        return self.expense.expense(
-            policy,
-            t
-        )
+        return self.expense.expense(policy, t)
