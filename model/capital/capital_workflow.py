@@ -269,6 +269,16 @@ def load_workflow_assumptions(
         )
 
         if path is None:
+            
+            if (
+                definition.null_provider_factory
+                is not None
+            ):
+                loaded_assumptions[
+                    definition.name
+                ] = (
+                    definition.null_provider_factory()
+                )
             continue
 
         provider = definition.loader(

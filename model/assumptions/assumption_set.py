@@ -41,36 +41,11 @@ class AssumptionSet:
         return self.interest.discount_factor(t)
     
     def lapse_rate(self, policy, t: int) -> float:
-        """
-        Return lapse rate for a policy at time t.
-
-        If no lapse assumptions are supplied,
-        default to zero lapse.
-        """
-
-        if self.lapse is None:
-
-            return 0.0
 
         return self.lapse.lapse_rate(policy, t)
     
     def expense_result(self, policy, t):
-        """
-        Return expense assumptions
-        for a policy at time t.
-
-        If no expense provider is supplied,
-        default to zero expenses.
-        """
-
-        if self.expense is None:
-
-            from model.assumptions.expense import (
-                ExpenseResult
-            )
-
-            return ExpenseResult.zero()
-
+        
         return self.expense.expense(
             policy,
             t

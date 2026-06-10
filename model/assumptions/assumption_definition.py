@@ -10,3 +10,5 @@ class AssumptionDefinition:
     config_attribute: str
 
     loader: Callable
+
+    null_provider_factory: Callable | None = None

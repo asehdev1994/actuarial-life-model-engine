@@ -9,6 +9,11 @@ from model.assumptions.assumption_loader import (
     load_expense_table
 )
 
+from model.assumptions.null_providers import(
+    NullLapseProvider,
+    NullExpenseProvider
+)
+
 ASSUMPTION_REGISTRY = {
 
     "mortality": AssumptionDefinition(
@@ -26,12 +31,14 @@ ASSUMPTION_REGISTRY = {
     "lapse": AssumptionDefinition(
         name="lapse",
         config_attribute="lapse_table_path",
-        loader=load_lapse_table
+        loader=load_lapse_table,
+        null_provider_factory=NullLapseProvider
     ),
 
     "expense": AssumptionDefinition(
         name="expense",
         config_attribute="expense_table_path",
-        loader=load_expense_table
+        loader=load_expense_table,
+        null_provider_factory=NullExpenseProvider
     )
 }
