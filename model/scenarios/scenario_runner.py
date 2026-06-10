@@ -75,10 +75,12 @@ def build_scenario_assumptions(
     )
 
     return AssumptionSet(
-        mortality=stressed_mortality,
-        interest=stressed_interest,
-        lapse=stressed_lapse,
-        expenses=stressed_expenses
+        providers={
+            "mortality": stressed_mortality,
+            "interest": stressed_interest,
+            "lapse": stressed_lapse,
+            "expenses": stressed_expenses
+        }
     )
 
 def run_scenario(

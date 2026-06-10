@@ -8,16 +8,25 @@ class AssumptionSet:
 
     def __init__(
         self,
-        mortality,
-        interest,
-        lapse=None,
-        expenses=None
+        providers
     ):
-
-        self.mortality = mortality
-        self.interest = interest
-        self.lapse = lapse
-        self.expenses_provider = expenses
+                self.providers = providers
+        
+    @property
+    def mortality(self):
+        return self.providers["mortality"]
+    
+    @property
+    def interest(self):
+        return self.providers["interest"]
+    
+    @property
+    def lapse(self):
+        return self.providers.get("lapse")
+    
+    @property
+    def expenses_provider(self):
+        return self.providers.get("expenses")
 
     def qx(self, policy, age: int) -> float:
 

@@ -289,21 +289,7 @@ def load_workflow_assumptions(
         )
 
     return AssumptionSet(
-        mortality=loaded_assumptions[
-            "mortality"
-        ],
-
-        interest=loaded_assumptions[
-            "interest"
-        ],
-
-        lapse=loaded_assumptions.get(
-            "lapse"
-        ),
-
-        expenses=loaded_assumptions.get(
-            "expenses"
-        )
+        providers = loaded_assumptions
     )
 
 def load_workflow_correlations(
