@@ -42,14 +42,6 @@ from model.assumptions import (
     AssumptionSet
 )
 
-from model.assumptions.assumption_loader import (
-    load_mortality_table,
-    load_mortality_parameters,
-    load_yield_curve,
-    load_lapse_table,
-    load_expense_table
-)
-
 from model.data.portfolio_loader import (
     load_portfolio_csv
 )
@@ -248,27 +240,19 @@ def load_workflow_assumptions(
 
     loaded_assumptions = {}
 
-    mortality_parameters = None
-
-    if (
-        config.mortality_parameter_path
-        is not None
-    ):
-
-        mortality_parameters = (
-            load_mortality_parameters(
-                config.mortality_parameter_path
-            )
-        )
-
     for definition in ASSUMPTION_REGISTRY.values():
 
-        path = getattr(
+        paths = [getattr(
             config,
-            definition.config_attribute
+            attribute
         )
+        for attribute
+        in definition.config_attributes
+        ]
+        
+        primary_path = paths[0]
 
-        if path is None:
+        if primary_path is None:
             
             if (
                 definition.null_provider_factory
@@ -282,26 +266,13 @@ def load_workflow_assumptions(
             continue
 
         provider = definition.loader(
-            path
+            *paths
         )
 
         loaded_assumptions[
             definition.name
         ] = provider
-
-    if (
-        mortality_parameters is not None
-    ):
-        loaded_assumptions[
-            "mortality"
-        ].mortality_parameters = (
-            mortality_parameters
-        )
-
-    return AssumptionSet(
-        providers = loaded_assumptions
-    )
-
+    
 def load_workflow_correlations(
     config: CorrelationConfig
 ):

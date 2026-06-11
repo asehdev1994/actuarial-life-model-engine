@@ -272,6 +272,30 @@ def load_mortality_parameters(path):
         smoker_multipliers
     )
 
+def load_mortality_provider(
+    mortality_table_path,
+    mortality_parameter_path=None
+):
+    mortality_table = (
+        load_mortality_table(
+            mortality_table_path
+        )
+    )
+
+    if mortality_parameter_path is not None:
+
+        mortality_parameters = (
+            load_mortality_parameters(
+                mortality_parameter_path
+            )
+        )
+
+        mortality_table.mortality_parameters = (
+            mortality_parameters
+        )
+
+    return mortality_table
+
 def load_yield_curve(path):
     """
     Load yield curve assumptions from CSV.

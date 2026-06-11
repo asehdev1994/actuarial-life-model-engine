@@ -7,7 +7,7 @@ class AssumptionDefinition:
 
     name: str
 
-    config_attribute: str
+    config_attributes: list[str]
 
     loader: Callable
 
