@@ -22,11 +22,11 @@ class AssumptionSet:
     
     @property
     def lapse(self):
-        return self.providers.get("lapse")
+        return self.providers["lapse"]
     
     @property
     def expense(self):
-        return self.providers.get("expense")
+        return self.providers["expense"]
 
     def qx(self, policy, age: int) -> float:
 
