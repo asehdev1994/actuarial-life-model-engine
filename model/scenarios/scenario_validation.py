@@ -1,5 +1,5 @@
 from model.scenarios.stress_registry import (
-    SUPPORTED_STRESSES
+    STRESS_REGISTRY
 )
 
 REQUIRED_COLUMNS = [
@@ -85,7 +85,7 @@ def validate_supported_stresses(df):
 
     unsupported_stresses = (
         configured_stresses
-        - SUPPORTED_STRESSES
+        - set(STRESS_REGISTRY.keys())
     )
 
     if unsupported_stresses:

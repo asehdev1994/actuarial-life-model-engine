@@ -2,11 +2,8 @@ from model.assumptions import (
     AssumptionSet
 )
 
-from model.scenarios.stressed_assumptions import (
-    StressedMortalityTable,
-    StressedLapseTable,
-    StressedYieldCurve,
-    StressedExpenseTable
+from model.scenarios.stress_registry import (
+    STRESS_REGISTRY
 )
 
 from model.valuation import value_policy
@@ -30,57 +27,29 @@ def build_scenario_assumptions(
     - perform SCR calculations
     """
 
-    stressed_mortality = (
-        StressedMortalityTable(
-            base_assumptions.mortality,
-            mortality_multiplier=
-                scenario.get_stress(
-                    "mortality_multiplier",
-                    1.0
-                )
-        )
+    providers = dict(
+        base_assumptions.providers
     )
+    
+    for stress_name, stress_value in scenario.stresses.items():
 
-    stressed_lapse = (
-        StressedLapseTable(
-            base_assumptions.lapse,
-            lapse_multiplier=
-                scenario.get_stress(
-                    "lapse_multiplier",
-                    1.0
-                )
+        definition = (
+            STRESS_REGISTRY[stress_name]
         )
-    )
 
-    stressed_interest = (
-        StressedYieldCurve(
-            base_assumptions.interest,
-            interest_rate_shift=
-                scenario.get_stress(
-                    "interest_rate_shift",
-                    0.0
-                )
+        target_assumption = (
+            definition.target_assumption
         )
-    )
 
-    stressed_expense = (
-        StressedExpenseTable(
-            base_assumptions.expense,
-            expense_multiplier=
-                scenario.get_stress(
-                    "expense_multiplier",
-                    1.0
-                )
+        providers[target_assumption] = (
+            definition.wrapper_factory(
+                providers[target_assumption],
+                stress_value
+            )
         )
-    )
 
     return AssumptionSet(
-        providers={
-            "mortality": stressed_mortality,
-            "interest": stressed_interest,
-            "lapse": stressed_lapse,
-            "expense": stressed_expense
-        }
+        providers
     )
 
 def run_scenario(
