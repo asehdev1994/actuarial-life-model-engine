@@ -12,25 +12,27 @@ def build_workflow_config(
 
     assumption_config = (
         AssumptionConfig(
-            mortality_table_path=uploaded_paths[
-                "mortality_table"
-            ],
+            values={
+                "mortality_table_path": uploaded_paths[
+                    "mortality_table"
+                ],
 
-            mortality_parameter_path=uploaded_paths.get(
-                "mortality_parameters"
-            ),
+                "mortality_parameter_path": uploaded_paths.get(
+                    "mortality_parameters"
+                ),
 
-            yield_curve_path=uploaded_paths[
-                "yield_curve"
-            ],
+                "yield_curve_path": uploaded_paths[
+                    "yield_curve"
+                ],
 
-            lapse_table_path=uploaded_paths.get(
-                "lapse_table"
-            ),
+                "lapse_table_path": uploaded_paths.get(
+                    "lapse_table"
+                ),
 
-            expense_table_path=uploaded_paths.get(
-                "expense_table"
-            )
+                "expense_table_path": uploaded_paths.get(
+                    "expense_table"
+                )
+            }
         )
     )
 

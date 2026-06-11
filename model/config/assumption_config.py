@@ -15,40 +15,23 @@ class AssumptionConfig:
 
     def __init__(
         self,
-        mortality_table_path,
-        mortality_parameter_path=None,
-        yield_curve_path=None,
-        lapse_table_path=None,
-        expense_table_path=None
+        values: dict[str, str | None]
     ):
 
-        self.mortality_table_path = (
-            mortality_table_path
-        )
+        self.values = values
 
-        self.mortality_parameter_path = (
-            mortality_parameter_path
-        )
+    def __getattr__(self, name):
 
-        self.yield_curve_path = (
-            yield_curve_path
-        )
+        if name in self.values:
 
-        self.lapse_table_path = (
-            lapse_table_path
-        )
+            return self.values[name]
 
-        self.expense_table_path = (
-            expense_table_path
-        )
+        raise AttributeError(name)
 
     def __repr__(self):
 
         return (
             f"AssumptionConfig("
-            f"mortality_table_path="
-            f"{self.mortality_table_path}, "
-            f"yield_curve_path="
-            f"{self.yield_curve_path}"
+            f"values={self.values}"
             f")"
         )
