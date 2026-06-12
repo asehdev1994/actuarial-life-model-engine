@@ -272,6 +272,10 @@ def load_workflow_assumptions(
         loaded_assumptions[
             definition.name
         ] = provider
+
+    return AssumptionSet(
+        providers=loaded_assumptions
+    )
     
 def load_workflow_correlations(
     config: CorrelationConfig
