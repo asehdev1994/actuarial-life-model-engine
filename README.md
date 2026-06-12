@@ -2,20 +2,22 @@
 
 A modular Python-based actuarial life insurance modelling and capital engine designed using institutional-style software architecture principles.
 
-The project focuses not only on actuarial mechanics, but also on building a clean, extensible modelling framework with stable interfaces, externalised assumptions, structured outputs, and disciplined separation of concerns.
+The project focuses not only on actuarial mechanics, but also on building a clean, extensible modelling framework with stable interfaces, externalised assumptions, structured outputs, registry-driven extensibility, and disciplined separation of concerns.
 
-The project has evolved beyond a traditional actuarial cashflow model toward a reusable actuarial scenario, valuation, and capital aggregation framework with calibration-driven stress infrastructure and modular risk architecture.
+The project has evolved beyond a traditional actuarial cashflow model toward a reusable actuarial projection, valuation, stress testing, and capital aggregation framework with configuration-driven execution and frontend orchestration.
 
 ---
 
 # Core Objectives
 
-- Build a modular actuarial modelling engine using clean software architecture principles
-- Separate modelling mechanics from ingestion, analytics, and orchestration
-- Externalise assumptions through provider-based interfaces
-- Produce structured, reusable valuation outputs
-- Preserve transparency and reproducibility of calculations
-- Build reusable scenario, stress, and capital aggregation infrastructure
+* Build a modular actuarial modelling engine using clean software architecture principles
+* Separate modelling mechanics from ingestion, analytics, orchestration, and presentation
+* Externalise assumptions through provider-based interfaces
+* Produce structured, reusable valuation and capital outputs
+* Preserve transparency and reproducibility of calculations
+* Build reusable scenario, stress, and capital aggregation infrastructure
+* Support extensible registry-driven assumptions and stresses
+* Provide a user-friendly execution interface through Streamlit
 
 ---
 
@@ -24,29 +26,34 @@ The project has evolved beyond a traditional actuarial cashflow model toward a r
 The engine is built using layered structured outputs:
 
 ```text
+Streamlit Frontend
+↓
 CapitalWorkflowConfig
 ↓
 Workflow Layer
 ↓
-Policy
-→ ProjectionRow
-→ ProjectionResult
-→ ValuationRow
-→ ValuationResult
-→ Portfolio
-→ PortfolioResult
-→ SCRResult
-→ AggregatedSCRResult
-→ CapitalWorkflowResult
+Portfolio
+↓
+ProjectionResult
+↓
+ValuationResult
+↓
+SCRResult
+↓
+AggregatedSCRResult
+↓
+CapitalWorkflowResult
 ```
 
 Core modelling logic is intentionally isolated from:
-- pandas
-- CSV ingestion
-- validation
-- analytics
-- notebook orchestration
-- assumption source structure
+
+* pandas
+* CSV ingestion
+* validation
+* analytics
+* frontend presentation
+* assumption source structure
+* stress calibration structure
 
 ---
 
@@ -54,28 +61,31 @@ Core modelling logic is intentionally isolated from:
 
 The current architecture is considered structurally stable across:
 
-- projection
-- valuation
-- assumptions infrastructure
-- scenario execution
-- SCR generation
-- capital aggregation
-- workflow orchestration
-- configuration-driven execution
+* projection
+* valuation
+* assumptions infrastructure
+* scenario execution
+* stress infrastructure
+* SCR generation
+* capital aggregation
+* workflow orchestration
+* configuration-driven execution
+* Streamlit frontend
 
 Current development focus has shifted from core architecture toward:
 
-- richer stresses
-- reporting infrastructure
-- frontend integration
-- realism enhancements
-- asset-side modelling
+* richer stresses
+* reporting infrastructure
+* asset-side modelling
+* realism enhancements
+* local AI tooling
+* developer productivity
 
 ---
 
 # Configuration Layer
 
-The engine now includes a dedicated configuration-driven execution layer.
+The engine includes a dedicated configuration-driven execution layer.
 
 Current workflow configuration architecture:
 
@@ -89,19 +99,95 @@ CapitalWorkflowConfig
 
 The configuration layer centralises:
 
-- workflow execution inputs
-- assumption ingestion ownership
-- scenario calibration ownership
-- correlation configuration ownership
+* workflow execution inputs
+* assumption ingestion ownership
+* scenario calibration ownership
+* correlation ownership
 
 while preserving:
 
-- provider abstraction
-- stable modelling contracts
-- scenario-agnostic projection
-- scenario-agnostic valuation
+* provider abstraction
+* stable modelling contracts
+* scenario-agnostic projection
+* scenario-agnostic valuation
 
 Workflow orchestration is intentionally separated from actuarial mechanics.
+
+---
+
+# Registry Architecture
+
+The engine uses registries to define extensible inventories.
+
+## Assumption Registry
+
+Available assumptions are defined through:
+
+```python
+ASSUMPTION_REGISTRY
+```
+
+Each assumption is represented by:
+
+```python
+AssumptionDefinition
+```
+
+containing metadata such as:
+
+```python
+name
+display_name
+description
+config_attributes
+loader
+null_provider_factory
+```
+
+The registry is the single source of truth for available assumptions.
+
+---
+
+## Stress Registry
+
+Available stresses are defined through:
+
+```python
+STRESS_REGISTRY
+```
+
+Each stress is represented by:
+
+```python
+StressDefinition
+```
+
+containing metadata describing:
+
+* target assumption
+* stress wrapper
+* calibration ownership
+
+Scenario execution dynamically applies stresses using registry metadata.
+
+---
+
+## Design Principle
+
+Registries define inventories.
+
+Good registry candidates:
+
+* assumptions
+* stresses
+
+Poor registry candidates:
+
+* workflow execution
+* valuation sequencing
+* result packaging
+
+Workflow execution remains explicit.
 
 ---
 
@@ -109,11 +195,11 @@ Workflow orchestration is intentionally separated from actuarial mechanics.
 
 ## Projection Engine
 
-- Expected cashflow projection using unconditional probabilities
-- Multi-decrement runoff framework
-- Mortality and lapse decrement support
-- Structured projection outputs
-- Explicit expense cashflow decomposition
+* Expected cashflow projection using unconditional probabilities
+* Multi-decrement runoff framework
+* Mortality and lapse decrement support
+* Structured projection outputs
+* Explicit expense cashflow decomposition
 
 Projection logic remains completely assumption-agnostic.
 
@@ -121,11 +207,11 @@ Projection logic remains completely assumption-agnostic.
 
 ## Valuation Engine
 
-- Discounted present value calculations
-- Structured valuation outputs
-- Explicit expense present value decomposition
-- Profit emergence support
-- Portfolio-level aggregation
+* Discounted present value calculations
+* Structured valuation outputs
+* Explicit expense present value decomposition
+* Profit emergence support
+* Portfolio-level aggregation
 
 Valuation consumes only abstract discount factor interfaces.
 
@@ -133,25 +219,16 @@ Valuation consumes only abstract discount factor interfaces.
 
 ## Scenario & Capital Framework
 
-The engine now supports calibration-driven stress testing and hierarchical capital aggregation.
+The engine supports calibration-driven stress testing and hierarchical capital aggregation.
 
-Scenario infrastructure is intentionally separated from:
-- projection mechanics
-- valuation mechanics
-- aggregation logic
-
-Current scenario workflow:
+Current workflow:
 
 ```text
-CapitalWorkflowConfig
+Base Assumptions
 ↓
-Workflow Layer
+Scenario Overlays
 ↓
-Base assumptions
-↓
-Scenario overlays
-↓
-Scenario-adjusted assumptions
+Scenario-Adjusted Assumptions
 ↓
 Projection
 ↓
@@ -161,7 +238,7 @@ Stressed BEL
 ↓
 SCRResult
 ↓
-Diversified aggregation
+Diversified Aggregation
 ↓
 CapitalWorkflowResult
 ```
@@ -169,78 +246,108 @@ CapitalWorkflowResult
 Projection and valuation remain completely scenario-agnostic.
 
 Implemented scenario infrastructure:
-- ScenarioDefinition
-- scenario_loader
-- scenario_validation
-- stress_registry
-- stressed assumption overlays
+
+* ScenarioDefinition
+* scenario_loader
+* scenario_validation
+* STRESS_REGISTRY
+* stressed assumption overlays
 
 Implemented stressed providers:
-- mortality stresses
-- lapse stresses
-- interest stresses
-- expense stresses
+
+* mortality stresses
+* lapse stresses
+* interest stresses
+* expense stresses
 
 Current capital framework supports:
-- univariate SCR calculation
-- life diversification
-- market diversification
-- BSCR aggregation
-- dynamic correlation matrix subsetting
+
+* univariate SCR calculation
+* life diversification
+* market diversification
+* BSCR aggregation
+* dynamic correlation matrix subsetting
 
 Aggregation is metadata-driven and consumes:
-- SCRResult objects
-- correlation matrices
+
+* SCRResult objects
+* correlation matrices
 
 The aggregation layer does NOT:
-- apply stresses
-- run projections
-- run valuations
+
+* apply stresses
+* run projections
+* run valuations
 
 ---
 
-## Capital Aggregation
+# Capital Aggregation
 
-- Calibration-driven stress scenario execution
-- Structured SCR result contracts
-- Dynamic correlation matrix subsetting
-- Life SCR aggregation
-- Market SCR aggregation
-- Hierarchical BSCR aggregation
-- Metadata-driven diversification workflow
+* Calibration-driven stress scenario execution
+* Structured SCR result contracts
+* Dynamic correlation matrix subsetting
+* Life SCR aggregation
+* Market SCR aggregation
+* Hierarchical BSCR aggregation
+* Metadata-driven diversification workflow
 
 ---
 
-## Assumptions Infrastructure
+# Assumptions Infrastructure
 
-### Mortality
+## AssumptionSet
 
-- CSV-driven mortality ingestion
-- Gender-segmented mortality tables
-- Contextual mortality resolution
-- Smoker mortality overlays
+The engine consumes assumptions through:
 
-### Interest Rates
+```python
+AssumptionSet
+```
 
-- CSV-driven yield curve ingestion
-- Float maturity support
-- Spot-rate discounting
-- Terminal extrapolation beyond observable maturities
+which acts as the single source of truth for available assumptions.
 
-### Lapse
+Assumptions are stored dynamically:
 
-- CSV-driven lapse assumptions
-- Product segmentation
-- Smoker segmentation
-- Duration-based lapse ranges
+```python
+providers: dict[str, Provider]
+```
 
-### Expenses
+This allows new assumption types to be introduced without redesigning projection, valuation, or workflow execution.
 
-- CSV-driven expense assumptions
-- Structured expense provider abstraction
-- Acquisition and maintenance expense support
-- Fixed and premium-linked expense mechanics
-- Future extensible segmentation architecture
+---
+
+## Mortality
+
+* CSV-driven mortality ingestion
+* Gender-segmented mortality tables
+* Contextual mortality resolution
+* Smoker mortality overlays
+
+---
+
+## Interest Rates
+
+* CSV-driven yield curve ingestion
+* Float maturity support
+* Spot-rate discounting
+* Terminal extrapolation beyond observable maturities
+
+---
+
+## Lapse
+
+* CSV-driven lapse assumptions
+* Product segmentation
+* Smoker segmentation
+* Duration-based lapse ranges
+
+---
+
+## Expenses
+
+* CSV-driven expense assumptions
+* Structured expense provider abstraction
+* Acquisition and maintenance expense support
+* Fixed and premium-linked expense mechanics
 
 ---
 
@@ -255,292 +362,92 @@ assumptions.lapse_rate(policy, t)
 assumptions.expenses(policy, t)
 ```
 
-Projection and valuation layers remain completely unaware of:
-- CSV structure
-- segmentation mechanics
-- market-data formatting
-- assumption source logic
-- provider implementation details
+Projection and valuation remain unaware of:
+
+* CSV structure
+* segmentation mechanics
+* market data formatting
+* provider implementation details
 
 This abstraction boundary is a core design principle of the project.
 
 ---
 
-# Data Ingestion Architecture
+# Streamlit Frontend
 
-Assumption ingestion follows the architecture below:
+The primary execution interface is now a Streamlit frontend.
 
-```text
-Config
-↓
-Loader
-↓
-Validation
-↓
-Provider
-↓
-AssumptionSet
-↓
-Projection / Valuation
-```
+Current capabilities:
 
-Validation occurs only at ingestion boundaries.
+* Portfolio upload
+* Registry-driven assumption uploads
+* Scenario upload
+* Correlation matrix upload
+* Workflow execution
+* Results display
+* Persistent file selection between application restarts
 
-The core engine assumes validated structured inputs.
-
----
-
-# Design Principles
-
-## Assumption-Agnostic Projection
-
-Projection logic consumes only stable provider interfaces and remains unaware of:
-- segmentation mechanics
-- expense composition logic
-- assumption storage structure
-- provider implementation details
-
-This allows new assumption dimensions and provider extensions to integrate without redesigning projection or valuation mechanics.
-
-## Stable Interfaces
-
-Projection and valuation depend only on explicit assumption interfaces.
-
-New assumption structures should integrate without requiring engine rewrites.
-
----
-
-## Centralised Workflow Configuration
-
-Workflow execution is centrally orchestrated through structured configuration contracts.
-
-Correct architecture:
+Current frontend structure:
 
 ```text
-CapitalWorkflowConfig
-↓
-workflow orchestration
-↓
-provider composition
-↓
-projection / valuation / capital
+frontend/
+
+├── app.py
+
+├── tabs/
+│   ├── inputs_tab.py
+│   └── results_tab.py
+
+├── components/
+│   ├── portfolio_frontend.py
+│   ├── assumptions_frontend.py
+│   ├── scenarios_frontend.py
+│   └── correlations_frontend.py
+
+├── services/
+│   ├── file_storage.py
+│   ├── workflow_config_builder.py
+│   ├── workflow_runner.py
+│   └── user_config.py
 ```
 
-The workflow layer owns orchestration while modelling mechanics remain infrastructure-agnostic.
+Frontend responsibilities are intentionally limited to:
 
----
+* upload handling
+* persistence
+* workflow configuration
+* workflow execution
+* result presentation
 
-## Separation of Concerns
-
-Distinct responsibilities are maintained across:
-- modelling
-- ingestion
-- validation
-- analytics
-- orchestration
-
----
-
-## No Pandas In Core Engine
-
-Pandas is restricted to:
-- ingestion
-- validation
-- analytics
-- notebook layers
-
-Core engine logic operates on structured domain objects only.
-
----
-
-## Structured Result Contracts
-
-Projection and valuation outputs are represented through structured result objects rather than raw dataframes.
-
-This supports:
-- analytics reuse
-- serialisation
-- debugging
-- downstream extensions
-
----
-
-## Externalised Assumptions
-
-Mortality, lapse, expense, and yield curve assumptions are externally configurable and provider-driven.
-
-Projection and valuation remain assumption-source agnostic.
-
----
-
-# Example Project Structure
-
-```text
-actuarial-life-model-engine/
-
-├── model/
-│
-│   ├── capital/
-│   │   ├── aggregation.py
-│   │   ├── correlation.py
-│   │   ├── correlation_loader.py
-│   │   ├── capital_workflow.py
-│   │   ├── workflow_results.py
-│   │   └── scr_calculator.py
-│   
-│   ├── config/
-│   │   ├── __init__.py
-│   │   ├── assumption_config.py
-│   │   ├── scenario_config.py
-│   │   ├── correlation_config.py
-│   │   └── workflow_config.py
-│
-│
-│   ├── assumptions/
-│   │   ├── __init__.py
-│   │   ├── assumption_set.py
-│   │   ├── mortality.py
-│   │   ├── interest.py
-│   │   ├── lapse.py
-│   │   ├── assumption_loader.py
-│   │   └── assumption_validation.py
-│   │
-│   ├── analysis/
-│   │   └── profit_analysis.py
-│   │
-│   ├── data/
-│   │   ├── portfolio_loader.py
-│   │   └── portfolio_validation.py
-│   │
-│   ├── results/
-│   │   ├── projection_results.py
-│   │   ├── portfolio_results.py
-│   │   ├── capital_results.py
-│   │   └── valuation_results.py
-│   │
-│   ├── scenarios/
-│   │   ├── scenario_definition.py
-│   │   ├── scenario_loader.py
-│   │   ├── scenario_validation.py
-│   │   ├── stress_registry.py
-│   │   ├── scenario_runner.py
-│   │   └── stressed_assumptions.py
-│   │
-│   ├── policy.py
-│   ├── projection.py
-│   ├── valuation.py
-│   └── portfolio.py
-│
-├── data/
-│   ├── mortality_tables/
-│   ├── mortality_parameters/
-│   ├── yield_curves/
-│   ├── lapse_tables/
-│   ├── portfolios/
-│   ├── correlations/
-│   ├── scenarios/
-│   └── results_snapshots/
-│
-├── notebooks/
-│   ├── single_policy_run.ipynb
-│   └── multiple_policy_run.ipynb
-│
-└── README.md
-```
+Actuarial mechanics remain entirely within the backend.
 
 ---
 
 # Example Workflow
 
-```python
+```text
+Streamlit Frontend
+↓
 CapitalWorkflowConfig
 ↓
-workflow orchestration
+Workflow Layer
 ↓
-assumption loading
+Registry-Driven Assumption Loading
 ↓
-scenario execution
+Registry-Driven Scenario Execution
 ↓
-projection
+Projection
 ↓
-valuation
+Valuation
 ↓
-SCR generation
+SCR Generation
 ↓
-correlation aggregation
-↓
-BSCR
+Aggregation
 ↓
 CapitalWorkflowResult
 ↓
-analytics
+Results UI
 ```
-
----
-
-# Current Scope
-
-Implemented:
-- deterministic projection engine
-- multi-decrement cashflow modelling
-- portfolio valuation
-- structured result objects
-- mortality table ingestion
-- yield curve ingestion
-- segmented lapse assumptions
-- expense assumption infrastructure
-- fulfilment cashflow valuation
-- validation framework
-- reusable analytics layer
-- BEL / PVFP framework
-- scenario overlay infrastructure
-- calibration-driven scenario loading
-- stress validation registry
-- univariate SCR framework
-- correlation matrix ingestion
-- dynamic matrix subsetting
-- life SCR aggregation
-- market SCR aggregation
-- BSCR aggregation
-- workflow orchestration layer
-- config-driven execution architecture
-- centralised workflow configuration contracts
-- structured workflow result packaging
-
----
-
-# Current Intentional Limitations
-
-The following are intentionally excluded from the current version:
-
-- stochastic economic scenarios
-- curve-based interest stresses
-- equity/spread/property risk mechanics
-- worst-of lapse stress selection
-- mass lapse mechanics
-- dynamic policyholder behaviour
-- IFRS17 mechanics
-
-The current focus is architectural stability and modular extensibility before introducing additional modelling complexity.
-
----
-
-# Planned Extensions
-
-Potential future directions include:
-- stochastic scenario infrastructure
-- advanced expense segmentation
-- inflation-linked expense assumptions
-- stochastic expense overlays
-- ALM extensions
-- vectorised portfolio valuation
-- regression testing
-- parallelised valuation frameworks
-- richer market risk framework
-- calibration governance
-- reporting infrastructure
-- capital attribution analytics
-- regression testing infrastructure
 
 ---
 
@@ -550,16 +457,14 @@ Tested using Python 3.11.
 
 Dependencies are listed in `requirements.txt`.
 
-## Clone repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/asehdev1994/actuarial-life-model-engine.git
 cd actuarial-life-model-engine
 ```
 
----
-
-## Create virtual environment
+## Create Virtual Environment
 
 ```bash
 python -m venv venv
@@ -579,54 +484,122 @@ Activate:
 source venv/bin/activate
 ```
 
----
-
-## Install dependencies
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## Launch notebooks
+## Launch Frontend
 
 ```bash
-jupyter notebook
+streamlit run frontend/app.py
 ```
-## Quick Start
 
-After launching Jupyter:
+The frontend is now the primary execution interface.
 
-1. Open `single_policy_run.ipynb`
-2. Run all cells
-3. Review projection and valuation outputs
+---
 
-The notebooks now act primarily as lightweight configuration and analysis layers on top of the reusable workflow execution framework.
+# Notebook Execution
 
-Primary execution is now designed around configuration-driven workflow orchestration through:
+Most notebooks now act as analysis, experimentation, and diagnostic layers.
 
-- CapitalWorkflowConfig
-- AssumptionConfig
-- ScenarioConfig
-- CorrelationConfig
+The primary maintained workflow notebook is:
 
-Primary notebooks:
-- `single_policy_run.ipynb`
-- `multiple_policy_run.ipynb`
-- `scenario_and_scr_workflow`
+```text
+scenario_and_scr_workflow_registry.ipynb
+```
 
-The notebook `scenario_and_scr_workflow` demonstrates modular actuarial projection, valuation, stress testing, and capital aggregation workflows using calibration-driven assumptions and scenario infrastructure.
+which demonstrates:
+
+* registry-driven assumption loading
+* registry-driven stress execution
+* valuation
+* SCR generation
+* diversification
+* BSCR calculation
+
+The frontend should be considered the primary execution path.
+
+---
+
+# Current Scope
+
+Implemented:
+
+* deterministic projection engine
+* multi-decrement cashflow modelling
+* portfolio valuation
+* structured result objects
+* mortality table ingestion
+* yield curve ingestion
+* segmented lapse assumptions
+* expense assumption infrastructure
+* validation framework
+* scenario overlay infrastructure
+* calibration-driven scenario loading
+* registry-driven assumptions
+* registry-driven stresses
+* univariate SCR framework
+* correlation matrix ingestion
+* life SCR aggregation
+* market SCR aggregation
+* BSCR aggregation
+* workflow orchestration layer
+* configuration-driven execution architecture
+* Streamlit frontend
+* persistent frontend configuration
+
+---
+
+# Current Intentional Limitations
+
+The following are intentionally excluded from the current version:
+
+* stochastic economic scenarios
+* curve-based interest stresses
+* equity risk mechanics
+* spread risk mechanics
+* property risk mechanics
+* worst-of lapse selection
+* mass lapse mechanics
+* dynamic policyholder behaviour
+* IFRS 17 mechanics
+
+The current focus remains architectural stability and modular extensibility before introducing additional modelling complexity.
+
+---
+
+# Future Development
+
+Potential future directions include:
+
+* stochastic scenario infrastructure
+* advanced expense segmentation
+* inflation-linked expense assumptions
+* stochastic expense overlays
+* asset-side modelling
+* ALM extensions
+* richer market risk framework
+* reporting infrastructure
+* capital attribution analytics
+* regression testing infrastructure
+* parallelised valuation frameworks
+* repository-aware AI development tooling
+* local coding assistant integration
+* automated architecture documentation
 
 ---
 
 # Development Philosophy
 
 The project prioritises:
-- clarity over shortcuts
-- explicitness over hidden behaviour
-- stable interfaces over convenience
-- incremental extensibility over premature complexity
+
+* clarity over shortcuts
+* explicitness over hidden behaviour
+* stable interfaces over convenience
+* extensibility over hardcoding
+* incremental evolution over premature complexity
 
 The long-term objective is to evolve toward reusable actuarial and quantitative risk infrastructure while preserving modelling transparency and architectural discipline.
 
