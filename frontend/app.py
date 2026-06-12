@@ -33,6 +33,14 @@ from frontend.services.file_storage import (
     persist_uploaded_files
 )
 
+from frontend.services.workflow_config_builder import (
+    build_workflow_config
+)
+
+from frontend.services.workflow_runner import (
+    execute_workflow
+)
+
 st.title(
     "Actuarial Life Model Engine"
 )
@@ -77,6 +85,40 @@ correlation_paths = (
     )
 )
 
+workflow_config = (
+    build_workflow_config(
+        portfolio_path=(
+            portfolio_path
+        ),
+
+        assumption_paths=(
+            assumption_paths
+        ),
+
+        scenario_path=(
+            scenario_path
+        ),
+
+        correlation_paths=(
+            correlation_paths
+        )
+    )
+)
+
+if st.button(
+    "Run Model"
+):
+
+    result = (
+        execute_workflow(
+            workflow_config
+        )
+    )
+
+    st.write(
+        result
+    )
+
 st.divider()
 
 st.subheader(
@@ -97,4 +139,28 @@ st.write(
         "correlation_paths":
             correlation_paths
     }
+)
+
+st.subheader(
+    "Workflow Config"
+)
+
+st.write(
+    workflow_config
+)
+
+st.write(
+    workflow_config.assumption_config
+)
+
+st.write(
+    workflow_config.correlation_config
+)
+
+st.write(
+    workflow_config.scenario_config
+)
+
+st.write(
+    workflow_config.assumption_config.values
 )
