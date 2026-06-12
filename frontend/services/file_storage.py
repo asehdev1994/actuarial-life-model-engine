@@ -98,3 +98,21 @@ def persist_uploaded_file(
     return save_uploaded_file(
         uploaded_file
     )
+
+def resolve_file_path(
+    uploaded_file,
+    existing_path=None
+):
+    """
+    Use uploaded file if supplied.
+
+    Otherwise use existing saved path.
+    """
+
+    if uploaded_file is not None:
+
+        return save_uploaded_file(
+            uploaded_file
+        )
+
+    return existing_path

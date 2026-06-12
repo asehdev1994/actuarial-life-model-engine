@@ -29,6 +29,17 @@ from frontend.services.workflow_runner import (
     execute_workflow
 )
 
+from frontend.services.user_config import (
+    load_saved_inputs,
+    save_inputs
+)
+
+from frontend.services.file_storage import (
+    resolve_file_path
+)
+
+from pathlib import Path
+
 
 def render_inputs_tab():
     """
@@ -36,21 +47,71 @@ def render_inputs_tab():
     the actuarial model.
     """
 
+    saved_inputs = (
+        load_saved_inputs()
+    )
+
     portfolio_file = (
         render_portfolio_section()
     )
 
+    portfolio_path = (
+        saved_inputs.get(
+            "portfolio_path"
+        )
+    )
+
+    if portfolio_path:
+
+        st.caption(
+            f"✓ {Path(portfolio_path).name}"
+        )
+
     assumption_files = (
-        render_assumptions_section()
+        render_assumptions_section(
+            saved_inputs.get(
+                "assumption_paths",
+                {}
+            )
+        )
     )
 
     scenario_file = (
         render_scenarios_section()
     )
 
+    scenario_path = (
+        saved_inputs.get(
+            "scenario_path"
+        )
+    )
+
+    if scenario_path:
+
+        st.caption(
+            f"✓ {Path(scenario_path).name}"
+        )
+
     correlation_files = (
         render_correlations_section()
     )
+
+    saved_correlations = (
+        saved_inputs.get(
+            "correlation_paths",
+            {}
+        )
+    )
+
+    for path in (
+        saved_correlations.values()
+    ):
+
+        if path:
+
+            st.caption(
+                f"✓ {Path(path).name}"
+            )
 
     if st.button(
         "Run Model",
@@ -58,28 +119,70 @@ def render_inputs_tab():
     ):
 
         portfolio_path = (
-            persist_uploaded_file(
-                portfolio_file
+            resolve_file_path(
+                portfolio_file,
+                saved_inputs.get(
+                    "portfolio_path"
+                )
             )
         )
 
-        assumption_paths = (
-            persist_uploaded_files(
-                assumption_files
+        assumption_paths = {}
+
+        for key, uploaded_file in (
+            assumption_files.items()
+        ):
+
+            assumption_paths[
+                key
+            ] = resolve_file_path(
+                uploaded_file,
+                saved_inputs.get(
+                    "assumption_paths",
+                    {}
+                ).get(key)
             )
-        )
 
         scenario_path = (
-            persist_uploaded_file(
-                scenario_file
+            resolve_file_path(
+                scenario_file,
+                saved_inputs.get(
+                    "scenario_path"
+                )
             )
         )
 
-        correlation_paths = (
-            persist_uploaded_files(
-                correlation_files
+        correlation_paths = {}
+
+        for key, uploaded_file in (
+            correlation_files.items()
+        ):
+
+            correlation_paths[
+                key
+            ] = resolve_file_path(
+                uploaded_file,
+                saved_inputs.get(
+                    "correlation_paths",
+                    {}
+                ).get(key)
             )
-        )
+
+        save_inputs(
+            {
+                "portfolio_path":
+                    portfolio_path,
+
+                "assumption_paths":
+                    assumption_paths,
+
+                "scenario_path":
+                    scenario_path,
+
+                "correlation_paths":
+                    correlation_paths
+            }
+        )    
 
         workflow_config = (
             build_workflow_config(

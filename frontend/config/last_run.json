@@ -1,0 +1,16 @@
+{
+    "portfolio_path": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/sample_portfolio.csv",
+    "assumption_paths": {
+        "mortality_table_path": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/ons_mortality.csv",
+        "mortality_parameter_path": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/smoker_multipliers.csv",
+        "yield_curve_path": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/sonia_spot_rates.csv",
+        "lapse_table_path": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/lapse_rates.csv",
+        "expense_table_path": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/expense_rates.csv"
+    },
+    "scenario_path": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/standard_formula.csv",
+    "correlation_paths": {
+        "life": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/life_correlation_matrix.csv",
+        "market": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/market_correlation_matrix.csv",
+        "bscr": "/var/folders/20/0yvqt30d2714g537glt4ymz80000gn/T/bscr_correlation_matrix.csv"
+    }
+}

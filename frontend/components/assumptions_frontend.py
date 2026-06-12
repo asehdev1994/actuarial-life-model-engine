@@ -4,6 +4,8 @@ from model.assumptions.assumption_registry import (
     ASSUMPTION_REGISTRY
 )
 
+from pathlib import Path
+
 def build_upload_label(
     attribute_name: str
 ) -> str:
@@ -15,7 +17,14 @@ def build_upload_label(
         .title()
     )
 
-def render_assumptions_section():
+def render_assumptions_section(
+        existing_paths=None
+):
+    
+    if existing_paths is None:
+
+        existing_paths = {}
+
     st.header(
         "Assumptions"
     )
@@ -40,6 +49,18 @@ def render_assumptions_section():
             label = build_upload_label(
                 attribute
             )
+
+            saved_path = (
+                existing_paths.get(
+                    attribute
+                )
+            )
+
+            if saved_path:
+
+                st.caption(
+                    f"✓ {Path(saved_path).name}"
+                )
 
             uploaded_file = st.file_uploader(
                 label,
