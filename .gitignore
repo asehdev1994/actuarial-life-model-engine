@@ -17,7 +17,10 @@ data/results_snapshots/
 
 # Personal notes
 next_steps_metadata_driven_architecture_plan.md
+ML Step.md
 PROJECT_CONTEXT.md
+AGENTS.md
+model_for_chatgpt.jpg
 
 # Testing area
 test_notebook.ipynb
