@@ -1,0 +1,3 @@
+smoker_status,mortality_multiplier
+Non-Smoker,1
+Smoker,1.75

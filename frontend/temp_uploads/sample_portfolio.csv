@@ -1,0 +1,251 @@
+policy_id,age,term,sum_assured,premium,weight,gender,smoker_status,product_type,issue_year,distribution_channel,region,policy_status
+POL00001,60,12,25000,291.0,63,M,Smoker,Endowment,2003,IFA,Wales,Paid-Up
+POL00002,22,6,25000,121.06,130,M,Smoker,Endowment,2020,Aggregator,South,Paid-Up
+POL00003,57,22,25000,296.61,41,F,Non-Smoker,Whole Life,2004,Direct,Midlands,Active
+POL00004,25,29,25000,166.67,89,F,Smoker,Endowment,2014,IFA,Scotland,Active
+POL00005,55,23,1000000,10040.76,221,F,Smoker,Endowment,2002,IFA,South,Active
+POL00006,25,19,25000,173.54,117,F,Smoker,Whole Life,2011,Direct,Midlands,Active
+POL00007,58,15,500000,5739.32,42,F,Non-Smoker,Whole Life,2020,Direct,Midlands,Active
+POL00008,34,7,100000,721.51,17,M,Non-Smoker,Term,2020,Aggregator,Scotland,Paid-Up
+POL00009,29,21,50000,260.31,144,F,Non-Smoker,Endowment,2012,Bank,South,Active
+POL00010,52,36,25000,295.63,221,M,Smoker,Endowment,2005,Aggregator,Wales,Active
+POL00011,44,29,500000,7474.79,136,F,Smoker,Endowment,2023,IFA,Wales,Active
+POL00012,69,26,25000,145.39,41,F,Smoker,Endowment,2023,Bank,Wales,Active
+POL00013,52,11,1000000,5879.78,164,M,Smoker,Whole Life,2024,Direct,Wales,Active
+POL00014,58,25,250000,563.3,238,F,Non-Smoker,Term,2001,Direct,Wales,Active
+POL00015,25,36,25000,367.84,137,M,Smoker,Endowment,2015,Direct,Midlands,Paid-Up
+POL00016,33,39,1000000,10968.28,183,F,Non-Smoker,Endowment,2020,Bank,Scotland,Paid-Up
+POL00017,27,20,50000,141.62,6,M,Smoker,Term,2002,IFA,South,Active
+POL00018,22,26,25000,217.1,72,F,Smoker,Endowment,2004,Aggregator,South,Paid-Up
+POL00019,71,31,50000,161.31,169,F,Non-Smoker,Whole Life,2013,Aggregator,North,Active
+POL00020,23,30,1000000,6410.93,221,M,Smoker,Term,2006,Aggregator,South,Paid-Up
+POL00021,31,22,250000,1311.87,237,M,Non-Smoker,Endowment,2003,IFA,Wales,Active
+POL00022,25,20,50000,364.17,124,M,Non-Smoker,Term,2005,Aggregator,North,Paid-Up
+POL00023,36,34,100000,749.91,246,F,Smoker,Term,2009,Direct,North,Active
+POL00024,67,25,25000,66.3,123,M,Smoker,Endowment,2002,Direct,North,Active
+POL00025,63,20,250000,889.63,228,M,Smoker,Endowment,2002,Aggregator,Wales,Active
+POL00026,36,18,1000000,11310.49,62,F,Non-Smoker,Term,2021,Bank,Scotland,Active
+POL00027,68,9,25000,198.94,145,M,Smoker,Endowment,2006,Bank,South,Active
+POL00028,24,20,100000,570.48,113,F,Smoker,Endowment,2017,Bank,North,Active
+POL00029,36,12,25000,291.29,40,F,Non-Smoker,Endowment,2006,Bank,South,Active
+POL00030,52,36,100000,1376.94,217,M,Smoker,Endowment,2013,Bank,North,Active
+POL00031,41,13,1000000,14737.37,42,F,Non-Smoker,Endowment,2000,IFA,North,Active
+POL00032,54,7,100000,957.26,38,F,Smoker,Term,2009,Bank,North,Active
+POL00033,33,20,1000000,3336.32,200,F,Smoker,Term,2005,Direct,Scotland,Active
+POL00034,31,26,250000,3107.26,222,M,Non-Smoker,Term,2025,IFA,Scotland,Active
+POL00035,74,35,50000,229.72,236,F,Non-Smoker,Whole Life,2025,Direct,South,Active
+POL00036,62,17,250000,1566.85,222,M,Non-Smoker,Whole Life,2020,Aggregator,Wales,Active
+POL00037,21,12,100000,432.14,247,F,Smoker,Term,2019,Aggregator,Midlands,Active
+POL00038,47,37,25000,175.19,148,M,Non-Smoker,Term,2022,Aggregator,North,Active
+POL00039,43,32,25000,358.38,236,F,Non-Smoker,Endowment,2003,Bank,Wales,Active
+POL00040,62,31,100000,723.12,76,M,Smoker,Whole Life,2021,Aggregator,South,Active
+POL00041,45,40,25000,148.76,54,F,Non-Smoker,Whole Life,2014,Aggregator,South,Paid-Up
+POL00042,70,15,1000000,3102.34,132,F,Smoker,Term,2021,Bank,South,Active
+POL00043,29,6,25000,129.57,122,M,Non-Smoker,Whole Life,2020,Direct,Scotland,Paid-Up
+POL00044,45,20,50000,526.44,2,M,Non-Smoker,Term,2005,Aggregator,North,Active
+POL00045,74,12,250000,933.35,119,F,Non-Smoker,Endowment,2023,Aggregator,Wales,Paid-Up
+POL00046,30,35,250000,1342.37,64,F,Non-Smoker,Endowment,2007,Bank,Scotland,Active
+POL00047,65,23,50000,276.61,82,M,Smoker,Term,2007,Aggregator,South,Active
+POL00048,24,31,250000,1575.36,120,F,Smoker,Term,2013,Aggregator,Wales,Active
+POL00049,74,29,250000,519.16,91,F,Non-Smoker,Whole Life,2017,Direct,Scotland,Active
+POL00050,37,32,250000,594.33,87,F,Smoker,Whole Life,2004,IFA,Scotland,Active
+POL00051,25,32,50000,663.45,47,M,Non-Smoker,Whole Life,2010,Direct,Scotland,Active
+POL00052,41,29,100000,1177.61,213,F,Non-Smoker,Term,2015,IFA,Wales,Active
+POL00053,42,19,1000000,2892.04,246,M,Smoker,Term,2006,IFA,Wales,Active
+POL00054,35,13,250000,2675.74,145,M,Non-Smoker,Endowment,2008,Bank,South,Active
+POL00055,69,15,100000,340.53,7,F,Non-Smoker,Whole Life,2022,Direct,North,Active
+POL00056,26,24,1000000,9805.35,31,M,Non-Smoker,Endowment,2013,Bank,North,Active
+POL00057,20,31,250000,843.0,246,F,Non-Smoker,Endowment,2004,Aggregator,South,Active
+POL00058,59,39,250000,2010.84,212,F,Non-Smoker,Term,2002,Bank,Scotland,Active
+POL00059,68,34,500000,4967.16,98,F,Smoker,Whole Life,2010,Direct,Scotland,Active
+POL00060,42,21,100000,563.56,153,F,Smoker,Endowment,2006,IFA,South,Paid-Up
+POL00061,51,40,50000,548.9,166,F,Non-Smoker,Term,2002,Bank,South,Paid-Up
+POL00062,64,20,100000,1063.15,95,F,Non-Smoker,Whole Life,2023,Bank,Midlands,Paid-Up
+POL00063,37,24,100000,499.7,185,M,Non-Smoker,Term,2023,Direct,South,Active
+POL00064,67,35,100000,1141.96,195,F,Smoker,Term,2009,Direct,Midlands,Active
+POL00065,39,5,1000000,8943.76,71,M,Smoker,Endowment,2009,Direct,Scotland,Active
+POL00066,75,5,500000,2848.21,123,F,Non-Smoker,Term,2001,Bank,Scotland,Active
+POL00067,72,9,250000,2098.18,148,M,Smoker,Term,2025,Bank,North,Active
+POL00068,27,40,250000,2470.53,203,M,Non-Smoker,Whole Life,2014,Bank,Wales,Paid-Up
+POL00069,39,8,500000,7240.71,26,M,Smoker,Whole Life,2021,IFA,South,Active
+POL00070,31,40,25000,100.87,105,F,Non-Smoker,Whole Life,2001,Direct,Midlands,Active
+POL00071,64,34,25000,273.4,237,F,Smoker,Whole Life,2003,Direct,South,Active
+POL00072,72,14,25000,69.38,203,F,Non-Smoker,Whole Life,2003,Aggregator,Midlands,Paid-Up
+POL00073,37,37,500000,4209.67,21,M,Non-Smoker,Endowment,2010,Bank,North,Active
+POL00074,34,6,1000000,12678.48,148,M,Smoker,Whole Life,2016,Aggregator,Midlands,Active
+POL00075,57,32,1000000,12585.18,249,M,Non-Smoker,Whole Life,2013,Bank,Midlands,Active
+POL00076,74,15,100000,735.14,127,F,Non-Smoker,Endowment,2001,Aggregator,North,Active
+POL00077,36,25,25000,365.31,104,M,Non-Smoker,Whole Life,2001,Direct,Wales,Active
+POL00078,59,36,1000000,7746.53,14,M,Non-Smoker,Endowment,2004,Bank,Scotland,Paid-Up
+POL00079,27,6,1000000,9915.33,62,M,Non-Smoker,Endowment,2000,Aggregator,North,Active
+POL00080,73,12,250000,3577.95,166,M,Non-Smoker,Endowment,2009,Bank,Scotland,Paid-Up
+POL00081,50,20,250000,2291.61,99,M,Smoker,Term,2008,Aggregator,Midlands,Active
+POL00082,72,5,100000,1143.87,215,F,Smoker,Whole Life,2017,Aggregator,Midlands,Active
+POL00083,55,39,250000,1979.87,83,M,Smoker,Endowment,2012,Direct,Scotland,Active
+POL00084,40,35,1000000,13874.59,98,F,Smoker,Whole Life,2001,Direct,Wales,Active
+POL00085,75,11,250000,824.06,234,F,Smoker,Endowment,2004,Aggregator,South,Active
+POL00086,50,21,100000,1010.24,102,M,Non-Smoker,Endowment,2017,Aggregator,Midlands,Paid-Up
+POL00087,75,39,25000,250.67,61,F,Smoker,Endowment,2002,Aggregator,North,Active
+POL00088,48,15,1000000,5893.06,8,M,Non-Smoker,Term,2009,Bank,Midlands,Paid-Up
+POL00089,29,20,500000,3678.34,175,M,Smoker,Term,2002,Aggregator,Wales,Active
+POL00090,51,14,50000,399.75,66,F,Non-Smoker,Endowment,2000,Aggregator,Midlands,Active
+POL00091,24,33,100000,1483.95,77,F,Non-Smoker,Whole Life,2009,Direct,Scotland,Paid-Up
+POL00092,26,20,250000,2358.75,148,F,Non-Smoker,Term,2021,Aggregator,Midlands,Active
+POL00093,56,8,500000,5843.62,214,F,Smoker,Endowment,2025,Bank,South,Active
+POL00094,59,21,1000000,11822.51,197,M,Smoker,Endowment,2020,IFA,Midlands,Paid-Up
+POL00095,22,28,1000000,3708.35,233,F,Non-Smoker,Endowment,2013,Direct,South,Active
+POL00096,70,39,100000,890.11,234,F,Smoker,Whole Life,2015,Bank,Midlands,Active
+POL00097,49,9,50000,590.2,58,F,Non-Smoker,Term,2025,Aggregator,North,Active
+POL00098,54,12,250000,1697.9,192,F,Non-Smoker,Endowment,2011,IFA,South,Paid-Up
+POL00099,21,40,100000,1389.83,57,M,Non-Smoker,Endowment,2009,Aggregator,North,Active
+POL00100,22,7,100000,1494.71,30,M,Smoker,Endowment,2004,Aggregator,Scotland,Active
+POL00101,62,39,250000,2408.86,187,M,Non-Smoker,Endowment,2003,Aggregator,Wales,Paid-Up
+POL00102,37,7,1000000,6816.89,114,F,Smoker,Whole Life,2003,Bank,Wales,Active
+POL00103,23,30,100000,446.75,32,F,Smoker,Endowment,2006,IFA,North,Active
+POL00104,35,13,500000,2333.84,213,M,Smoker,Term,2010,Direct,Wales,Active
+POL00105,37,14,50000,451.14,205,M,Smoker,Endowment,2000,Direct,North,Active
+POL00106,70,20,500000,3104.51,45,F,Smoker,Term,2023,Aggregator,Wales,Active
+POL00107,67,9,250000,1956.89,93,M,Non-Smoker,Endowment,2007,IFA,Wales,Active
+POL00108,49,6,25000,374.54,217,F,Non-Smoker,Endowment,2003,Aggregator,Scotland,Active
+POL00109,25,25,500000,1964.17,33,F,Non-Smoker,Whole Life,2019,Bank,Scotland,Paid-Up
+POL00110,26,12,1000000,10461.92,197,M,Non-Smoker,Whole Life,2007,Aggregator,Midlands,Paid-Up
+POL00111,45,31,1000000,3236.12,110,F,Non-Smoker,Whole Life,2004,Aggregator,North,Active
+POL00112,73,10,25000,190.36,191,F,Smoker,Endowment,2001,Bank,North,Paid-Up
+POL00113,42,32,1000000,2668.8,74,F,Non-Smoker,Term,2018,Direct,South,Paid-Up
+POL00114,34,11,100000,1298.99,95,M,Non-Smoker,Endowment,2007,Aggregator,Wales,Active
+POL00115,58,22,25000,108.64,180,F,Non-Smoker,Whole Life,2000,Direct,South,Paid-Up
+POL00116,24,14,1000000,10231.24,8,M,Smoker,Whole Life,2013,Aggregator,Midlands,Active
+POL00117,43,24,1000000,6216.98,242,M,Smoker,Term,2005,IFA,North,Active
+POL00118,48,32,250000,2473.0,107,F,Smoker,Endowment,2003,Bank,Scotland,Active
+POL00119,38,36,500000,5336.36,12,M,Non-Smoker,Endowment,2001,IFA,South,Active
+POL00120,33,13,100000,576.28,31,M,Non-Smoker,Endowment,2013,Direct,South,Paid-Up
+POL00121,54,19,500000,4631.7,172,F,Smoker,Whole Life,2023,IFA,Scotland,Active
+POL00122,49,9,100000,948.49,147,F,Non-Smoker,Whole Life,2003,Aggregator,North,Active
+POL00123,30,34,1000000,13957.01,23,F,Smoker,Term,2013,Aggregator,Wales,Active
+POL00124,45,24,1000000,6413.67,86,M,Smoker,Endowment,2020,IFA,Wales,Active
+POL00125,69,27,100000,1145.59,210,M,Smoker,Term,2004,Bank,South,Active
+POL00126,58,14,1000000,2979.59,244,F,Non-Smoker,Endowment,2024,Aggregator,Wales,Active
+POL00127,75,25,50000,385.85,121,F,Non-Smoker,Whole Life,2018,IFA,Midlands,Active
+POL00128,39,34,250000,622.22,95,F,Smoker,Endowment,2002,Aggregator,Scotland,Active
+POL00129,48,17,100000,986.51,129,M,Smoker,Whole Life,2003,Bank,North,Active
+POL00130,22,20,1000000,7690.86,113,M,Non-Smoker,Whole Life,2009,Aggregator,Scotland,Active
+POL00131,63,8,1000000,10414.97,17,F,Smoker,Endowment,2021,Aggregator,Midlands,Active
+POL00132,66,14,100000,305.95,170,M,Non-Smoker,Whole Life,2020,Aggregator,South,Active
+POL00133,39,40,250000,2591.35,85,M,Smoker,Endowment,2021,Aggregator,Wales,Active
+POL00134,21,28,100000,434.34,55,F,Non-Smoker,Term,2007,Direct,South,Active
+POL00135,38,11,500000,6010.69,214,M,Non-Smoker,Endowment,2004,Aggregator,South,Active
+POL00136,31,15,1000000,7689.75,106,F,Smoker,Whole Life,2019,Bank,Scotland,Active
+POL00137,54,20,100000,1455.28,201,F,Smoker,Whole Life,2021,Aggregator,Scotland,Active
+POL00138,69,29,500000,4428.49,248,M,Smoker,Endowment,2004,Bank,North,Paid-Up
+POL00139,75,28,500000,7072.91,183,M,Non-Smoker,Term,2024,Direct,Midlands,Paid-Up
+POL00140,52,14,250000,798.07,234,M,Non-Smoker,Whole Life,2000,Aggregator,North,Paid-Up
+POL00141,52,28,50000,351.01,21,F,Smoker,Term,2010,IFA,Midlands,Active
+POL00142,28,7,100000,1392.62,121,M,Non-Smoker,Whole Life,2019,IFA,North,Active
+POL00143,36,18,50000,456.72,187,F,Smoker,Whole Life,2007,Bank,North,Active
+POL00144,35,31,1000000,12320.69,118,M,Smoker,Whole Life,2019,IFA,Wales,Active
+POL00145,65,14,100000,758.01,158,F,Smoker,Endowment,2013,Direct,North,Active
+POL00146,24,38,500000,4297.63,130,M,Non-Smoker,Whole Life,2001,Aggregator,Midlands,Active
+POL00147,67,6,100000,1225.08,89,M,Smoker,Endowment,2023,Bank,South,Active
+POL00148,42,39,100000,1257.56,45,F,Non-Smoker,Endowment,2005,Direct,North,Paid-Up
+POL00149,22,23,50000,128.47,52,M,Non-Smoker,Whole Life,2016,Aggregator,Wales,Paid-Up
+POL00150,36,7,1000000,4484.34,92,M,Non-Smoker,Whole Life,2003,Bank,Scotland,Paid-Up
+POL00151,67,33,250000,1601.87,48,F,Non-Smoker,Whole Life,2025,Bank,North,Paid-Up
+POL00152,25,32,500000,7468.14,47,F,Non-Smoker,Term,2002,Bank,Midlands,Active
+POL00153,48,32,50000,548.35,90,F,Smoker,Endowment,2011,Aggregator,Midlands,Active
+POL00154,24,30,100000,867.01,192,M,Smoker,Term,2019,Aggregator,North,Active
+POL00155,24,20,1000000,6762.27,99,M,Smoker,Endowment,2014,Bank,Midlands,Paid-Up
+POL00156,68,9,500000,1895.02,94,F,Non-Smoker,Endowment,2008,Direct,North,Active
+POL00157,67,16,250000,2182.67,234,M,Non-Smoker,Whole Life,2022,Aggregator,South,Active
+POL00158,64,36,50000,179.71,219,M,Non-Smoker,Term,2022,Aggregator,North,Active
+POL00159,62,27,1000000,2844.21,139,F,Non-Smoker,Term,2022,Direct,Midlands,Active
+POL00160,27,17,50000,253.88,127,M,Non-Smoker,Endowment,2018,Bank,Scotland,Active
+POL00161,59,10,25000,150.52,184,F,Non-Smoker,Whole Life,2018,IFA,South,Active
+POL00162,61,9,250000,2013.96,133,F,Smoker,Endowment,2020,Direct,South,Paid-Up
+POL00163,52,8,25000,218.38,78,M,Smoker,Whole Life,2022,Direct,Midlands,Active
+POL00164,74,10,100000,455.19,245,F,Smoker,Endowment,2009,IFA,Wales,Active
+POL00165,57,14,50000,528.18,185,F,Smoker,Term,2002,IFA,Wales,Active
+POL00166,61,18,500000,3707.81,164,M,Non-Smoker,Endowment,2017,Bank,Midlands,Paid-Up
+POL00167,35,30,100000,789.61,177,M,Smoker,Whole Life,2013,Aggregator,Scotland,Active
+POL00168,41,14,100000,1319.93,82,F,Non-Smoker,Term,2024,Bank,Wales,Active
+POL00169,40,20,250000,898.2,116,M,Smoker,Term,2001,Bank,Scotland,Paid-Up
+POL00170,35,15,100000,1413.88,185,F,Smoker,Term,2015,Aggregator,Scotland,Active
+POL00171,51,6,25000,357.2,130,F,Smoker,Term,2018,Bank,North,Active
+POL00172,38,36,500000,6735.21,168,F,Non-Smoker,Endowment,2000,IFA,Scotland,Active
+POL00173,36,28,250000,1689.3,103,M,Smoker,Whole Life,2017,Bank,North,Paid-Up
+POL00174,52,33,500000,2818.18,160,M,Smoker,Term,2012,Bank,Midlands,Active
+POL00175,68,14,50000,491.6,103,M,Smoker,Term,2004,Bank,Scotland,Paid-Up
+POL00176,29,37,50000,313.18,157,F,Smoker,Whole Life,2019,Bank,Wales,Active
+POL00177,52,37,500000,4184.0,145,F,Non-Smoker,Term,2011,Bank,North,Paid-Up
+POL00178,57,24,1000000,13337.29,162,M,Non-Smoker,Whole Life,2020,Direct,North,Paid-Up
+POL00179,30,38,1000000,11375.38,199,F,Smoker,Endowment,2007,IFA,Wales,Active
+POL00180,32,6,250000,1519.5,39,F,Smoker,Whole Life,2016,Aggregator,North,Active
+POL00181,53,18,500000,3112.82,170,F,Non-Smoker,Whole Life,2005,Aggregator,Wales,Active
+POL00182,54,27,1000000,12035.87,185,F,Non-Smoker,Term,2007,Bank,Wales,Active
+POL00183,34,24,100000,1116.37,177,F,Non-Smoker,Whole Life,2011,Bank,Midlands,Active
+POL00184,56,39,250000,3411.22,102,F,Smoker,Whole Life,2001,Bank,North,Active
+POL00185,48,21,1000000,8228.03,52,F,Non-Smoker,Term,2003,Direct,South,Active
+POL00186,62,38,50000,514.66,14,M,Non-Smoker,Whole Life,2022,Aggregator,North,Active
+POL00187,20,40,50000,364.49,240,F,Non-Smoker,Endowment,2006,Bank,Midlands,Active
+POL00188,61,8,25000,262.0,60,M,Smoker,Whole Life,2005,IFA,Scotland,Paid-Up
+POL00189,31,23,25000,53.01,146,M,Non-Smoker,Whole Life,2014,Aggregator,South,Paid-Up
+POL00190,37,17,25000,157.47,188,F,Non-Smoker,Endowment,2005,IFA,Midlands,Active
+POL00191,56,17,50000,497.12,164,F,Non-Smoker,Endowment,2010,IFA,Scotland,Active
+POL00192,31,13,250000,1551.71,64,M,Non-Smoker,Whole Life,2007,Aggregator,Midlands,Active
+POL00193,39,5,100000,1049.79,178,M,Smoker,Endowment,2003,Aggregator,Midlands,Active
+POL00194,45,37,1000000,12007.93,177,M,Non-Smoker,Whole Life,2019,Direct,South,Active
+POL00195,50,14,250000,2930.14,156,F,Non-Smoker,Endowment,2017,Aggregator,Wales,Active
+POL00196,68,20,1000000,11811.61,224,M,Non-Smoker,Endowment,2022,Bank,North,Active
+POL00197,23,40,500000,2314.02,138,M,Smoker,Whole Life,2016,Aggregator,North,Active
+POL00198,65,36,25000,342.14,115,M,Non-Smoker,Term,2016,Aggregator,Scotland,Active
+POL00199,55,34,1000000,12489.9,186,M,Non-Smoker,Whole Life,2000,Direct,Wales,Active
+POL00200,22,32,100000,1110.5,139,M,Smoker,Whole Life,2001,Bank,Scotland,Active
+POL00201,69,13,1000000,14718.33,166,F,Non-Smoker,Whole Life,2014,Aggregator,Scotland,Active
+POL00202,63,39,50000,524.8,90,M,Smoker,Endowment,2012,Direct,South,Active
+POL00203,68,6,100000,801.91,185,F,Non-Smoker,Term,2007,Aggregator,Midlands,Active
+POL00204,37,17,1000000,11951.37,9,F,Smoker,Term,2006,IFA,North,Active
+POL00205,48,8,50000,581.35,103,F,Smoker,Endowment,2006,IFA,South,Active
+POL00206,34,25,500000,4886.46,173,F,Smoker,Whole Life,2004,Direct,Scotland,Active
+POL00207,37,8,500000,7165.38,226,M,Non-Smoker,Endowment,2015,IFA,Midlands,Paid-Up
+POL00208,70,38,100000,1105.2,105,M,Non-Smoker,Whole Life,2005,Aggregator,South,Active
+POL00209,39,14,250000,3472.91,144,F,Non-Smoker,Endowment,2016,Direct,Scotland,Active
+POL00210,36,18,100000,1040.72,237,F,Non-Smoker,Term,2017,Direct,North,Active
+POL00211,44,7,25000,111.15,195,M,Non-Smoker,Term,2010,Bank,North,Active
+POL00212,32,12,1000000,14994.44,123,M,Smoker,Whole Life,2007,Bank,Midlands,Paid-Up
+POL00213,49,39,1000000,6670.37,67,F,Non-Smoker,Whole Life,2003,Aggregator,Midlands,Active
+POL00214,43,25,250000,648.58,222,M,Smoker,Term,2008,Aggregator,Midlands,Active
+POL00215,32,26,50000,346.9,214,M,Non-Smoker,Endowment,2020,Bank,Midlands,Paid-Up
+POL00216,66,36,250000,1046.76,204,F,Smoker,Term,2023,Aggregator,South,Active
+POL00217,53,7,25000,357.19,172,M,Smoker,Whole Life,2004,Direct,North,Active
+POL00218,20,18,500000,3964.06,16,F,Non-Smoker,Term,2000,Aggregator,North,Active
+POL00219,53,22,500000,7353.62,5,F,Smoker,Term,2003,Direct,South,Active
+POL00220,59,38,100000,1259.78,69,F,Smoker,Whole Life,2012,Aggregator,Wales,Active
+POL00221,64,19,100000,1089.25,218,M,Smoker,Term,2012,Aggregator,Scotland,Paid-Up
+POL00222,23,5,1000000,4227.99,128,F,Non-Smoker,Endowment,2003,IFA,South,Active
+POL00223,75,35,100000,260.53,20,F,Smoker,Term,2010,IFA,South,Active
+POL00224,68,30,25000,147.26,145,M,Non-Smoker,Endowment,2017,Bank,Scotland,Active
+POL00225,70,10,500000,5845.47,89,M,Smoker,Whole Life,2007,IFA,Midlands,Paid-Up
+POL00226,69,25,25000,256.09,201,F,Non-Smoker,Term,2011,Aggregator,Scotland,Active
+POL00227,63,29,25000,300.95,76,M,Smoker,Term,2008,Direct,Scotland,Active
+POL00228,67,29,100000,668.91,24,M,Non-Smoker,Whole Life,2011,Bank,North,Active
+POL00229,25,16,250000,1958.74,143,F,Smoker,Term,2002,Bank,Wales,Active
+POL00230,58,25,250000,540.11,106,F,Smoker,Endowment,2017,Direct,Wales,Active
+POL00231,63,29,50000,190.25,78,F,Non-Smoker,Term,2002,Direct,Scotland,Active
+POL00232,46,24,250000,3043.67,93,F,Smoker,Endowment,2020,Aggregator,Wales,Active
+POL00233,49,11,50000,298.03,243,F,Non-Smoker,Endowment,2012,Bank,Scotland,Active
+POL00234,47,13,100000,616.86,243,M,Non-Smoker,Whole Life,2005,Aggregator,Midlands,Active
+POL00235,67,36,500000,6082.83,84,F,Non-Smoker,Whole Life,2011,IFA,Wales,Active
+POL00236,57,39,50000,543.11,141,M,Non-Smoker,Endowment,2006,Aggregator,Midlands,Active
+POL00237,72,31,1000000,8490.94,163,F,Smoker,Whole Life,2021,Direct,Scotland,Paid-Up
+POL00238,24,33,500000,4115.03,103,F,Smoker,Whole Life,2022,IFA,North,Active
+POL00239,62,27,50000,520.55,12,F,Non-Smoker,Whole Life,2003,IFA,North,Active
+POL00240,34,37,1000000,8744.37,149,M,Non-Smoker,Whole Life,2012,Aggregator,Wales,Active
+POL00241,42,6,250000,839.79,107,M,Smoker,Endowment,2004,Bank,Midlands,Active
+POL00242,49,18,500000,4139.02,122,M,Non-Smoker,Endowment,2022,Aggregator,Midlands,Active
+POL00243,39,7,1000000,3496.11,218,F,Smoker,Endowment,2025,Direct,South,Active
+POL00244,55,15,100000,927.8,246,F,Smoker,Whole Life,2020,Direct,South,Paid-Up
+POL00245,45,6,1000000,9983.39,51,F,Non-Smoker,Whole Life,2000,Direct,South,Active
+POL00246,68,9,500000,1661.39,224,M,Non-Smoker,Whole Life,2006,Aggregator,North,Active
+POL00247,62,36,500000,7278.46,81,F,Non-Smoker,Endowment,2003,Bank,Midlands,Paid-Up
+POL00248,59,16,1000000,11177.85,77,M,Smoker,Whole Life,2003,Direct,Midlands,Active
+POL00249,31,28,1000000,3837.66,100,F,Smoker,Endowment,2012,Aggregator,South,Paid-Up
+POL00250,60,39,1000000,13949.09,239,M,Smoker,Whole Life,2009,Direct,South,Active

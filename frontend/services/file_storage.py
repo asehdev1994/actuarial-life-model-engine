@@ -1,5 +1,4 @@
 from pathlib import Path
-import tempfile
 
 
 def save_uploaded_file(
@@ -7,19 +6,26 @@ def save_uploaded_file(
 ):
     """
     Persist a Streamlit UploadedFile
-    to a temporary file.
+    to a project directory.
 
     Returns:
         str: path to saved file
     """
 
-    temp_dir = Path(
-        tempfile.gettempdir()
+    upload_dir = (
+        Path(__file__)
+        .parent.parent
+        / "temp_uploads"
+    )
+
+    upload_dir.mkdir(
+        parents=True,
+        exist_ok=True
     )
 
     destination = (
-        temp_dir /
-        uploaded_file.name
+        upload_dir
+        / uploaded_file.name
     )
 
     destination.write_bytes(
